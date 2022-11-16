@@ -32,11 +32,10 @@ class _BottomNavigationBarControllerState
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
-
   int _selectedIndex = 0;
 
   Widget _bottomNavigationBar(int selectedIndex) => Container(
-        height: 116,
+        height: 110,
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(40), topRight: Radius.circular(40)),
@@ -47,56 +46,25 @@ class _BottomNavigationBarControllerState
           borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(40), topRight: Radius.circular(40)),
           child: BottomNavigationBar(
+            backgroundColor: white,
             onTap: (int index) => setState(() => _selectedIndex = index),
             currentIndex: selectedIndex,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                  activeIcon: Container(
-                    height: 24,
-                    width: 24,
-                    child: SvgPicture.asset('assets/home.svg'),
-                  ),
-                  icon: Container(
-                    height: 24,
-                    width: 24,
-                    child: SvgPicture.asset('assets/home_unselect.svg'),
-                  ),
+                  activeIcon: bottomNavbarItem('assets/home.svg'),
+                  icon: bottomNavbarItem('assets/home_unselect.svg'),
                   label: 'Home'),
               BottomNavigationBarItem(
-                  activeIcon: Container(
-                    height: 24,
-                    width: 24,
-                    child: SvgPicture.asset('assets/explore.svg'),
-                  ),
-                  icon: Container(
-                    height: 24,
-                    width: 24,
-                    child: SvgPicture.asset('assets/explore_unselect.svg'),
-                  ),
+                  activeIcon: bottomNavbarItem('assets/explore.svg'),
+                  icon: bottomNavbarItem('assets/explore_unselect.svg'),
                   label: 'Explore'),
               BottomNavigationBarItem(
-                  activeIcon: Container(
-                    height: 24,
-                    width: 24,
-                    child: SvgPicture.asset('assets/summary.svg'),
-                  ),
-                  icon: Container(
-                    height: 24,
-                    width: 24,
-                    child: SvgPicture.asset('assets/summary_unselect.svg'),
-                  ),
+                  activeIcon: bottomNavbarItem('assets/summary.svg'),
+                  icon: bottomNavbarItem('assets/summary_unselect.svg'),
                   label: 'Summary'),
               BottomNavigationBarItem(
-                activeIcon: Container(
-                  height: 24,
-                  width: 24,
-                  child: SvgPicture.asset('assets/user.svg'),
-                ),
-                icon: Container(
-                  height: 24,
-                  width: 24,
-                  child: SvgPicture.asset('assets/user_unselect.svg'),
-                ),
+                activeIcon: bottomNavbarItem('assets/user.svg'),
+                icon: bottomNavbarItem('assets/user_unselect.svg'),
                 label: 'Profile',
               ),
             ],
@@ -112,6 +80,14 @@ class _BottomNavigationBarControllerState
           ),
         ),
       );
+
+  Widget bottomNavbarItem(String assets) {
+    return SizedBox(
+      height: 24,
+      width: 24,
+      child: SvgPicture.asset(assets),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

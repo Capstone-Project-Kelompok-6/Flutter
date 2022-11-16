@@ -67,10 +67,19 @@ class ProfileScreen extends StatelessWidget {
           height: 24,
         ),
         Container(
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: Colors.grey,
+              offset: Offset(0, 1),
+            ),
+            BoxShadow(color: Colors.white, offset: Offset(-10, 0)),
+            BoxShadow(color: Colors.white, offset: Offset(5, 0))
+          ]),
           margin: EdgeInsets.only(left: 24, right: 24, top: 8),
           child: Column(
             children: [
               ListTile(
+                  minLeadingWidth: 50,
                   title: Text(
                     'My Membership',
                     style: GoogleFonts.plusJakartaSans(
@@ -85,10 +94,19 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
         Container(
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: Colors.grey,
+              offset: Offset(0, 1),
+            ),
+            BoxShadow(color: Colors.white, offset: Offset(-10, 0)),
+            BoxShadow(color: Colors.white, offset: Offset(5, 0))
+          ]),
           margin: EdgeInsets.only(left: 24, right: 24, top: 8),
           child: Column(
             children: [
               ListTile(
+                  minLeadingWidth: 50,
                   title: Text(
                     'Contact Us',
                     style: GoogleFonts.plusJakartaSans(
@@ -103,10 +121,19 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
         Container(
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: Colors.grey,
+              offset: Offset(0, 1),
+            ),
+            BoxShadow(color: Colors.white, offset: Offset(-10, 0)),
+            BoxShadow(color: Colors.white, offset: Offset(5, 0))
+          ]),
           margin: EdgeInsets.only(left: 24, right: 24, top: 8),
           child: Column(
             children: [
               ListTile(
+                  minLeadingWidth: 50,
                   title: Text(
                     'Privacy Policy',
                     style: GoogleFonts.plusJakartaSans(
@@ -121,11 +148,19 @@ class ProfileScreen extends StatelessWidget {
           ),
         ),
         Container(
-          decoration: BoxDecoration(),
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+              color: Colors.grey,
+              offset: Offset(0, 1),
+            ),
+            BoxShadow(color: Colors.white, offset: Offset(-10, 0)),
+            BoxShadow(color: Colors.white, offset: Offset(5, 0))
+          ]),
           margin: EdgeInsets.only(left: 24, right: 24, top: 8),
           child: Column(
             children: [
               ListTile(
+                  minLeadingWidth: 50,
                   title: Text(
                     'Terms And Conditions',
                     style: GoogleFonts.plusJakartaSans(
@@ -144,6 +179,7 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             children: [
               ListTile(
+                  minLeadingWidth: 50,
                   title: Text(
                     'Log Out',
                     style: GoogleFonts.plusJakartaSans(

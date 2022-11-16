@@ -33,8 +33,9 @@ class _AppBarContentState extends State<AppBarContent> {
                   Text(
                     "Let's Exercise",
                     style: TextStyle(
-                      color: fontGrey,
+                      color: fontLightGrey,
                       fontSize: 14,
+                      fontWeight: FontWeight.w300,
                     ),
                   ),
                 ],

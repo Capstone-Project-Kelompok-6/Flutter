@@ -107,6 +107,7 @@ class _BottomNavigationBarControllerState
             showUnselectedLabels: true,
             selectedFontSize: 14,
             unselectedFontSize: 14,
+            type: BottomNavigationBarType.fixed,
           ),
         ),
       );

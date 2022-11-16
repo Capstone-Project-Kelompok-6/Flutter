@@ -69,6 +69,14 @@ flutter:
     - assets/summary_unselect.svg
     - assets/user.svg
     - assets/user_unselect.svg
+    - assets/profile_picture.png
+    - assets/profile_change.svg
+    - assets/trophy.svg
+    - assets/phone.svg
+    - assets/lock.svg
+    - assets/shield.svg
+    - assets/logout.svg
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

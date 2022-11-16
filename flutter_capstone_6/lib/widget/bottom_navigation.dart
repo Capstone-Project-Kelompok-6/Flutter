@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/explore_screen.dart';
 import 'package:flutter_capstone_6/screen/profile_screen.dart';
 import 'package:flutter_capstone_6/screen/summary_screen.dart';
@@ -15,7 +16,7 @@ class BottomNavigationBarController extends StatefulWidget {
 
 class _BottomNavigationBarControllerState
     extends State<BottomNavigationBarController> {
-  final List<Widget> pages = [
+  final List<Widget> pages = const [
     HomeScreen(
       key: PageStorageKey('Page1'),
     ),
@@ -36,14 +37,14 @@ class _BottomNavigationBarControllerState
 
   Widget _bottomNavigationBar(int selectedIndex) => Container(
         height: 116,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(40), topRight: Radius.circular(40)),
             boxShadow: [
               BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 10)
             ]),
         child: ClipRRect(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(40), topRight: Radius.circular(40)),
           child: BottomNavigationBar(
             onTap: (int index) => setState(() => _selectedIndex = index),
@@ -101,9 +102,9 @@ class _BottomNavigationBarControllerState
             ],
             selectedLabelStyle:
                 GoogleFonts.poppins(fontSize: 14, fontWeight: FontWeight.w500),
-            unselectedLabelStyle: TextStyle(color: Colors.grey),
-            selectedItemColor: Color.fromRGBO(73, 87, 204, 1),
-            unselectedItemColor: Colors.grey,
+            unselectedLabelStyle: const TextStyle(color: n40),
+            selectedItemColor: violet,
+            unselectedItemColor: n40,
             showUnselectedLabels: true,
             selectedFontSize: 14,
             unselectedFontSize: 14,
@@ -117,8 +118,8 @@ class _BottomNavigationBarControllerState
     return Scaffold(
       bottomNavigationBar: _bottomNavigationBar(_selectedIndex),
       body: PageStorage(
-        child: pages[_selectedIndex],
         bucket: bucket,
+        child: pages[_selectedIndex],
       ),
     );
   }

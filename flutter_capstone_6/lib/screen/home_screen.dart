@@ -56,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               // Our Features Button Section
+              const SizedBox(height: 5),
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 15),
                 padding: const EdgeInsets.all(10),

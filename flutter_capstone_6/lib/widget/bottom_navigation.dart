@@ -6,7 +6,7 @@ import 'package:flutter_capstone_6/screen/summary_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../screen/home_sreen.dart';
+import '../screen/home_screen.dart';
 
 class BottomNavigationBarController extends StatefulWidget {
   @override

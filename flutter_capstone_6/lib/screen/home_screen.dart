@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 
+import '../widget/appbar_home.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -13,7 +15,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteBg,
-      body: Column(children: [Center(child: Text('Halooo Home'))]),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(70.0),
+        child: Container(
+          decoration: const BoxDecoration(
+            color: whiteBg,
+          ),
+          child: const AppBarContent(),
+        ),
+      ),
+      body: Container(),
     );
   }
 }

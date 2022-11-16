@@ -17,3 +17,4 @@ const Color n20 = Color.fromARGB(255, 211, 211, 211);
 const Color n5 = Color.fromARGB(255, 234, 234, 234);
 const Color white = Color.fromARGB(255, 255, 255, 255);
 const Color whiteBg = Color.fromARGB(255, 252, 252, 252);
+const Color fontGrey = Color.fromARGB(255, 95, 95, 95);

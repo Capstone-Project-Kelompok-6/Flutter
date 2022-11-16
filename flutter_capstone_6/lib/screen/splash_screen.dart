@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_capstone_6/screen/home_sreen.dart';
+import 'package:flutter_capstone_6/screen/home_screen.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 
 class SplashScreen extends StatefulWidget {

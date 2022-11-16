@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../widget/appbar_home.dart';
 
@@ -30,13 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Just For You Section
               const Text(
                 'Just For You',
                 style: TextStyle(
-                  color: fontGrey,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
+                    color: fontGrey, fontSize: 16, fontWeight: FontWeight.w600),
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -45,12 +44,46 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     featureCard(yellow, 'Membership',
                         'Practice Anytime Anywhere at any Gym', 'Upgrade'),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 15),
                     featureCard(violet, 'Populer Article',
                         'Hundreds of articles & healthy recipes', 'Read More'),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 15),
                     featureCard(orange, 'Workout Video',
                         'Watching Anytime Anywhere at Home', 'Watch More'),
+                  ],
+                ),
+              ),
+
+              // Our Features Button
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 15),
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
+                  color: white,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        featureIconBtn(
+                            violet, 'Booking Class', 'assets/book.svg'),
+                        featureIconBtn(orange, 'Multiple Gym Booking',
+                            'assets/location.svg'),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        featureIconBtn(
+                            violet, 'Our Features', 'assets/apps.svg'),
+                        featureIconBtn(white, '', 'assets/book.svg'),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -79,19 +112,13 @@ class _HomeScreenState extends State<HomeScreen> {
               Text(
                 title,
                 style: const TextStyle(
-                  color: white,
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600,
-                ),
+                    color: white, fontSize: 17, fontWeight: FontWeight.w600),
               ),
               SizedBox(
                 width: 140,
                 child: Text(
                   subtitle,
-                  style: const TextStyle(
-                    color: white,
-                    fontSize: 12,
-                  ),
+                  style: const TextStyle(color: white, fontSize: 12),
                 ),
               ),
               const SizedBox(height: 10),
@@ -128,6 +155,37 @@ class _HomeScreenState extends State<HomeScreen> {
               )),
         ],
       ),
+    );
+  }
+
+  Widget featureIconBtn(Color color, String title, String icon) {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(13),
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: const BorderRadius.all(Radius.circular(15)),
+          ),
+          child: SvgPicture.asset(icon),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 6),
+          width: 90,
+          child: Text(
+            title,
+            style: const TextStyle(
+              color: fontBlack,
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              height: 1,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
     );
   }
 }

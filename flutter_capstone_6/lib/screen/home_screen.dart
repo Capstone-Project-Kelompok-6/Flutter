@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Just For You Section
+              const SizedBox(height: 5),
               const Text(
                 'Just For You',
                 style: TextStyle(
@@ -54,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
 
-              // Our Features Button
+              // Our Features Button Section
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 15),
                 padding: const EdgeInsets.all(10),
@@ -84,6 +85,25 @@ class _HomeScreenState extends State<HomeScreen> {
                         featureIconBtn(white, '', 'assets/book.svg'),
                       ],
                     ),
+                  ],
+                ),
+              ),
+
+              // Recommendation Class Section
+              const SizedBox(height: 5),
+              const Text(
+                'Recommendation Class',
+                style: TextStyle(
+                    color: fontGrey, fontSize: 16, fontWeight: FontWeight.w600),
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    recommendClassCard('Yoga Class 101'),
+                    const SizedBox(width: 20),
+                    recommendClassCard('Muscle Builder 101'),
                   ],
                 ),
               ),
@@ -186,6 +206,58 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget recommendClassCard(String title) {
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.all(15),
+      decoration: const BoxDecoration(
+        color: softBlue,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+                color: fontGrey, fontSize: 16, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            width: 200,
+            height: 90,
+            child: Image.asset(
+              'assets/yoga.jpg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Container(
+            width: 200,
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              color: btnBlack,
+            ),
+            child: MaterialButton(
+              onPressed: () {},
+              padding: EdgeInsets.zero,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              child: const Text(
+                'Join Class',
+                style: TextStyle(
+                  color: white,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

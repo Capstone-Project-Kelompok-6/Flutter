@@ -152,11 +152,11 @@ class ProfileScreen extends StatelessWidget {
             Container(
               decoration: BoxDecoration(boxShadow: [
                 BoxShadow(
-                  color: Colors.grey,
+                  color: n40,
                   offset: Offset(0, 1),
                 ),
-                BoxShadow(color: Colors.white, offset: Offset(-10, 0)),
-                BoxShadow(color: Colors.white, offset: Offset(5, 0))
+                BoxShadow(color: white, offset: Offset(-10, 0)),
+                BoxShadow(color: white, offset: Offset(5, 0))
               ]),
               margin: EdgeInsets.only(left: 24, right: 24, top: 8),
               child: Column(
@@ -185,7 +185,7 @@ class ProfileScreen extends StatelessWidget {
                       title: Text(
                         'Log Out',
                         style: GoogleFonts.plusJakartaSans(
-                            color: Colors.red, fontWeight: FontWeight.bold),
+                            color: red, fontWeight: FontWeight.bold),
                       ),
                       leading: Container(
                         height: 30,

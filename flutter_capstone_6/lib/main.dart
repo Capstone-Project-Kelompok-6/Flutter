@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/screen/home_sreen.dart';
+import 'package:flutter_capstone_6/screen/splash_screen.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 
 void main() {
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Capstone Kelompok 6',
-      home: BottomNavigationBarController(),
+      home: SplashScreen(),
     );
   }
 }

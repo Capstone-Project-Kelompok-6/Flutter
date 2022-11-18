@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/home_screen.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -35,17 +37,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: whiteBg,
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            'HALO INI SPLASHSCREEN',
-            style: TextStyle(fontSize: 30),
-          )
-        ],
+        children: [SvgPicture.asset('assets/stay_healthy.svg')],
       )),
     );
   }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
-import 'package:flutter_capstone_6/screen/explore_screen.dart';
-import 'package:flutter_capstone_6/screen/profile_screen.dart';
-import 'package:flutter_capstone_6/screen/summary_screen.dart';
+import 'package:flutter_capstone_6/screen/main/explore/explore_screen.dart';
+import 'package:flutter_capstone_6/screen/main/profile/profile_screen.dart';
+import 'package:flutter_capstone_6/screen/main/summary/summary_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../screen/home_screen.dart';
+import '../screen/main/home/home_screen.dart';
 
 class BottomNavigationBarController extends StatefulWidget {
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/screen/login/login_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -33,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
               SizedBox(
                 height: 24,
               ),
-              buttonSection(),
+              buttonSection(context),
             ]),
           ),
         ),
@@ -85,10 +86,10 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget buttonSection() {
+  Widget buttonSection(BuildContext context) {
     return Column(children: [
       SizedBox(
-          width: 327,
+          width: double.infinity,
           height: 56,
           child: Container(
             decoration: BoxDecoration(boxShadow: [
@@ -115,7 +116,7 @@ class ProfileScreen extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.only(top: 1),
         child: SizedBox(
-            width: 327,
+            width: double.infinity,
             height: 56,
             child: Container(
               decoration: BoxDecoration(boxShadow: [
@@ -126,25 +127,27 @@ class ProfileScreen extends StatelessWidget {
                 BoxShadow(color: white, offset: Offset(-10, 0)),
                 BoxShadow(color: white, offset: Offset(5, 0))
               ]),
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: whiteBg, elevation: 0),
-                  onPressed: () {},
-                  child: ListTile(
-                    textColor: Colors.black,
-                    leading: SvgPicture.asset('assets/phone.svg'),
-                    title: Text(
-                      'Contact Us',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  )),
+              child: SizedBox(
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: whiteBg, elevation: 0),
+                    onPressed: () {},
+                    child: ListTile(
+                      textColor: Colors.black,
+                      leading: SvgPicture.asset('assets/phone.svg'),
+                      title: Text(
+                        'Contact Us',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    )),
+              ),
             )),
       ),
       Padding(
         padding: const EdgeInsets.only(top: 1),
         child: SizedBox(
-            width: 327,
+            width: double.infinity,
             height: 56,
             child: Container(
               decoration: BoxDecoration(boxShadow: [
@@ -173,7 +176,7 @@ class ProfileScreen extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.only(top: 1),
         child: SizedBox(
-            width: 327,
+            width: double.infinity,
             height: 56,
             child: Container(
               decoration: BoxDecoration(boxShadow: [
@@ -202,33 +205,24 @@ class ProfileScreen extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.only(top: 1),
         child: SizedBox(
-            width: 327,
+            width: double.infinity,
             height: 56,
-            child: Container(
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: n40,
-                  offset: Offset(0, 1),
-                ),
-                BoxShadow(color: white, offset: Offset(-10, 0)),
-                BoxShadow(color: white, offset: Offset(5, 0))
-              ]),
-              child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: whiteBg, elevation: 0),
-                  onPressed: () {},
-                  child: ListTile(
-                    textColor: Colors.black,
-                    leading: SvgPicture.asset('assets/logout.svg'),
-                    title: Text(
-                      'LogOut',
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: red,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )),
-            )),
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: whiteBg, elevation: 0),
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: ((context) => LoginScreen())));
+                },
+                child: ListTile(
+                  textColor: Colors.black,
+                  leading: SvgPicture.asset('assets/logout.svg'),
+                  title: Text(
+                    'LogOut',
+                    style: TextStyle(
+                        fontSize: 16, color: red, fontWeight: FontWeight.bold),
+                  ),
+                ))),
       ),
     ]);
   }

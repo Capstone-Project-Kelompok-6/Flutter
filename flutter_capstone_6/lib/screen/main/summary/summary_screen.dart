@@ -59,7 +59,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
       padding: const EdgeInsets.fromLTRB(24, 12, 26, 12),
       child: Center(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             ChoiceChip(
               backgroundColor: whiteBg,

@@ -230,8 +230,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 });
               },
               child: isHide
-                  ? SvgPicture.asset('assets/icons/password_unfocus.svg')
-                  : SvgPicture.asset('assets/icons/password_focus.svg'),
+                  ? SvgPicture.asset('assets/icons/password_show.svg')
+                  : SvgPicture.asset('assets/icons/password_hide.svg'),
             ),
           ),
         ),

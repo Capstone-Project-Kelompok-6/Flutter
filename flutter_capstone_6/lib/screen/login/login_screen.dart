@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/screen/login/login_controller.dart';
 import 'package:flutter_capstone_6/screen/register/register_screen.dart';
+import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../model/user_model.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,7 +16,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool isHide = true;
-
+  LoginController _controller = LoginController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 margin: const EdgeInsets.only(left: 25, right: 25, top: 30),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _login,
                   style: ElevatedButton.styleFrom(
                       primary: violet,
                       minimumSize: const Size(double.infinity, 48),
@@ -176,6 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
       padding: const EdgeInsets.only(left: 25, right: 25),
       height: 50,
       child: TextFormField(
+        controller: _controller.emailController,
         validator: (String? value) => value == '' ? "Required" : null,
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
         // controller: _titleController,
@@ -203,6 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
       padding: const EdgeInsets.only(left: 25, right: 25),
       height: 50,
       child: TextFormField(
+        controller: _controller.passwordController,
         validator: (String? value) => value == '' ? "Required" : null,
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
         // controller: _titleController,
@@ -272,5 +278,29 @@ class _LoginScreenState extends State<LoginScreen> {
         },
       ),
     );
+  }
+
+  void _login() async {
+    UserModel response = await _controller.login();
+
+    if (response.data != null) {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => BottomNavigationBarController()));
+
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Info Login'),
+                content: Text(response.message),
+              ));
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Info Login'),
+                content: Text(response.message),
+              ));
+      debugPrint('Response ${response.message}');
+    }
   }
 }

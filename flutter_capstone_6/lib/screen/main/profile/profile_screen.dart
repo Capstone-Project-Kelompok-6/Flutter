@@ -1,14 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/login/login_screen.dart';
+import 'package:flutter_capstone_6/screen/main/profile/profile_providers.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  final String fullName;
+  const ProfileScreen({super.key, required this.fullName});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<ProfileProvider>(context, listen: false)
+        .getProfile(widget.fullName);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final repoData = Provider.of<ProfileProvider>(context);
     return Scaffold(
       backgroundColor: whiteBg,
       appBar: AppBar(
@@ -23,8 +40,8 @@ class ProfileScreen extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Center(
+        child: ListView.builder(
+          itemBuilder: (context, index) => Center(
             child: Column(children: [
               profilePicture(),
               SizedBox(
@@ -72,7 +89,7 @@ class ProfileScreen extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'Zaskiaaa',
+          'z',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         SizedBox(

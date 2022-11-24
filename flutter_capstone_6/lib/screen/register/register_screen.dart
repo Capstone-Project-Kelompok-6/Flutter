@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/model/user_model.dart';
 import 'package:flutter_capstone_6/screen/login/login_screen.dart';
+import 'package:flutter_capstone_6/screen/register/register_controller.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -13,6 +15,8 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   bool isHide = true;
   bool isChecked = false;
+
+  RegisterController _controller = RegisterController();
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +143,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Container(
                 margin: const EdgeInsets.only(left: 25, right: 25, top: 28),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _register,
                   style: ElevatedButton.styleFrom(
                       primary: violet,
                       minimumSize: const Size(double.infinity, 48),
@@ -220,6 +224,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       padding: const EdgeInsets.only(left: 25, right: 25),
       height: 50,
       child: TextFormField(
+        controller: _controller.firstNameController,
         validator: (String? value) => value == '' ? "Required" : null,
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
         // controller: _titleController,
@@ -247,6 +252,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       padding: const EdgeInsets.only(left: 25, right: 25),
       height: 50,
       child: TextFormField(
+        controller: _controller.lastNameController,
         validator: (String? value) => value == '' ? "Required" : null,
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
         // controller: _titleController,
@@ -274,6 +280,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       padding: const EdgeInsets.only(left: 25, right: 25),
       height: 50,
       child: TextFormField(
+        controller: _controller.phoneNumberController,
         validator: (String? value) => value == '' ? "Required" : null,
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
         // controller: _titleController,
@@ -301,6 +308,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       padding: const EdgeInsets.only(left: 25, right: 25),
       height: 50,
       child: TextFormField(
+        controller: _controller.emailController,
         validator: (String? value) => value == '' ? "Required" : null,
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
         // controller: _titleController,
@@ -328,6 +336,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       padding: const EdgeInsets.only(left: 25, right: 25),
       height: 50,
       child: TextFormField(
+        controller: _controller.passwordController,
         validator: (String? value) => value == '' ? "Required" : null,
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
         // controller: _titleController,
@@ -369,7 +378,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       padding: const EdgeInsets.only(left: 25, right: 25),
       height: 50,
       child: TextFormField(
-        validator: (String? value) => value == '' ? "Required" : null,
+        // validator: (String? value) => value == '' ? "Required" : null,
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
         // controller: _titleController,
         maxLines: 1,
@@ -438,5 +447,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
         },
       ),
     );
+  }
+
+  void _register() async {
+    UserModel response = await _controller.register();
+
+    if (response.data != null) {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Info Regist'),
+                content:
+                    Text('${response.message}, silahkan verifikasi otp email'),
+              ));
+    } else {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Info Regist'),
+                content: Text(response.message),
+              ));
+    }
+
+    debugPrint('Response = ${response.message}');
   }
 }

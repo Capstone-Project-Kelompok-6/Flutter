@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Container(
                     margin: const EdgeInsets.all(15),
-                    width: MediaQuery.of(context).size.width,
+                    width: double.infinity,
                     child: SvgPicture.asset('assets/login/login_screen.svg'),
                   ),
                   const SizedBox(height: 15),
@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
               // Button Login Section
               Container(
-                margin: const EdgeInsets.only(left: 25, right: 25, top: 35),
+                margin: const EdgeInsets.only(left: 25, right: 25, top: 30),
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
@@ -110,6 +110,54 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+
+              // Divider
+              Container(
+                margin: const EdgeInsets.all(20),
+                width: double.infinity,
+                child: SvgPicture.asset(
+                  'assets/icons/divider.svg',
+                  fit: BoxFit.cover,
+                ),
+              ),
+
+              // Login with Another
+              anotherLoginItem('assets/icons/google_logo.png', 'Google'),
+              const SizedBox(height: 20),
+              anotherLoginItem('assets/icons/facebook_logo.png', 'Facebook'),
+              const SizedBox(height: 20),
+              anotherLoginItem('assets/icons/apple_logo.png', 'Apple'),
+
+              // Goto register
+              const SizedBox(height: 30),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Not a member?",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: n80,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: const Text(
+                        " Register now",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: violet,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 30),
             ],
           ),
         ),
@@ -181,6 +229,41 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget anotherLoginItem(String image, String title) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 25),
+      height: 54,
+      child: ListTile(
+        tileColor: white,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            side: const BorderSide(
+              style: BorderStyle.solid,
+              color: n5,
+            )),
+        leading: Image.asset(image, width: 30, height: 30),
+        title: Text(
+          "Login with $title",
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: n80,
+            fontWeight: FontWeight.w400,
+            fontSize: 14,
+          ),
+        ),
+        onTap: () {
+          if (title == 'Google') {
+            print('this login by $title');
+          } else if (title == 'Facebook') {
+            print('this login by $title');
+          } else if (title == 'Apple') {
+            print('this login by $title');
+          }
+        },
       ),
     );
   }

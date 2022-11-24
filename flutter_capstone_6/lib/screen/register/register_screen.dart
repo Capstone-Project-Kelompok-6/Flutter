@@ -166,11 +166,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
 
               // Login with Another
-              anotherLoginItem('assets/icons/google_logo.png', 'Google'),
+              anotherRegisterItem('assets/icons/google_logo.png', 'Google'),
               const SizedBox(height: 20),
-              anotherLoginItem('assets/icons/facebook_logo.png', 'Facebook'),
+              anotherRegisterItem('assets/icons/facebook_logo.png', 'Facebook'),
               const SizedBox(height: 20),
-              anotherLoginItem('assets/icons/apple_logo.png', 'Apple'),
+              anotherRegisterItem('assets/icons/apple_logo.png', 'Apple'),
 
               // Goto login
               const SizedBox(height: 30),
@@ -399,7 +399,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget anotherLoginItem(String image, String title) {
+  Widget anotherRegisterItem(String image, String title) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 25),
       height: 54,
@@ -413,7 +413,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             )),
         leading: Image.asset(image, width: 30, height: 30),
         title: Text(
-          "Login with $title",
+          "Register with $title",
           textAlign: TextAlign.center,
           style: const TextStyle(
             color: n80,
@@ -423,11 +423,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         onTap: () {
           if (title == 'Google') {
-            print('this login by $title');
+            print('this register by $title');
           } else if (title == 'Facebook') {
-            print('this login by $title');
+            print('this register by $title');
           } else if (title == 'Apple') {
-            print('this login by $title');
+            print('this register by $title');
           }
         },
       ),

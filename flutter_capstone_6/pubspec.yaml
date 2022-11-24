@@ -26,3 +26,5 @@ flutter:
   assets:
     - assets/
     - assets/splash/
+    - assets/login/
+    - assets/icons/

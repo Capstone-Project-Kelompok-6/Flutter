@@ -11,6 +11,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   bool isHide = true;
+  bool isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -77,18 +78,65 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   passwordFormItem(),
                   const SizedBox(height: 15),
                   confirmPasswordFormItem(),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 18),
                 ],
               ),
 
               // Agree Privacy Section
-              Row(
-                children: [],
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
+                  children: [
+                    Transform.scale(
+                      scale: 1.3,
+                      child: Checkbox(
+                          value: isChecked,
+                          checkColor: white,
+                          fillColor:
+                              MaterialStateColor.resolveWith((states) => n60),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6)),
+                          side: const BorderSide(
+                            width: 1,
+                            color: n60,
+                          ),
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isChecked = value!;
+                            });
+                          }),
+                    ),
+                    SizedBox(
+                      width: 320,
+                      child: RichText(
+                        text: const TextSpan(
+                            text: 'By continuing you accept our ',
+                            style: TextStyle(
+                              height: 1.2,
+                              fontSize: 15,
+                              color: n60,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            children: [
+                              TextSpan(
+                                  text: 'Privacy Policy',
+                                  style: TextStyle(
+                                      decoration: TextDecoration.underline)),
+                              TextSpan(text: ' and '),
+                              TextSpan(
+                                  text: 'Term of Use',
+                                  style: TextStyle(
+                                      decoration: TextDecoration.underline)),
+                            ]),
+                      ),
+                    ),
+                  ],
+                ),
               ),
 
               // Button Login Section
               Container(
-                margin: const EdgeInsets.only(left: 25, right: 25, top: 30),
+                margin: const EdgeInsets.only(left: 25, right: 25, top: 28),
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(

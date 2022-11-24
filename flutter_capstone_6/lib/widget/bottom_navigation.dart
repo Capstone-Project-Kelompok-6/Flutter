@@ -28,6 +28,7 @@ class _BottomNavigationBarControllerState
     ),
     ProfileScreen(
       key: PageStorageKey('Page4'),
+      fullName: '',
     ),
   ];
 

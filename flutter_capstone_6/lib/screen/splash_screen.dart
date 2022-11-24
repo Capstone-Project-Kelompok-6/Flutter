@@ -38,11 +38,23 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: whiteBg,
       body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [SvgPicture.asset('assets/stay_healthy.svg')],
-      )),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Flexible(
+              flex: 5,
+              fit: FlexFit.tight,
+              child: SvgPicture.asset('assets/splash/work_fit.svg'),
+            ),
+            Flexible(
+              flex: 1,
+              fit: FlexFit.tight,
+              child: SvgPicture.asset('assets/splash/copyright.svg'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

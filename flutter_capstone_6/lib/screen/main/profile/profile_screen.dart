@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/login/login_screen.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
-import 'package:flutter_capstone_6/screen/main/profile/profile_providers.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +26,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final repoData = Provider.of<ProfileProvider>(context);
     return Scaffold(
       backgroundColor: whiteBg,
       appBar: AppBar(
@@ -50,9 +48,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             userEmail = userData.data.email;
           }
 
-          return ListView.builder(
-            itemCount: data.getDatas.length,
-            itemBuilder: (context, index) => Center(
+          return SingleChildScrollView(
+            child: Center(
               child: Column(children: [
                 profilePicture(),
                 const SizedBox(
@@ -106,7 +103,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           height: 5,
         ),
         Text(
-          userEmail!,
+          userId!,
           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300),
         ),
       ],

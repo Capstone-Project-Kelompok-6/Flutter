@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 
 class SummaryScreen extends StatefulWidget {
-  const SummaryScreen({Key? key}) : super(key: key);
+  const SummaryScreen({super.key});
 
   @override
   State<SummaryScreen> createState() => _SummaryScreenState();
@@ -117,12 +117,18 @@ class _SummaryScreenState extends State<SummaryScreen> {
       padding: const EdgeInsets.fromLTRB(26, 0, 26, 0),
       child: TextField(
         decoration: InputDecoration(
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: violet),
+                borderRadius: BorderRadius.circular(10)),
+            focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: violet),
+                borderRadius: BorderRadius.circular(10)),
             contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-            hintText: 'Search article or video',
+            hintText: 'Search',
             prefixIcon: Icon(Icons.search),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide())),
+                borderSide: BorderSide(color: violet))),
       ),
     );
   }

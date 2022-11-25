@@ -1,27 +1,37 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'user_token.g.dart';
+
+@JsonSerializable()
 class UserToken {
-  String user_id;
-  String full_name;
+  UserToken({
+    required this.userId,
+    required this.fullName,
+    required this.email,
+    required this.phoneNumber,
+    required this.accessToken,
+    required this.refreshToken,
+  });
+
+  @JsonKey(name: 'user_id')
+  String userId;
+
+  @JsonKey(name: 'full_name')
+  String fullName;
+
+  @JsonKey(name: 'email')
   String email;
-  String phone_number;
-  String access_token;
-  String refresh_token;
 
-  UserToken(
-      {this.phone_number = '',
-      this.email = '',
-      this.full_name = '',
-      this.user_id = '',
-      this.access_token = '',
-      this.refresh_token = ''});
+  @JsonKey(name: 'phone_number')
+  String phoneNumber;
 
-  factory UserToken.fromJson(Map<String, dynamic> json) {
-    return UserToken(
-      user_id: json['user_id'],
-      full_name: json['full_name'],
-      email: json['email'],
-      phone_number: json['phone_number'],
-      access_token: json['access_token'],
-      refresh_token: json['refresh_token'],
-    );
-  }
+  @JsonKey(name: 'access_token')
+  String accessToken;
+
+  @JsonKey(name: 'refresh_token')
+  String refreshToken;
+
+  factory UserToken.fromJson(Map<String, dynamic> json) =>
+      _$UserTokenFromJson(json);
+  Map<String, dynamic> toJson() => _$UserTokenToJson(this);
 }

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/model/user_data.dart';
+import 'package:flutter_capstone_6/model/user_token.dart';
 import 'package:flutter_capstone_6/screen/login/login_controller.dart';
+import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/register/register_screen.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../model/user_model.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -283,10 +287,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _login() async {
     UserModel response = await _controller.login();
+    UserData userData = await _controller.getUser();
 
     if (response.data != null) {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => BottomNavigationBarController()));
+
+      print('user fullname: ${userData.data.fullName}');
+
+      // State Management
+      final data = Provider.of<LoginViewModel>(context, listen: false);
+      final userDetail = UserData(
+          data: UserToken(
+        userId: userData.data.userId,
+        fullName: userData.data.fullName,
+        email: userData.data.email,
+        phoneNumber: userData.data.phoneNumber,
+        accessToken: userData.data.accessToken,
+        refreshToken: userData.data.refreshToken,
+      ));
+      data.addUser(userDetail);
 
       showDialog(
           context: context,

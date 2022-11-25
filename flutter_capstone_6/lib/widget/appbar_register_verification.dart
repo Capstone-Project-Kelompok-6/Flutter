@@ -23,11 +23,8 @@ class _AppBarContentState extends State<AppBarContent> {
               Flexible(
                 flex: 1,
                 child: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 10),
+                  onTap: () {},
+                  child: SizedBox(
                     height: 24,
                     width: 24,
                     child: SvgPicture.asset('assets/icons/arrow_back.svg'),

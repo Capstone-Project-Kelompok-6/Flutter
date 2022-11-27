@@ -452,14 +452,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _register() async {
     UserModel response = await _controller.register();
 
-    if (response.data != null) {
+    if (response.data == null) {
       showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-                title: Text('Info Regist'),
-                content:
-                    Text('${response.message}, silahkan verifikasi otp email'),
-              ));
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text('Info Regist'),
+          content: Text('${response.message}, please verify OTP code'),
+        ),
+      );
     } else {
       showDialog(
           context: context,

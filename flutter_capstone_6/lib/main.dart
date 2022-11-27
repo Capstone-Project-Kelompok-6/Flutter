@@ -30,22 +30,3 @@ class MyApp extends StatelessWidget {
         ));
   }
 }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // text theme
-//     final textTheme = Theme.of(context).textTheme;
-
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'Capstone Kelompok 6',
-//       theme: ThemeData(
-//         textTheme: GoogleFonts.poppinsTextTheme(textTheme),
-//       ),
-//       home: const RegisterScreen(),
-//     );
-//   }
-// }

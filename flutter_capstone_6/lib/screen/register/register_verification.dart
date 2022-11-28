@@ -43,7 +43,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
           decoration: const BoxDecoration(
             color: whiteBg,
           ),
-          child: const AppBarContent(),
+          child: isComplete ? Container() : const AppBarContent(),
         ),
       ),
       body: SingleChildScrollView(

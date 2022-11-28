@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/login/login_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

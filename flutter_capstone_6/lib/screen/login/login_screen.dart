@@ -4,7 +4,7 @@ import 'package:flutter_capstone_6/screen/register/register_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();

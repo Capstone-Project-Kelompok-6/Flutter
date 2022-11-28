@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 
 class SummaryScreen extends StatefulWidget {
-  const SummaryScreen({super.key});
+  const SummaryScreen({Key? key}) : super(key: key);
 
   @override
   State<SummaryScreen> createState() => _SummaryScreenState();

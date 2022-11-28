@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
-import 'package:flutter_capstone_6/screen/forgot_password/reset_password_screen.dart';
 import 'package:flutter_capstone_6/screen/login/login_screen.dart';
 import 'package:flutter_capstone_6/widget/appbar_register_verification.dart';
 import 'package:flutter_capstone_6/widget/appbar_reset_password.dart';

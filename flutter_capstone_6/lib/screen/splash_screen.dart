@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
-import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
+import 'package:flutter_capstone_6/screen/onboarding_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -20,12 +20,10 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   splashScreenStart() async {
-    var duration = Duration(seconds: 2);
+    var duration = const Duration(seconds: 2);
     return Timer(duration, () {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => BottomNavigationBarController()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const OnBoardingScreen()));
     });
   }
 

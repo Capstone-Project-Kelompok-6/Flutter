@@ -181,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // controller: _titleController,
         maxLines: 1,
         decoration: const InputDecoration(
-          labelText: 'Email address',
+          labelText: 'email address',
           labelStyle:
               TextStyle(fontSize: 14, color: n40, fontWeight: FontWeight.w400),
           floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -209,7 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
         maxLines: 1,
         obscureText: isHide,
         decoration: InputDecoration(
-          labelText: 'Password',
+          labelText: 'password',
           labelStyle: const TextStyle(
               fontSize: 14, color: n40, fontWeight: FontWeight.w400),
           floatingLabelBehavior: FloatingLabelBehavior.never,

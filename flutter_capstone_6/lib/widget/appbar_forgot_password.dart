@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class AppBarContentVC extends StatefulWidget {
-  const AppBarContentVC({Key? key}) : super(key: key);
+class AppBarContentFP extends StatefulWidget {
+  const AppBarContentFP({Key? key}) : super(key: key);
 
   @override
-  State<AppBarContentVC> createState() => _AppBarContentVCState();
+  State<AppBarContentFP> createState() => _AppBarContentFPState();
 }
 
-class _AppBarContentVCState extends State<AppBarContentVC> {
+class _AppBarContentFPState extends State<AppBarContentFP> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -35,7 +35,7 @@ class _AppBarContentVCState extends State<AppBarContentVC> {
                 flex: 9,
                 child: Center(
                   child: Text(
-                    "Verification Code",
+                    "Forgot Password",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w400,

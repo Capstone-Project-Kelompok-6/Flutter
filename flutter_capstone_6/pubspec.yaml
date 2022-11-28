@@ -31,3 +31,4 @@ flutter:
     - assets/icons/
     - assets/register/
     - assets/register_verification/
+    - assets/forgot_password/

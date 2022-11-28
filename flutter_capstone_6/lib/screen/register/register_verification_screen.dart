@@ -9,14 +9,16 @@ import 'package:flutter_capstone_6/widget/appbar_register_verification.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-class RegisterVerification extends StatefulWidget {
-  const RegisterVerification({Key? key}) : super(key: key);
+class RegisterVerificationScreen extends StatefulWidget {
+  const RegisterVerificationScreen({Key? key}) : super(key: key);
 
   @override
-  State<RegisterVerification> createState() => _RegisterVerificationState();
+  State<RegisterVerificationScreen> createState() =>
+      _RegisterVerificationScreenState();
 }
 
-class _RegisterVerificationState extends State<RegisterVerification> {
+class _RegisterVerificationScreenState
+    extends State<RegisterVerificationScreen> {
   // pin code
   var onTapRecognizer;
   TextEditingController pinController = TextEditingController();
@@ -43,7 +45,7 @@ class _RegisterVerificationState extends State<RegisterVerification> {
           decoration: const BoxDecoration(
             color: whiteBg,
           ),
-          child: isComplete ? Container() : const AppBarContent(),
+          child: isComplete ? Container() : const AppBarContentVC(),
         ),
       ),
       body: SingleChildScrollView(

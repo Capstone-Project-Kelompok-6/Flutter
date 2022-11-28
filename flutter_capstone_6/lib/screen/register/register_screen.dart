@@ -225,7 +225,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         // controller: _titleController,
         maxLines: 1,
         decoration: const InputDecoration(
-          labelText: 'First name',
+          labelText: 'first name',
           labelStyle:
               TextStyle(fontSize: 14, color: n40, fontWeight: FontWeight.w400),
           floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -252,7 +252,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         // controller: _titleController,
         maxLines: 1,
         decoration: const InputDecoration(
-          labelText: 'Last name',
+          labelText: 'last name',
           labelStyle:
               TextStyle(fontSize: 14, color: n40, fontWeight: FontWeight.w400),
           floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -279,7 +279,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         // controller: _titleController,
         maxLines: 1,
         decoration: const InputDecoration(
-          labelText: 'Phone number',
+          labelText: 'phone number',
           labelStyle:
               TextStyle(fontSize: 14, color: n40, fontWeight: FontWeight.w400),
           floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -306,7 +306,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         // controller: _titleController,
         maxLines: 1,
         decoration: const InputDecoration(
-          labelText: 'New email address',
+          labelText: 'new email address',
           labelStyle:
               TextStyle(fontSize: 14, color: n40, fontWeight: FontWeight.w400),
           floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -334,7 +334,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         maxLines: 1,
         obscureText: isHide,
         decoration: InputDecoration(
-          labelText: 'New password',
+          labelText: 'new password',
           labelStyle: const TextStyle(
               fontSize: 14, color: n40, fontWeight: FontWeight.w400),
           floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -375,7 +375,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         maxLines: 1,
         obscureText: isHide,
         decoration: InputDecoration(
-          labelText: 'Confirmation password',
+          labelText: 'confirmation password',
           labelStyle: const TextStyle(
               fontSize: 14, color: n40, fontWeight: FontWeight.w400),
           floatingLabelBehavior: FloatingLabelBehavior.never,

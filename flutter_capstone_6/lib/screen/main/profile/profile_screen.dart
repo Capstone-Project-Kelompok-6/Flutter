@@ -112,121 +112,95 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget buttonSection(BuildContext context) {
     return Column(children: [
-      SizedBox(
-          width: double.infinity,
-          height: 56,
-          child: Container(
-            decoration: const BoxDecoration(boxShadow: [
-              BoxShadow(
-                color: n40,
-                offset: Offset(0, 1),
-              ),
-              BoxShadow(color: white, offset: Offset(-10, 0)),
-              BoxShadow(color: white, offset: Offset(5, 0))
-            ]),
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: whiteBg, elevation: 0),
-                onPressed: () {},
-                child: ListTile(
-                  textColor: Colors.black,
-                  leading: SvgPicture.asset('assets/trophy.svg'),
-                  title: const Text(
-                    'My Membership',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                )),
+      ElevatedButton(
+          style: ElevatedButton.styleFrom(primary: whiteBg, elevation: 0),
+          onPressed: () {
+            print('My membership');
+          },
+          child: ListTile(
+            textColor: Colors.black,
+            leading: SvgPicture.asset('assets/trophy.svg'),
+            title: const Text(
+              'My Membership',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
           )),
+      Container(
+        margin: const EdgeInsets.only(left: 20, right: 20),
+        width: double.infinity,
+        child: SvgPicture.asset(
+          'assets/button_divider.svg',
+          fit: BoxFit.cover,
+        ),
+      ),
       Padding(
-        padding: const EdgeInsets.only(top: 1),
-        child: SizedBox(
-            width: double.infinity,
-            height: 56,
-            child: Container(
-              decoration: const BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: n40,
-                  offset: Offset(0, 1),
-                ),
-                BoxShadow(color: white, offset: Offset(-10, 0)),
-                BoxShadow(color: white, offset: Offset(5, 0))
-              ]),
-              child: SizedBox(
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        primary: whiteBg, elevation: 0),
-                    onPressed: () {},
-                    child: ListTile(
-                      textColor: Colors.black,
-                      leading: SvgPicture.asset('assets/phone.svg'),
-                      title: const Text(
-                        'Contact Us',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    )),
+        padding: const EdgeInsets.only(top: 10),
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(primary: whiteBg, elevation: 0),
+            onPressed: () {},
+            child: ListTile(
+              textColor: Colors.black,
+              leading: SvgPicture.asset('assets/phone.svg'),
+              title: const Text(
+                'Contact Us',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             )),
       ),
-      Padding(
-        padding: const EdgeInsets.only(top: 1),
-        child: SizedBox(
-            width: double.infinity,
-            height: 56,
-            child: Container(
-              decoration: const BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: n40,
-                  offset: Offset(0, 1),
-                ),
-                BoxShadow(color: white, offset: Offset(-10, 0)),
-                BoxShadow(color: white, offset: Offset(5, 0))
-              ]),
-              child: ElevatedButton(
-                  style:
-                      ElevatedButton.styleFrom(primary: whiteBg, elevation: 0),
-                  onPressed: () {},
-                  child: ListTile(
-                    textColor: Colors.black,
-                    leading: SvgPicture.asset('assets/lock.svg'),
-                    title: const Text(
-                      'Privacy Policy',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  )),
-            )),
+      Container(
+        margin: const EdgeInsets.only(left: 20, right: 20),
+        width: double.infinity,
+        child: SvgPicture.asset(
+          'assets/button_divider.svg',
+          fit: BoxFit.cover,
+        ),
       ),
       Padding(
-        padding: const EdgeInsets.only(top: 1),
-        child: SizedBox(
-            width: double.infinity,
-            height: 56,
-            child: Container(
-              decoration: const BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: n40,
-                  offset: Offset(0, 1),
-                ),
-                BoxShadow(color: white, offset: Offset(-10, 0)),
-                BoxShadow(color: white, offset: Offset(5, 0))
-              ]),
-              child: ElevatedButton(
-                  style:
-                      ElevatedButton.styleFrom(primary: whiteBg, elevation: 0),
-                  onPressed: () {},
-                  child: ListTile(
-                    textColor: Colors.black,
-                    leading: SvgPicture.asset('assets/shield.svg'),
-                    title: const Text(
-                      'Terms And Conditions',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                  )),
+        padding: const EdgeInsets.only(top: 10),
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(primary: whiteBg, elevation: 0),
+            onPressed: () {},
+            child: ListTile(
+              textColor: Colors.black,
+              leading: SvgPicture.asset('assets/lock.svg'),
+              title: const Text(
+                'Privacy Policy',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
             )),
       ),
+      Container(
+        margin: const EdgeInsets.only(left: 20, right: 20),
+        width: double.infinity,
+        child: SvgPicture.asset(
+          'assets/button_divider.svg',
+          fit: BoxFit.cover,
+        ),
+      ),
       Padding(
-        padding: const EdgeInsets.only(top: 1),
+        padding: const EdgeInsets.only(top: 10),
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(primary: whiteBg, elevation: 0),
+            onPressed: () {},
+            child: ListTile(
+              textColor: Colors.black,
+              leading: SvgPicture.asset('assets/shield.svg'),
+              title: const Text(
+                'Terms And Conditions',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            )),
+      ),
+      Container(
+        margin: const EdgeInsets.only(left: 20, right: 20),
+        width: double.infinity,
+        child: SvgPicture.asset(
+          'assets/button_divider.svg',
+          fit: BoxFit.cover,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 10),
         child: SizedBox(
             width: double.infinity,
             height: 56,

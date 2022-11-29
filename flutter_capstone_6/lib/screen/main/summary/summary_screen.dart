@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/screen/main/summary/history/history_screen.dart';
+import 'package:flutter_capstone_6/screen/main/summary/offline%20class/offline_class_screen.dart';
+import 'package:flutter_capstone_6/screen/main/summary/online%20class/online_class_screen.dart';
+import 'package:flutter_capstone_6/widget/appbar_summary.dart';
 
 class SummaryScreen extends StatefulWidget {
   const SummaryScreen({super.key});
@@ -12,46 +16,42 @@ class _SummaryScreenState extends State<SummaryScreen> {
   String selectedChips = '';
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Summary',
-          style:
-              TextStyle(color: n100, fontSize: 20, fontWeight: FontWeight.bold),
-        ),
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
         backgroundColor: whiteBg,
-        automaticallyImplyLeading: false,
-        elevation: 0.0,
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(120),
-          child: Column(children: [
-            _searchBar(),
-            _choiceChips(0),
-          ]),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 4, 24, 0),
-        child: Container(
-          decoration: BoxDecoration(boxShadow: [
-            BoxShadow(
-                color: n40.withOpacity(0.5), blurRadius: 0.1, spreadRadius: 0)
-          ], color: white, borderRadius: BorderRadius.circular(10)),
-          child: ListView(
-            children: [
-              Center(
-                heightFactor: 15,
-                child: Text(
-                  selectedChips,
-                  style: TextStyle(fontSize: 20),
-                ),
+        appBar: AppBar(
+          elevation: 0.7,
+          backgroundColor: whiteBg,
+          automaticallyImplyLeading: false,
+          title: Text(
+            'Summary',
+            style: TextStyle(color: Colors.black),
+          ),
+          bottom: TabBar(
+            labelColor: Colors.black,
+            tabs: [
+              Tab(
+                text: 'Offline Class',
+              ),
+              Tab(
+                text: 'Online Class',
+              ),
+              Tab(
+                text: 'History',
               )
             ],
           ),
         ),
+        body: TabBarView(
+          children: [
+            OfflineClassScreen(),
+            OnlineClassScreen(),
+            HistoryScreen()
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   Widget _choiceChips(int selectedIndex) {
@@ -59,18 +59,17 @@ class _SummaryScreenState extends State<SummaryScreen> {
       padding: const EdgeInsets.fromLTRB(24, 12, 26, 12),
       child: Center(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ChoiceChip(
               backgroundColor: whiteBg,
-              side: BorderSide(color: Colors.grey),
-              label: Text('Booked Class'),
+              side: BorderSide(color: navy),
+              label: Text('      Booked Class      '),
               selected: (selectedChips == 'Booked Class') ? true : false,
-              selectedColor: Colors.grey,
+              selectedColor: navy,
               onSelected: (bool value) {
                 setState(() {
-                  selectedChips =
-                      'Booked Class'; //TODO ganti ke fungsi untuk ambil data Api;
+                  selectedChips; //TODO ganti ke fungsi untuk ambil data Api;
                 });
               },
             ),
@@ -79,30 +78,14 @@ class _SummaryScreenState extends State<SummaryScreen> {
             ),
             ChoiceChip(
               backgroundColor: whiteBg,
-              side: BorderSide(color: Colors.grey),
-              label: Text('Finished Class'),
+              side: BorderSide(color: navy),
+              label: Text('      Finished Class      '),
               selected: (selectedChips == 'Finished Class') ? true : false,
-              selectedColor: Colors.grey,
+              selectedColor: navy,
               onSelected: (bool value) {
                 setState(() {
                   selectedChips =
                       'Finished Class'; //TODO ganti ke fungsi untuk ambil data Api;
-                });
-              },
-            ),
-            SizedBox(
-              width: 4,
-            ),
-            ChoiceChip(
-              backgroundColor: Colors.white,
-              side: BorderSide(color: Colors.grey),
-              label: Text('     History     '),
-              selected: (selectedChips == 'History') ? true : false,
-              selectedColor: Colors.grey,
-              onSelected: (bool value) {
-                setState(() {
-                  selectedChips =
-                      'History'; //TODO ganti ke fungsi untuk ambil data Api;
                 });
               },
             ),
@@ -117,19 +100,53 @@ class _SummaryScreenState extends State<SummaryScreen> {
       padding: const EdgeInsets.fromLTRB(26, 0, 26, 0),
       child: TextField(
         decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: violet),
-                borderRadius: BorderRadius.circular(10)),
-            focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: violet),
-                borderRadius: BorderRadius.circular(10)),
             contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             hintText: 'Search',
             prefixIcon: Icon(Icons.search),
             border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: violet))),
+              borderRadius: BorderRadius.circular(10),
+            )),
       ),
     );
   }
 }
+
+//     child: Scaffold(
+//   appBar: AppBar(
+//     title: Text(
+//       'Summary',
+//       style:
+//           TextStyle(color: n100, fontSize: 20, fontWeight: FontWeight.bold),
+//     ),
+//     backgroundColor: whiteBg,
+//     automaticallyImplyLeading: false,
+//     elevation: 0.0,
+//     bottom: PreferredSize(
+//       preferredSize: Size.fromHeight(120),
+//       child: Column(children: [
+//         _searchBar(),
+//         _choiceChips(0),
+//       ]),
+//     ),
+//   ),
+//   body: Padding(
+//     padding: const EdgeInsets.fromLTRB(24, 4, 24, 0),
+//     child: Container(
+//       decoration: BoxDecoration(boxShadow: [
+//         BoxShadow(
+//             color: n40.withOpacity(0.5), blurRadius: 0.1, spreadRadius: 0)
+//       ], color: white, borderRadius: BorderRadius.circular(10)),
+//       child: ListView(
+//         children: [
+//           Center(
+//             heightFactor: 15,
+//             child: Text(
+//               selectedChips,
+//               style: TextStyle(fontSize: 20),
+//             ),
+//           )
+//         ],
+//       ),
+//     ),
+//   ),
+// ));

@@ -34,3 +34,4 @@ flutter:
     - assets/register_verification/
     - assets/forgot_password/
     - assets/onboarding/
+    - assets/home/

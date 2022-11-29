@@ -36,7 +36,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               // Carousel Section
               CarouselSlider(
                 options: CarouselOptions(
-                  height: 600,
+                  height: 631,
                   viewportFraction: 1,
                   autoPlay: true,
                 ),
@@ -44,7 +44,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(
-                        margin: const EdgeInsets.only(top: 50),
+                        margin: const EdgeInsets.only(top: 60),
                         decoration: const BoxDecoration(color: violet),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,7 +56,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                               child: SvgPicture.asset(
                                   'assets/onboarding/onboarding_${index[i]}.svg'),
                             ),
-                            const SizedBox(height: 15),
+                            const SizedBox(height: 24),
                             SizedBox(
                               width: 200,
                               height: 60,
@@ -74,7 +74,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 5),
+                            const SizedBox(height: 16),
                             SizedBox(
                               width: 330,
                               height: 55,
@@ -92,7 +92,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 60),
+                            const SizedBox(height: 73),
                             i == 0
                                 ? SvgPicture.asset(
                                     'assets/onboarding/bar_${index[0]}.svg')
@@ -114,7 +114,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               // Register Membership Section
               Container(
                 margin: const EdgeInsets.only(
-                    right: 25, left: 25, top: 35, bottom: 20),
+                    right: 25, left: 25, top: 44, bottom: 24),
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -140,7 +140,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
               // Goto Login Section
               Container(
-                margin: const EdgeInsets.only(bottom: 45),
+                margin: const EdgeInsets.only(bottom: 58),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

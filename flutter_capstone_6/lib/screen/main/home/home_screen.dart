@@ -31,31 +31,50 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Just For You Section
-              const SizedBox(height: 5),
+              const SizedBox(height: 1),
               const Text(
                 'Just For You',
                 style: TextStyle(
-                    color: fontGrey, fontSize: 16, fontWeight: FontWeight.w600),
+                  color: fontGrey,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    featureCard(yellow, 'Membership',
-                        'Practice Anytime Anywhere at any Gym', 'Upgrade'),
+                    // featureCard(yellow, 'Membership',
+                    //     'Practice Anytime Anywhere at any Gym', 'Upgrade'),
+                    // const SizedBox(width: 15),
+                    featureCard(
+                        violet,
+                        'Populer Articles',
+                        'Give you the latest and informative news',
+                        'Read More',
+                        'populer_articles.png'),
                     const SizedBox(width: 15),
-                    featureCard(violet, 'Populer Article',
-                        'Hundreds of articles & healthy recipes', 'Read More'),
-                    const SizedBox(width: 15),
-                    featureCard(orange, 'Workout Video',
-                        'Watching Anytime Anywhere at Home', 'Watch More'),
+                    featureCard(
+                        orange,
+                        'Workout Video',
+                        'Watch exercise video anywhere and anytime',
+                        'Watch More',
+                        'workout_video.png'),
                   ],
                 ),
               ),
 
-              // Our Features Button Section
-              const SizedBox(height: 5),
+              // Our Features Section
+              const SizedBox(height: 24),
+              const Text(
+                'Our Features',
+                style: TextStyle(
+                  color: fontGrey,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 15),
                 padding: const EdgeInsets.all(10),
@@ -120,18 +139,19 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget featureCard(
-      Color color, String title, String subtitle, String btnTitle) {
+  Widget featureCard(Color color, String title, String subtitle,
+      String btnTitle, String image) {
     return Container(
       margin: const EdgeInsets.only(top: 10),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: color,
-        borderRadius: const BorderRadius.all(Radius.circular(15)),
+        borderRadius: const BorderRadius.all(Radius.circular(25)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
+          const SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -173,10 +193,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           const SizedBox(width: 8),
           SizedBox(
-              width: 99,
               height: 125,
               child: Image.asset(
-                'assets/illus1.png',
+                'assets/home/$image',
                 fit: BoxFit.cover,
               )),
         ],

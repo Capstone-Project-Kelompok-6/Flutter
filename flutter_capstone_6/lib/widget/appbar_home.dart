@@ -35,16 +35,30 @@ class _AppBarContentState extends State<AppBarContent> {
                     style: TextStyle(
                       color: fontLightGrey,
                       fontSize: 14,
-                      fontWeight: FontWeight.w300,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ],
               ),
               const Spacer(),
-              SizedBox(
-                height: 21.5,
-                width: 18.5,
-                child: SvgPicture.asset('assets/notification.svg'),
+              Container(
+                width: 48,
+                height: 48,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: whiteBg,
+                  borderRadius: const BorderRadius.all(Radius.circular(16)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: n40.withOpacity(0.2),
+                      spreadRadius: 0,
+                      blurRadius: 5,
+                    )
+                  ],
+                ),
+                child: SvgPicture.asset(
+                  'assets/home/notification.svg',
+                ),
               )
             ],
           ),

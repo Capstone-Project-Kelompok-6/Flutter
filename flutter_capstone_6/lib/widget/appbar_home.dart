@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/screen/main/home/notification_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class AppBarContent extends StatefulWidget {
@@ -41,23 +42,31 @@ class _AppBarContentState extends State<AppBarContent> {
                 ],
               ),
               const Spacer(),
-              Container(
-                width: 48,
-                height: 48,
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: whiteBg,
-                  borderRadius: const BorderRadius.all(Radius.circular(16)),
-                  boxShadow: [
-                    BoxShadow(
-                      color: n40.withOpacity(0.2),
-                      spreadRadius: 0,
-                      blurRadius: 5,
-                    )
-                  ],
-                ),
-                child: SvgPicture.asset(
-                  'assets/home/notification.svg',
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NotificationScreen()));
+                },
+                child: Container(
+                  width: 48,
+                  height: 48,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: whiteBg,
+                    borderRadius: const BorderRadius.all(Radius.circular(16)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: n40.withOpacity(0.2),
+                        spreadRadius: 0,
+                        blurRadius: 5,
+                      )
+                    ],
+                  ),
+                  child: SvgPicture.asset(
+                    'assets/home/notification.svg',
+                  ),
                 ),
               )
             ],

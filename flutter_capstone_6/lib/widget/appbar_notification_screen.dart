@@ -23,7 +23,9 @@ class _AppBarContentNFState extends State<AppBarContentNF> {
               Flexible(
                 flex: 1,
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
                   child: SizedBox(
                     height: 24,
                     width: 24,

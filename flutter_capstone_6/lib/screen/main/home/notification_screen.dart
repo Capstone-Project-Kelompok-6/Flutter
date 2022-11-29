@@ -48,7 +48,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 color: n80,
-                height: 1,
+                height: 1.2,
               ),
               textAlign: TextAlign.center,
             ),

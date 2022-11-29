@@ -50,6 +50,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   child: SvgPicture.asset(
                       'assets/forgot_password/forgot_password.svg'),
                 ),
+                const SizedBox(height: 8),
                 const Text(
                   "Trouble logging in?",
                   style: TextStyle(
@@ -73,7 +74,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                 // Email Form Section
                 Container(
-                  margin: const EdgeInsets.only(top: 35, bottom: 20),
+                  margin: const EdgeInsets.only(top: 40, bottom: 24),
                   padding: const EdgeInsets.only(left: 5, right: 5),
                   height: 50,
                   child: TextFormField(
@@ -103,7 +104,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                 // Button Send Section
                 Container(
-                  margin: const EdgeInsets.only(left: 5, right: 5, bottom: 25),
+                  margin: const EdgeInsets.only(left: 5, right: 5, bottom: 32),
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(

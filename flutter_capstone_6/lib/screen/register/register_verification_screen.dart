@@ -79,6 +79,7 @@ class _RegisterVerificationScreenState
           child: SvgPicture.asset(
               'assets/register_verification/register_verification.svg'),
         ),
+        const SizedBox(height: 8),
         const Text(
           "Email Verification",
           style: TextStyle(
@@ -172,7 +173,7 @@ class _RegisterVerificationScreenState
             ],
           ),
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 17),
       ],
     );
   }
@@ -187,6 +188,7 @@ class _RegisterVerificationScreenState
           child: SvgPicture.asset(
               'assets/register_verification/verification_success.svg'),
         ),
+        const SizedBox(height: 8),
         const Text(
           "Verification Success",
           style: TextStyle(
@@ -210,7 +212,7 @@ class _RegisterVerificationScreenState
 
         // Button Next Section
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
+          margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 56),
           child: ElevatedButton(
             onPressed: () {
               Navigator.push(context,

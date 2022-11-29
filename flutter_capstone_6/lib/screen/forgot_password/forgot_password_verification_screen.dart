@@ -90,6 +90,7 @@ class _ForgotPasswordVerificationScreenState
           width: double.infinity,
           child: SvgPicture.asset('assets/forgot_password/account_back.svg'),
         ),
+        const SizedBox(height: 8),
         const Text(
           "Your Account is Back",
           style: TextStyle(
@@ -113,7 +114,7 @@ class _ForgotPasswordVerificationScreenState
 
         // Button Next Section
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 50),
+          margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 56),
           child: ElevatedButton(
             onPressed: () {
               Navigator.push(context,
@@ -146,6 +147,7 @@ class _ForgotPasswordVerificationScreenState
           width: double.infinity,
           child: SvgPicture.asset('assets/forgot_password/forgot_password.svg'),
         ),
+        const SizedBox(height: 8),
         const Text(
           "Reset Password",
           style: TextStyle(
@@ -156,7 +158,7 @@ class _ForgotPasswordVerificationScreenState
         ),
 
         // Reset Pass Form Section
-        const SizedBox(height: 20),
+        const SizedBox(height: 22),
         newPasswordFormItem(),
         const SizedBox(height: 8),
         confirmPasswordFormItem(),
@@ -164,7 +166,7 @@ class _ForgotPasswordVerificationScreenState
 
         // Button Send Section
         Container(
-          margin: const EdgeInsets.only(left: 5, right: 5, bottom: 25),
+          margin: const EdgeInsets.only(left: 5, right: 5, bottom: 32),
           child: ElevatedButton(
             onPressed: () {
               setState(() {
@@ -280,6 +282,7 @@ class _ForgotPasswordVerificationScreenState
           width: double.infinity,
           child: SvgPicture.asset('assets/forgot_password/forgot_password.svg'),
         ),
+        const SizedBox(height: 8),
         const Text(
           "Email Verification",
           style: TextStyle(
@@ -373,7 +376,7 @@ class _ForgotPasswordVerificationScreenState
             ],
           ),
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: 17),
       ],
     );
   }

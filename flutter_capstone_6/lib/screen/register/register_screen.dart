@@ -29,6 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: const [
+                    SizedBox(height: 10),
                     SizedBox(
                       width: double.infinity,
                       child: Text(
@@ -79,7 +80,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   passwordFormItem(),
                   const SizedBox(height: 15),
                   confirmPasswordFormItem(),
-                  const SizedBox(height: 18),
+                  const SizedBox(height: 24),
                 ],
               ),
 
@@ -137,7 +138,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               // Button Login Section
               Container(
-                margin: const EdgeInsets.only(left: 25, right: 25, top: 28),
+                margin: const EdgeInsets.only(
+                    left: 25, right: 25, top: 32, bottom: 4),
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
@@ -167,14 +169,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
 
               // Login with Another
+              const SizedBox(height: 4),
               anotherRegisterItem('assets/icons/google_logo.png', 'Google'),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
               anotherRegisterItem('assets/icons/facebook_logo.png', 'Facebook'),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
               anotherRegisterItem('assets/icons/apple_logo.png', 'Apple'),
 
               // Goto login
-              const SizedBox(height: 30),
+              const SizedBox(height: 32),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 25),
                 child: Row(
@@ -207,7 +210,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 48),
             ],
           ),
         ),

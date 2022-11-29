@@ -76,62 +76,91 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.symmetric(vertical: 15),
+                margin: const EdgeInsets.only(top: 8, bottom: 21),
                 padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: white,
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: n40.withOpacity(0.5),
-                        spreadRadius: 0,
-                        blurRadius: 5,
-                      )
-                    ]),
+                decoration: const BoxDecoration(
+                  color: violet,
+                  borderRadius: const BorderRadius.all(Radius.circular(25)),
+                ),
                 child: Column(
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        featureIconBtn(
-                            violet, 'Booking Class', 'assets/book.svg'),
-                        featureIconBtn(orange, 'Multiple Gym Booking',
-                            'assets/location.svg'),
+                        const Text(
+                          'Get Your Class Here',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w500,
+                            color: white,
+                          ),
+                        ),
+                        const SizedBox(width: 15),
+                        SvgPicture.asset(
+                          'assets/home/btn_add.svg',
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        featureIconBtn(
-                            violet, 'Our Features', 'assets/apps.svg'),
-                        featureIconBtn(white, '', 'assets/book.svg'),
-                      ],
+                    SvgPicture.asset(
+                      'assets/home/our_features.svg',
                     ),
                   ],
                 ),
+                // decoration: BoxDecoration(
+                //     color: white,
+                //     borderRadius: const BorderRadius.all(Radius.circular(10)),
+                //     boxShadow: [
+                //       BoxShadow(
+                //         color: n40.withOpacity(0.5),
+                //         spreadRadius: 0,
+                //         blurRadius: 5,
+                //       )
+                //     ]),
               ),
 
               // Recommendation Class Section
-              const SizedBox(height: 5),
+              const SizedBox(height: 24),
               const Text(
-                'Recommendation Class',
+                'Top 5 Classes in this Month',
                 style: TextStyle(
-                    color: fontGrey, fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    recommendClassCard('Yoga Class 101'),
-                    const SizedBox(width: 20),
-                    recommendClassCard('Muscle Builder 101'),
-                  ],
+                  color: n100,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
+              Container(
+                margin: const EdgeInsets.only(top: 8),
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: white,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: n40.withOpacity(0.5),
+                      spreadRadius: 0,
+                      blurRadius: 5,
+                    )
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    topclassCard('img1.png', 'Upper body strech', '4.9',
+                        '112.521 Views'),
+                    divider(),
+                    topclassCard('img2.png', 'Sixpack exercise at home', '4.8',
+                        '102.735 Views'),
+                    divider(),
+                    topclassCard(
+                        'img3.png', 'Cardio exercise', '4.8', '93.951 Views'),
+                    divider(),
+                    topclassCard(
+                        'img1.png', 'Night yoga flow', '4.7', '92.121 Views'),
+                    divider(),
+                    topclassCard(
+                        'img2.png', 'Shoulder exercise', '4.7', '89.521 Views'),
+                  ],
+                ),
+              )
             ],
           ),
         ),
@@ -139,10 +168,91 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget divider() {
+    return Column(
+      children: const [
+        SizedBox(height: 16),
+        Divider(
+          height: 12,
+          thickness: 1,
+          indent: 20,
+          endIndent: 20,
+          color: n5,
+        ),
+        SizedBox(height: 12),
+      ],
+    );
+  }
+
+  Widget topclassCard(String image, String title, String star, String view) {
+    return Row(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: SizedBox(
+            width: 90,
+            height: 90,
+            child: Image.asset(
+              'assets/home/$image',
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        const SizedBox(width: 16),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 200,
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: n100,
+                  height: 1,
+                ),
+              ),
+            ),
+            const SizedBox(height: 5),
+            Row(
+              children: [
+                SvgPicture.asset('assets/home/blue_star.svg'),
+                const SizedBox(width: 5),
+                Text(
+                  star,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    color: n80,
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                SvgPicture.asset('assets/home/blue_eye.svg'),
+                const SizedBox(width: 5),
+                Text(
+                  view,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                    color: n80,
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ],
+    );
+  }
+
   Widget featureCard(Color color, String title, String subtitle,
       String btnTitle, String image) {
     return Container(
-      margin: const EdgeInsets.only(top: 10),
+      margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: color,
@@ -203,6 +313,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+// Not Used
   Widget featureIconBtn(Color color, String title, String icon) {
     return Column(
       children: [

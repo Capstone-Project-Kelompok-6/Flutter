@@ -209,26 +209,28 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
                         const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: white.withOpacity(0.5),
+                      // color: white.withOpacity(0.5),
+                      color: n100,
                     ),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: SvgPicture.asset('assets/explore/time.svg'),
-                        ),
-                        SizedBox(width: 4),
+                    child:
+                        // Row(
+                        //   children: [
+                        //     SizedBox(
+                        //       width: 16,
+                        //       height: 16,
+                        //       child: SvgPicture.asset('assets/explore/time.svg'),
+                        //     ),
+                        //     const SizedBox(width: 4),
                         Text(
-                          duration,
-                          style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            color: white,
-                          ),
-                        ),
-                      ],
+                      duration,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: white,
+                      ),
                     ),
+                    //   ],
+                    // ),
                   ),
                 ],
               ))

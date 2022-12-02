@@ -127,6 +127,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                       "img14.png",
                       "When you eat may dictate how hungry you are, study says",
                       "1.2K"),
+                  const SizedBox(height: 16),
                 ],
               ),
             ),

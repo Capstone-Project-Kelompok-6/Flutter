@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/forgot_password/forgot_password_verification_screen.dart';
-import 'package:flutter_capstone_6/widget/appbar_forgot_password.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -16,18 +15,34 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteBg,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(40.0),
-        child: Container(
-          decoration: const BoxDecoration(
-            color: whiteBg,
+      appBar: AppBar(
+        title: const Text(
+          'Forgot Password',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            color: n100,
           ),
-          child: const AppBarContentFP(),
+        ),
+        centerTitle: true,
+        backgroundColor: whiteBg,
+        elevation: 0,
+        leading: GestureDetector(
+          onTap: () {},
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/icons/arrow_back.svg',
+              ),
+            ],
+          ),
         ),
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.all(20),
+          margin:
+              const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 3),
           width: double.infinity,
           decoration: BoxDecoration(
             color: white,

@@ -1,29 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
-import 'package:flutter_capstone_6/screen/main/explore/article_detail_screen.dart';
-import 'package:flutter_capstone_6/screen/main/explore/article_list_screen.dart';
-import 'package:flutter_capstone_6/screen/main/explore/video_list_screen.dart';
+import 'package:flutter_capstone_6/screen/main/explore/video_detail_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ExploreScreen extends StatelessWidget {
-  const ExploreScreen({Key? key}) : super(key: key);
+class VideoListScreen extends StatefulWidget {
+  const VideoListScreen({Key? key}) : super(key: key);
 
+  @override
+  State<VideoListScreen> createState() => _VideoListScreenState();
+}
+
+class _VideoListScreenState extends State<VideoListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteBg,
       appBar: AppBar(
+        title: const Text(
+          'Videos',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            color: n100,
+          ),
+        ),
+        centerTitle: true,
         backgroundColor: whiteBg,
         elevation: 0,
-        title: Container(
-          margin: const EdgeInsets.only(left: 9),
-          child: const Text(
-            'Explore',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w400,
-              color: n100,
-            ),
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/icons/arrow_back.svg',
+              ),
+            ],
           ),
         ),
       ),
@@ -38,12 +52,12 @@ class ExploreScreen extends StatelessWidget {
               searchBarItem(),
 
               // Videos Section
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    'Videos',
+                    'Recomended videos',
                     style: TextStyle(
                       color: n100,
                       fontSize: 16,
@@ -81,80 +95,17 @@ class ExploreScreen extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    videoCard('img1.png', 'Gym from home', '04:52'),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const VideoDetailScreen()));
+                        },
+                        child: videoCard('img1.png', 'Gym from home', '04:52')),
                     videoCard('img2.png', 'Yoga meditation', '04:12'),
                     videoCard('img3.png', 'Zumba', '04:56'),
-                  ],
-                ),
-              ),
-
-              // Popular Articles Section
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Popular articles this week',
-                    style: TextStyle(
-                      color: n100,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ArticleListScreen()));
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 25),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 2),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: n5,
-                      ),
-                      child: const Text(
-                        'See All',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: violet,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const ArticleDetailScreen()));
-                      },
-                      child: popularArticlesCard(
-                          'img4.png',
-                          'Benefits of green tea for metabolism',
-                          '1.52k views'),
-                    ),
-                    popularArticlesCard(
-                        'img5.png',
-                        '20-minutes Outdoor Can Make You Less Stress',
-                        '3k views'),
-                    popularArticlesCard(
-                        'img6.png', 'Stress and premature aging', '2.4k views'),
-                    popularArticlesCard(
-                        'img7.png', 'Natrium behind the pack', '1.1k views'),
-                    popularArticlesCard('img8.png',
-                        'Not always bad, there is also good fat', '1.2k views'),
                   ],
                 ),
               ),
@@ -255,75 +206,6 @@ class ExploreScreen extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget popularArticlesCard(String image, String title, String views) {
-    return Container(
-      margin: const EdgeInsets.only(top: 16, right: 16),
-      width: 245,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        boxShadow: [
-          BoxShadow(
-            color: n40.withOpacity(0.3),
-            spreadRadius: 0,
-            blurRadius: 3,
-          )
-        ],
-        color: white,
-      ),
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15),
-            ),
-            child: Image.asset(
-              'assets/explore/$image',
-              height: 134,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Container(
-              margin: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 42,
-                    child: Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: n100,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset('assets/icons/password_unfocus.svg',
-                          height: 18, width: 18),
-                      const SizedBox(width: 5),
-                      Text(
-                        views,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: n60,
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ))
-        ],
-      ),
     );
   }
 

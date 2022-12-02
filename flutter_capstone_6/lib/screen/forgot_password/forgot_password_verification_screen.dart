@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/login/login_screen.dart';
-import 'package:flutter_capstone_6/widget/appbar_register_verification.dart';
-import 'package:flutter_capstone_6/widget/appbar_reset_password.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -40,22 +38,60 @@ class _ForgotPasswordVerificationScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteBg,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(40.0),
-        child: Container(
-          decoration: const BoxDecoration(
-            color: whiteBg,
-          ),
-          child: isComplete
-              ? isAccountBack
-                  ? Container()
-                  : const AppBarContentRP()
-              : const AppBarContentVC(),
-        ),
+      // appBar: PreferredSize(
+      //   preferredSize: const Size.fromHeight(40.0),
+      //   child: Container(
+      //     decoration: const BoxDecoration(
+      //       color: whiteBg,
+      //     ),
+      //     child: isComplete
+      //         ? isAccountBack
+      //             ? Container()
+      //             : const AppBarContentRP()
+      //         : Container(),
+      //   ),
+      // ),
+      appBar: AppBar(
+        title: isComplete
+            ? isAccountBack
+                ? Container()
+                : const Text(
+                    'Reset Password',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: n100,
+                    ),
+                  )
+            : const Text(
+                'Verification Code',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: n100,
+                ),
+              ),
+        centerTitle: true,
+        backgroundColor: whiteBg,
+        elevation: 0,
+        leading: isAccountBack
+            ? Container()
+            : GestureDetector(
+                onTap: () {},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      'assets/icons/arrow_back.svg',
+                    ),
+                  ],
+                ),
+              ),
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.all(20),
+          margin:
+              const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 3),
           width: double.infinity,
           decoration: BoxDecoration(
             color: white,

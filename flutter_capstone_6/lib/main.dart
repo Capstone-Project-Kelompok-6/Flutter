@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_capstone_6/screen/forgot_password/forgot_password_screen.dart';
+import 'package:flutter_capstone_6/screen/register/register_verification_screen.dart';
 import 'package:flutter_capstone_6/screen/splash_screen.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,6 +23,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           textTheme: GoogleFonts.poppinsTextTheme(textTheme),
         ),
-        home: BottomNavigationBarController());
+        home: ForgotPasswordScreen());
   }
 }

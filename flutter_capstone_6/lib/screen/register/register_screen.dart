@@ -29,7 +29,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: const [
-                    SizedBox(height: 10),
                     SizedBox(
                       width: double.infinity,
                       child: Text(

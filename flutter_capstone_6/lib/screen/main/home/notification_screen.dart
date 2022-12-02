@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
-import 'package:flutter_capstone_6/widget/appbar_notification_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -17,13 +16,30 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteBg,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(40.0),
-        child: Container(
-          decoration: const BoxDecoration(
-            color: whiteBg,
+      appBar: AppBar(
+        title: const Text(
+          'Notification',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            color: n100,
           ),
-          child: const AppBarContentNF(),
+        ),
+        centerTitle: true,
+        backgroundColor: whiteBg,
+        elevation: 0,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/icons/arrow_back.svg',
+              ),
+            ],
+          ),
         ),
       ),
       body: isEmpty ? emptyNotif() : Container(),

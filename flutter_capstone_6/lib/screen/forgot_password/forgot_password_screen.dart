@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/forgot_password/forgot_password_verification_screen.dart';
-import 'package:flutter_capstone_6/widget/appbar_forgot_password.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {

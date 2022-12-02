@@ -12,12 +12,15 @@ class ExploreScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: whiteBg,
         elevation: 0,
-        title: const Text(
-          'Explore',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w400,
-            color: n100,
+        title: Container(
+          margin: const EdgeInsets.only(left: 9),
+          child: const Text(
+            'Explore',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w400,
+              color: n100,
+            ),
           ),
         ),
       ),
@@ -28,7 +31,7 @@ class ExploreScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Search Bar Section
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
               searchBarItem(),
 
               // Videos Section
@@ -360,8 +363,8 @@ class ExploreScreen extends StatelessWidget {
       child: TextFormField(
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
         // controller: _titleController,
-
         decoration: InputDecoration(
+            fillColor: white,
             labelText: 'Search',
             labelStyle: const TextStyle(
               fontSize: 16,

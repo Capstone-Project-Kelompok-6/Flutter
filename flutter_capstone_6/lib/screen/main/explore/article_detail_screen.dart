@@ -114,7 +114,19 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  articleCard(),
+                  const SizedBox(height: 16),
+                  articleCard(
+                      "img12.png",
+                      "Study shows 1 billion young people are at risk for hearing loss",
+                      "1.52K"),
+                  articleCard(
+                      "img13.png",
+                      "Just 2 minutes of walking after eating can help blood sugar, study says",
+                      "16K"),
+                  articleCard(
+                      "img14.png",
+                      "When you eat may dictate how hungry you are, study says",
+                      "1.2K"),
                 ],
               ),
             ),
@@ -124,12 +136,78 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
     );
   }
 
-  Widget articleCard() {
+  Widget articleCard(String image, String title, String view) {
     return Container(
       width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+      margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
-        border: Border.all(color: n20),
+        boxShadow: [
+          BoxShadow(
+            color: n20.withOpacity(0.3),
+            spreadRadius: 0,
+            blurRadius: 3,
+          )
+        ],
         color: white,
+      ),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.asset(
+              'assets/explore/$image',
+              fit: BoxFit.cover,
+              width: 90,
+              height: 90,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 230,
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: n100,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                "Articles",
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: n60,
+                ),
+              ),
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    'assets/icons/password_unfocus.svg',
+                    width: 18,
+                    height: 18,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    view,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: n40,
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ],
       ),
     );
   }

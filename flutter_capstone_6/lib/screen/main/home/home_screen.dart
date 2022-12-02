@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         const Text(
                           'Get Your Class Here',
                           style: TextStyle(
-                            fontSize: 22,
+                            fontSize: 20,
                             fontWeight: FontWeight.w500,
                             color: white,
                           ),
@@ -207,14 +207,14 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: n100,
                   height: 1,
                 ),
               ),
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 8),
             Row(
               children: [
                 SvgPicture.asset('assets/home/blue_star.svg'),
@@ -222,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   star,
                   style: const TextStyle(
-                    fontSize: 15,
+                    fontSize: 12,
                     fontWeight: FontWeight.w400,
                     color: n80,
                   ),
@@ -236,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Text(
                   view,
                   style: const TextStyle(
-                    fontSize: 15,
+                    fontSize: 12,
                     fontWeight: FontWeight.w400,
                     color: n80,
                   ),

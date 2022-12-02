@@ -14,7 +14,6 @@ class _OnlineClassScreenState extends State<OnlineClassScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.blue,
         child: Center(child: Text('Online class')),
       ),
     );

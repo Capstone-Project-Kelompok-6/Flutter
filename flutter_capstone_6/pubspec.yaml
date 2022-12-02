@@ -17,6 +17,8 @@ dependencies:
   dio: ^4.0.6
   provider: ^6.0.4
   json_annotation: ^4.0.1
+  pin_code_fields: ^7.4.0
+  carousel_slider: ^4.1.1
 
 dev_dependencies:
   flutter_test:
@@ -33,3 +35,7 @@ flutter:
     - assets/login/
     - assets/icons/
     - assets/register/
+    - assets/register_verification/
+    - assets/forgot_password/
+    - assets/onboarding/
+    - assets/home/

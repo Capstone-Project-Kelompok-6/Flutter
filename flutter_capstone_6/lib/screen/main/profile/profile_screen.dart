@@ -69,27 +69,58 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget profilePicture() {
-    return Stack(children: [
-      Container(
-        width: 180,
-        height: 180,
-        decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-                image: AssetImage('assets/profile_picture.png'))),
-      ),
-      Positioned(
-        bottom: -5,
-        right: 60,
-        child: SizedBox(
-          height: 56,
-          width: 56,
-          child: IconButton(
-              onPressed: () {},
-              icon: SvgPicture.asset('assets/profile_change.svg')),
+    return Container(
+      height: 200,
+      child: Stack(children: <Widget>[
+        Container(
+          height: 180,
+          width: 180,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                  image: AssetImage('assets/profile_picture.png'))),
         ),
-      ),
-    ]);
+        Positioned(
+          bottom: -9,
+          right: 57,
+          child: IconButton(
+            iconSize: 50,
+            onPressed: () {},
+            icon: SvgPicture.asset('assets/profile_change.svg'),
+
+            // child: Container(
+            //   height: 50,
+            //   width: 180,
+            //   decoration: BoxDecoration(
+            //       color: Colors.blue,
+            //       shape: BoxShape.circle,
+            //       image: DecorationImage(
+            //           image: AssetImage('assets/profile_change.svg'))),
+            // ),
+          ),
+        )
+        //   Container(
+        //     width: 180,
+        //     height: 180,
+        //     decoration: const BoxDecoration(
+        //         shape: BoxShape.circle,
+        //         image: DecorationImage(
+        //             image: AssetImage('assets/profile_picture.png'))),
+        //   ),
+        //   Positioned(
+        //     bottom: -30,
+        //     right: 60,
+        //     child: SizedBox(
+        //       height: 100,
+        //       width: 56,
+        //       child: IconButton(
+        //           onPressed: () {},
+        //           icon: SvgPicture.asset('assets/profile_change.svg')),
+        //     ),
+        //   ),
+        // ]);
+      ]),
+    );
   }
 
   Widget userAccount() {
@@ -103,7 +134,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           height: 5,
         ),
         Text(
-          userId!,
+          userEmail!,
           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300),
         ),
       ],
@@ -180,7 +211,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Padding(
         padding: const EdgeInsets.only(top: 10),
         child: ElevatedButton(
-            style: ElevatedButton.styleFrom(primary: whiteBg, elevation: 0),
+            style:
+                ElevatedButton.styleFrom(backgroundColor: white, elevation: 0),
             onPressed: () {},
             child: ListTile(
               textColor: Colors.black,

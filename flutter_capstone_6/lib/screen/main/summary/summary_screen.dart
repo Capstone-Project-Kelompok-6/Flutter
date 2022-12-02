@@ -6,7 +6,7 @@ import 'package:flutter_capstone_6/screen/main/summary/online%20class/online_cla
 import 'package:flutter_capstone_6/widget/appbar_summary.dart';
 
 class SummaryScreen extends StatefulWidget {
-  const SummaryScreen({super.key});
+  const SummaryScreen({Key? key}) : super(key: key);
 
   @override
   State<SummaryScreen> createState() => _SummaryScreenState();

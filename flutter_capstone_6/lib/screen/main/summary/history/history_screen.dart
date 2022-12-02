@@ -14,7 +14,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.green,
         child: Center(child: Text('History')),
       ),
     );

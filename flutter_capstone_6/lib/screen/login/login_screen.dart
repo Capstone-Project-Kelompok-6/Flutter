@@ -4,6 +4,7 @@ import 'package:flutter_capstone_6/model/user_data.dart';
 import 'package:flutter_capstone_6/model/user_token.dart';
 import 'package:flutter_capstone_6/screen/login/login_controller.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
+import 'package:flutter_capstone_6/screen/forgot_password/forgot_password_screen.dart';
 import 'package:flutter_capstone_6/screen/register/register_screen.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -37,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: const [
+                    SizedBox(height: 10),
                     SizedBox(
                       width: double.infinity,
                       child: Text(
@@ -78,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   emailFormItem(),
                   const SizedBox(height: 15),
                   passwordFormItem(),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 15),
                 ],
               ),
 
@@ -87,7 +89,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: const EdgeInsets.symmetric(horizontal: 25),
                 width: double.infinity,
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const ForgotPasswordScreen()));
+                  },
                   child: const Text(
                     "Forgot Password?",
                     textAlign: TextAlign.right,
@@ -102,7 +110,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
               // Button Login Section
               Container(
-                margin: const EdgeInsets.only(left: 25, right: 25, top: 30),
+                margin: const EdgeInsets.only(
+                    left: 25, right: 25, top: 32, bottom: 4),
                 child: ElevatedButton(
                   onPressed: _login,
                   style: ElevatedButton.styleFrom(
@@ -132,14 +141,15 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
 
               // Login with Another
+              const SizedBox(height: 4),
               anotherLoginItem('assets/icons/google_logo.png', 'Google'),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
               anotherLoginItem('assets/icons/facebook_logo.png', 'Facebook'),
-              const SizedBox(height: 20),
+              const SizedBox(height: 24),
               anotherLoginItem('assets/icons/apple_logo.png', 'Apple'),
 
               // Goto register
-              const SizedBox(height: 30),
+              const SizedBox(height: 32),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 25),
                 child: Row(
@@ -172,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 48),
             ],
           ),
         ),
@@ -191,7 +201,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // controller: _titleController,
         maxLines: 1,
         decoration: const InputDecoration(
-          labelText: 'Email address',
+          labelText: 'email address',
           labelStyle:
               TextStyle(fontSize: 14, color: n40, fontWeight: FontWeight.w400),
           floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -220,7 +230,7 @@ class _LoginScreenState extends State<LoginScreen> {
         maxLines: 1,
         obscureText: isHide,
         decoration: InputDecoration(
-          labelText: 'Password',
+          labelText: 'password',
           labelStyle: const TextStyle(
               fontSize: 14, color: n40, fontWeight: FontWeight.w400),
           floatingLabelBehavior: FloatingLabelBehavior.never,

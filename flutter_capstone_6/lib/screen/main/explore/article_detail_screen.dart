@@ -27,7 +27,9 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
         backgroundColor: whiteBg,
         elevation: 0,
         leading: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.pop(context);
+          },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

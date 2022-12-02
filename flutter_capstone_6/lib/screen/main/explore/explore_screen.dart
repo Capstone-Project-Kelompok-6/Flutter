@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/main/explore/article_detail_screen.dart';
+import 'package:flutter_capstone_6/screen/main/explore/article_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ExploreScreen extends StatelessWidget {
@@ -91,20 +92,28 @@ class ExploreScreen extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 25),
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: n5,
-                    ),
-                    child: const Text(
-                      'See All',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: violet,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ArticleListScreen()));
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 25),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: n5,
+                      ),
+                      child: const Text(
+                        'See All',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: violet,
+                        ),
                       ),
                     ),
                   ),

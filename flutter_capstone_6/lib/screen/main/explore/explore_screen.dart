@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/screen/main/explore/article_detail_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ExploreScreen extends StatelessWidget {
@@ -113,8 +114,19 @@ class ExploreScreen extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    popularArticlesCard('img4.png',
-                        'Benefits of green tea for metabolism', '1.52k views'),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ArticleDetailScreen()));
+                      },
+                      child: popularArticlesCard(
+                          'img4.png',
+                          'Benefits of green tea for metabolism',
+                          '1.52k views'),
+                    ),
                     popularArticlesCard(
                         'img5.png',
                         '20-minutes Outdoor Can Make You Less Stress',

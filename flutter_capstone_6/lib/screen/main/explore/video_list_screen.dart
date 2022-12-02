@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/screen/main/explore/video_detail_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class VideoListScreen extends StatefulWidget {
@@ -94,7 +95,15 @@ class _VideoListScreenState extends State<VideoListScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    videoCard('img1.png', 'Gym from home', '04:52'),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const VideoDetailScreen()));
+                        },
+                        child: videoCard('img1.png', 'Gym from home', '04:52')),
                     videoCard('img2.png', 'Yoga meditation', '04:12'),
                     videoCard('img3.png', 'Zumba', '04:56'),
                   ],

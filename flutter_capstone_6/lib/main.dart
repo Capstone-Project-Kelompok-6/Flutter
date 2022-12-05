@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_capstone_6/screen/login/login_screen.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
-import 'package:flutter_capstone_6/screen/onboarding_screen.dart';
-import 'package:flutter_capstone_6/screen/register/register_screen.dart';
 import 'package:flutter_capstone_6/screen/splash_screen.dart';
-import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 

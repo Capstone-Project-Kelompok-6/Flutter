@@ -15,6 +15,7 @@ class ExploreScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: whiteBg,
         elevation: 0,
+        automaticallyImplyLeading: false,
         title: Container(
           margin: const EdgeInsets.only(left: 9),
           child: const Text(

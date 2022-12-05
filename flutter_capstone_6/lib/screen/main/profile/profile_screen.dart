@@ -211,8 +211,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Padding(
         padding: const EdgeInsets.only(top: 10),
         child: ElevatedButton(
-            style:
-                ElevatedButton.styleFrom(backgroundColor: white, elevation: 0),
+            style: ElevatedButton.styleFrom(primary: white, elevation: 0),
             onPressed: () {},
             child: ListTile(
               textColor: Colors.black,

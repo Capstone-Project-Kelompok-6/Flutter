@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/screen/main/booking/booking_class_screen.dart';
 import 'package:flutter_capstone_6/widget/appbar_home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -75,47 +76,55 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 8, bottom: 21),
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                  color: violet,
-                  borderRadius: const BorderRadius.all(Radius.circular(25)),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Get Your Class Here',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            color: white,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BookingClassScreen()));
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(top: 8, bottom: 21),
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
+                    color: violet,
+                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Get Your Class Here',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              color: white,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 15),
-                        SvgPicture.asset(
-                          'assets/home/btn_add.svg',
-                        ),
-                      ],
-                    ),
-                    SvgPicture.asset(
-                      'assets/home/our_features.svg',
-                    ),
-                  ],
+                          const SizedBox(width: 15),
+                          SvgPicture.asset(
+                            'assets/home/btn_add.svg',
+                          ),
+                        ],
+                      ),
+                      SvgPicture.asset(
+                        'assets/home/our_features.svg',
+                      ),
+                    ],
+                  ),
+                  // decoration: BoxDecoration(
+                  //     color: white,
+                  //     borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  //     boxShadow: [
+                  //       BoxShadow(
+                  //         color: n40.withOpacity(0.5),
+                  //         spreadRadius: 0,
+                  //         blurRadius: 5,
+                  //       )
+                  //     ]),
                 ),
-                // decoration: BoxDecoration(
-                //     color: white,
-                //     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                //     boxShadow: [
-                //       BoxShadow(
-                //         color: n40.withOpacity(0.5),
-                //         spreadRadius: 0,
-                //         blurRadius: 5,
-                //       )
-                //     ]),
               ),
 
               // Recommendation Class Section

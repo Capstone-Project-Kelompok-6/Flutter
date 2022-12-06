@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/widget/appbar_home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key, required this.token}) : super(key: key);
 
+  final String token;
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -75,47 +78,54 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 8, bottom: 21),
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                  color: violet,
-                  borderRadius: const BorderRadius.all(Radius.circular(25)),
-                ),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Get Your Class Here',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            color: white,
+              GestureDetector(
+                onTap: () {
+                  storage().then(
+                      (value) => getOnlineClass(value.getString('token')!));
+                  print('click');
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(top: 8, bottom: 21),
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
+                    color: violet,
+                    borderRadius: const BorderRadius.all(Radius.circular(25)),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Get Your Class Here',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              color: white,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 15),
-                        SvgPicture.asset(
-                          'assets/home/btn_add.svg',
-                        ),
-                      ],
-                    ),
-                    SvgPicture.asset(
-                      'assets/home/our_features.svg',
-                    ),
-                  ],
+                          const SizedBox(width: 15),
+                          SvgPicture.asset(
+                            'assets/home/btn_add.svg',
+                          ),
+                        ],
+                      ),
+                      SvgPicture.asset(
+                        'assets/home/our_features.svg',
+                      ),
+                    ],
+                  ),
+                  // decoration: BoxDecoration(
+                  //     color: white,
+                  //     borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  //     boxShadow: [
+                  //       BoxShadow(
+                  //         color: n40.withOpacity(0.5),
+                  //         spreadRadius: 0,
+                  //         blurRadius: 5,
+                  //       )
+                  //     ]),
                 ),
-                // decoration: BoxDecoration(
-                //     color: white,
-                //     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                //     boxShadow: [
-                //       BoxShadow(
-                //         color: n40.withOpacity(0.5),
-                //         spreadRadius: 0,
-                //         blurRadius: 5,
-                //       )
-                //     ]),
               ),
 
               // Recommendation Class Section
@@ -395,5 +405,29 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+
+  Future getOnlineClass(String token) async {
+    var headers = {
+      'Authorization': 'Bearer ' + token,
+      'Content-type': 'application/json'
+    };
+    try {
+      var request = await http.get(
+          Uri.parse('https://www.go-rest-api.live/api/v1/classes/offline'),
+          headers: headers);
+      if (request.statusCode == 200) {
+        print(request.body);
+      }
+      print(request.statusCode);
+      print(token);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<SharedPreferences> storage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs;
   }
 }

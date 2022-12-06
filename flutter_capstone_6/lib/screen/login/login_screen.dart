@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/component/repository.dart';
 import 'package:flutter_capstone_6/model/user_data.dart';
 import 'package:flutter_capstone_6/model/user_token.dart';
 import 'package:flutter_capstone_6/screen/login/login_controller.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/forgot_password/forgot_password_screen.dart';
 import 'package:flutter_capstone_6/screen/register/register_screen.dart';
+import 'package:flutter_capstone_6/screen/register/register_verification_screen.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -112,7 +114,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: const EdgeInsets.only(
                     left: 25, right: 25, top: 32, bottom: 4),
                 child: ElevatedButton(
-                  onPressed: _login,
+                  onPressed: () {
+                    _login(_controller.emailController.text,
+                        _controller.passwordController.text);
+                  },
                   style: ElevatedButton.styleFrom(
                       primary: violet,
                       minimumSize: const Size(double.infinity, 48),
@@ -294,13 +299,26 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _login() async {
+  void _login(String email, String password) async {
     UserModel response = await _controller.login();
     UserData userData = await _controller.getUser();
+    if (userData.data.email == '') {
+      Repository sendOtp = Repository();
+      sendOtp.sendOtp(email);
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: ((context) => RegisterVerificationScreen(
+                email: email,
+                password: password,
+              ))));
+      return;
+    }
 
     if (response.data != null) {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => BottomNavigationBarController()));
+          builder: (context) => RegisterVerificationScreen(
+                email: '',
+                password: '',
+              )));
 
       print('user fullname: ${userData.data.fullName}');
 

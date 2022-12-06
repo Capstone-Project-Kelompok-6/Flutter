@@ -2,13 +2,25 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/component/repository.dart';
+import 'package:flutter_capstone_6/screen/login/login_controller.dart';
 import 'package:flutter_capstone_6/screen/login/login_screen.dart';
+import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:provider/provider.dart';
+
+import '../../model/user_data.dart';
+import '../../model/user_token.dart';
+import '../login/login_view_model.dart';
 
 class RegisterVerificationScreen extends StatefulWidget {
-  const RegisterVerificationScreen({Key? key}) : super(key: key);
+  const RegisterVerificationScreen(
+      {Key? key, required this.email, required this.password})
+      : super(key: key);
 
+  final String email;
+  final String password;
   @override
   State<RegisterVerificationScreen> createState() =>
       _RegisterVerificationScreenState();
@@ -19,9 +31,12 @@ class _RegisterVerificationScreenState
   // pin code
   var onTapRecognizer;
   TextEditingController pinController = TextEditingController();
+  LoginController _controller = LoginController();
 
   String pin = "";
   bool isComplete = false;
+  bool isLoading = false;
+  bool isInit = true;
 
   @override
   void initState() {
@@ -30,6 +45,18 @@ class _RegisterVerificationScreenState
         Navigator.pop(context);
       };
     super.initState();
+
+    if (widget.email.isEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => BottomNavigationBarController(
+                      token: '',
+                    )));
+      });
+      ;
+    }
   }
 
   @override
@@ -81,9 +108,16 @@ class _RegisterVerificationScreenState
             ],
           ),
           child: Container(
-            margin: const EdgeInsets.all(5),
-            child: isComplete ? successVerification() : codeVerification(),
-          ),
+              margin: const EdgeInsets.all(5),
+              child: isInit
+                  ? codeVerification()
+                  : isLoading
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : isComplete
+                          ? successVerification()
+                          : failureVerification()),
         ),
       ),
     );
@@ -152,7 +186,18 @@ class _RegisterVerificationScreenState
             onCompleted: (v) {
               print("Completed");
               setState(() {
-                isComplete = true;
+                isInit = false;
+                isLoading = true;
+                Repository verifyOtp = Repository();
+                verifyOtp.verifyOtp(widget.email, pin).then((value) {
+                  isLoading = false;
+                  if (value) {
+                    isComplete = true;
+                  } else {
+                    isComplete = false;
+                  }
+                  setState(() {});
+                });
               });
             },
             onChanged: (value) {
@@ -210,6 +255,86 @@ class _RegisterVerificationScreenState
         const SizedBox(height: 8),
         const Text(
           "Verification Success",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: n100,
+          ),
+        ),
+        const SizedBox(
+          width: 300,
+          child: Text(
+            "Your account is already registered",
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: n60,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+
+        // Button Next Section
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 56),
+          child: ElevatedButton(
+            onPressed: () {
+              _controller
+                  .getUser(email: widget.email, password: widget.password)
+                  .then((userData) {
+                final data =
+                    Provider.of<LoginViewModel>(context, listen: false);
+                final userDetail = UserData(
+                    data: UserToken(
+                  userId: userData.data.userId,
+                  fullName: userData.data.fullName,
+                  email: userData.data.email,
+                  phoneNumber: userData.data.phoneNumber,
+                  accessToken: userData.data.accessToken,
+                  refreshToken: userData.data.refreshToken,
+                ));
+                data.addUser(userDetail);
+                print(userData.data.accessToken);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BottomNavigationBarController(
+                              token: userData.data.accessToken,
+                            )));
+              });
+            },
+            style: ElevatedButton.styleFrom(
+                primary: violet,
+                minimumSize: const Size(double.infinity, 48),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20))),
+            child: const Text(
+              "Next",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: white,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget failureVerification() {
+    return Column(
+      children: [
+        // Title Section
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          width: double.infinity,
+          child: SvgPicture.asset(
+              'assets/register_verification/verification_success.svg'),
+        ),
+        const SizedBox(height: 8),
+        const Text(
+          "Verification Failed",
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,

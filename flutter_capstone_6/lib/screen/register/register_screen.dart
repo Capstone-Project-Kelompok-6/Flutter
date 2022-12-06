@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/component/repository.dart';
 import 'package:flutter_capstone_6/model/user_model.dart';
 import 'package:flutter_capstone_6/screen/login/login_screen.dart';
 import 'package:flutter_capstone_6/screen/register/register_controller.dart';
+import 'package:flutter_capstone_6/screen/register/register_verification_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -139,12 +141,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
 
-              // Button Login Section
+              // Button Register Section
               Container(
                 margin: const EdgeInsets.only(
                     left: 25, right: 25, top: 32, bottom: 4),
                 child: ElevatedButton(
-                  onPressed: _register,
+                  onPressed: () {
+                    _register();
+                  },
                   style: ElevatedButton.styleFrom(
                       primary: violet,
                       minimumSize: const Size(double.infinity, 48),
@@ -451,7 +455,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  void _register() async {
+  Future _register() async {
     UserModel response = await _controller.register();
 
     if (response.data == null) {
@@ -462,6 +466,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
           content: Text('${response.message}, please verify OTP code'),
         ),
       );
+      Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
+        Repository sendOtp = Repository();
+        sendOtp.sendOtp(_controller.emailController.text);
+        return RegisterVerificationScreen(
+          email: _controller.emailController.text,
+          password: _controller.passwordController.text,
+        );
+      })));
     } else {
       showDialog(
           context: context,

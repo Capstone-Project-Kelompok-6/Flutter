@@ -9,6 +9,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../screen/main/home/home_screen.dart';
 
 class BottomNavigationBarController extends StatefulWidget {
+  final String token;
+
+  const BottomNavigationBarController({super.key, required this.token});
   @override
   _BottomNavigationBarControllerState createState() =>
       _BottomNavigationBarControllerState();
@@ -16,9 +19,17 @@ class BottomNavigationBarController extends StatefulWidget {
 
 class _BottomNavigationBarControllerState
     extends State<BottomNavigationBarController> {
-  final List<Widget> pages = const [
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.token);
+  }
+
+  late final List<Widget> pages = [
     HomeScreen(
       key: PageStorageKey('Page1'),
+      token: widget.token,
     ),
     ExploreScreen(
       key: PageStorageKey('Page2'),

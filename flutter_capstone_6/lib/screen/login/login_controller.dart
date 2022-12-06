@@ -6,6 +6,7 @@ import 'package:flutter_capstone_6/model/user_data.dart';
 import 'package:flutter_capstone_6/model/user_token.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/user_model.dart';
 
@@ -25,6 +26,8 @@ class LoginController {
           UserModel.fromJson(loginBody, UserToken.fromJson);
 
       debugPrint('Response = ${loginResponse.message}');
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('token', loginBody['data']['access_token']);
 
       return loginResponse;
     } else {
@@ -33,7 +36,11 @@ class LoginController {
     }
   }
 
-  Future<UserData> getUser() async {
+  Future<UserData> getUser({String? email, String? password}) async {
+    if (emailController.text.isEmpty && passwordController.text.isEmpty) {
+      emailController.text = email!;
+      passwordController.text = password!;
+    }
     http.Response result =
         await _repository.login(emailController.text, passwordController.text);
 

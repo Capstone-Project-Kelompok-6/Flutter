@@ -32,4 +32,45 @@ class Repository {
           'password': password
         }));
   }
+
+  Future<http.Response> sendOtp(String email) async {
+    try {
+      var headers = {'Content-Type': 'application/json'};
+      var request = await http.post(
+        Uri.parse('https://www.go-rest-api.live/api/v1/auth/send-otp'),
+        body: {"email": email},
+      );
+
+      request.headers.addAll(headers);
+
+      if (request.statusCode == 200) {
+        print('object');
+      }
+      return request;
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<bool> verifyOtp(String email, String otp) async {
+    try {
+      var headers = {'Content-Type': 'application/json'};
+      var request = await http.patch(
+        Uri.parse('https://www.go-rest-api.live/api/v1/auth/verif-otp'),
+        body: {"email": email, "otp": otp},
+      );
+
+      request.headers.addAll(headers);
+
+      if (request.statusCode == 200) {
+        print('object');
+        return true;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+    return false;
+  }
 }

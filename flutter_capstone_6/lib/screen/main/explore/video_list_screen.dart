@@ -103,10 +103,13 @@ class _VideoListScreenState extends State<VideoListScreen> {
                   alignment: WrapAlignment.start,
                   children: [
                     topViewCard('img9.png', 'Body Workout', '03:12'),
+                    const SizedBox(width: 26),
                     topViewCard('img10.png', 'Planking', '05:52'),
                     topViewCard('img11.png', 'Zumba', '04:22'),
+                    const SizedBox(width: 26),
                     topViewCard('img12.png', 'Yoga', '04:35'),
                     topViewCard('img13.png', 'Streching', '04:59'),
+                    const SizedBox(width: 26),
                     topViewCard('img14.png', 'Cardio', '03:48'),
                   ],
                 ),

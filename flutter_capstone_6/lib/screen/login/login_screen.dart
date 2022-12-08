@@ -5,7 +5,6 @@ import 'package:flutter_capstone_6/model/user_data.dart';
 import 'package:flutter_capstone_6/model/user_token.dart';
 import 'package:flutter_capstone_6/screen/login/login_controller.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
-import 'package:flutter_capstone_6/screen/forgot_password/forgot_password_screen.dart';
 import 'package:flutter_capstone_6/screen/register/register_screen.dart';
 import 'package:flutter_capstone_6/screen/register/register_verification_screen.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
@@ -22,6 +21,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final formKey = GlobalKey<FormState>();
   bool isHide = true;
   LoginController _controller = LoginController();
 
@@ -68,50 +68,53 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
 
               // Login Form Section
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.all(15),
-                    width: double.infinity,
-                    child: SvgPicture.asset('assets/login/login_screen.svg'),
-                  ),
-                  const SizedBox(height: 15),
-                  emailFormItem(),
-                  const SizedBox(height: 15),
-                  passwordFormItem(),
-                  const SizedBox(height: 15),
-                ],
-              ),
-
-              // Forgot Password Section
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 25),
-                width: double.infinity,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const ForgotPasswordScreen()));
-                  },
-                  child: const Text(
-                    "Forgot Password?",
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: violet,
+              Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(15),
+                      width: double.infinity,
+                      child: SvgPicture.asset('assets/login/login_screen.svg'),
                     ),
-                  ),
+                    const SizedBox(height: 15),
+                    emailFormItem(),
+                    const SizedBox(height: 15),
+                    passwordFormItem(),
+                    // const SizedBox(height: 15),
+                  ],
                 ),
               ),
 
+              // Forgot Password Section
+              // Container(
+              //   margin: const EdgeInsets.symmetric(horizontal: 25),
+              //   width: double.infinity,
+              //   child: GestureDetector(
+              //     onTap: () {
+              //       Navigator.push(
+              //           context,
+              //           MaterialPageRoute(
+              //               builder: (context) =>
+              //                   const ForgotPasswordScreen()));
+              //     },
+              //     child: const Text(
+              //       "Forgot Password?",
+              //       textAlign: TextAlign.right,
+              //       style: TextStyle(
+              //         fontSize: 12,
+              //         fontWeight: FontWeight.w400,
+              //         color: violet,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+
               // Button Login Section
-              Container(
-                margin: const EdgeInsets.only(
+              Padding(
+                padding: const EdgeInsets.only(
                     left: 25, right: 25, top: 32, bottom: 4),
                 child: ElevatedButton(
                   onPressed: () {
@@ -135,27 +138,27 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
 
               // Divider
-              Container(
-                margin: const EdgeInsets.all(20),
-                width: double.infinity,
-                child: SvgPicture.asset(
-                  'assets/icons/divider.svg',
-                  fit: BoxFit.cover,
-                ),
-              ),
+              // Container(
+              //   margin: const EdgeInsets.all(20),
+              //   width: double.infinity,
+              //   child: SvgPicture.asset(
+              //     'assets/icons/divider.svg',
+              //     fit: BoxFit.cover,
+              //   ),
+              // ),
 
               // Login with Another
-              const SizedBox(height: 4),
-              anotherLoginItem('assets/icons/google_logo.png', 'Google'),
-              const SizedBox(height: 24),
-              anotherLoginItem('assets/icons/facebook_logo.png', 'Facebook'),
-              const SizedBox(height: 24),
-              anotherLoginItem('assets/icons/apple_logo.png', 'Apple'),
+              // const SizedBox(height: 4),
+              // anotherLoginItem('assets/icons/google_logo.png', 'Google'),
+              // const SizedBox(height: 24),
+              // anotherLoginItem('assets/icons/facebook_logo.png', 'Facebook'),
+              // const SizedBox(height: 24),
+              // anotherLoginItem('assets/icons/apple_logo.png', 'Apple'),
 
               // Goto register
               const SizedBox(height: 32),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 25),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -197,7 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget emailFormItem() {
     return Container(
       padding: const EdgeInsets.only(left: 25, right: 25),
-      height: 50,
+      // height: 50,
       child: TextFormField(
         controller: _controller.emailController,
         validator: (String? value) => value == '' ? "Required" : null,
@@ -225,7 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget passwordFormItem() {
     return Container(
       padding: const EdgeInsets.only(left: 25, right: 25),
-      height: 50,
+      // height: 50,
       child: TextFormField(
         controller: _controller.passwordController,
         validator: (String? value) => value == '' ? "Required" : null,
@@ -300,55 +303,70 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _login(String email, String password) async {
-    UserModel response = await _controller.login();
-    UserData userData = await _controller.getUser();
-    if (userData.data.email == '') {
-      Repository sendOtp = Repository();
-      sendOtp.sendOtp(email);
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: ((context) => RegisterVerificationScreen(
-                email: email,
-                password: password,
-              ))));
-      return;
-    }
+    if (formKey.currentState!.validate()) {
+      UserModel response = await _controller.login();
+      UserData userData = await _controller.getUser();
+      // if (userData.data.email == '') {
+      //   Repository sendOtp = Repository();
+      //   sendOtp.sendOtp(email);
+      //   Navigator.of(context).push(MaterialPageRoute(
+      //       builder: ((context) => RegisterVerificationScreen(
+      //             email: email,
+      //             password: password,
+      //           ))));
+      //   return;
+      // }
 
-    if (response.data != null) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => RegisterVerificationScreen(
-                email: '',
-                password: '',
-              )));
+      if (response.data != null) {
+        // Navigator.of(context).pushReplacement(MaterialPageRoute(
+        //     builder: (context) => RegisterVerificationScreen(
+        //           email: '',
+        //           password: '',
+        //         )));
 
-      print('user fullname: ${userData.data.fullName}');
+        print('user fullname: ${userData.data.fullName}');
 
-      // State Management
-      final data = Provider.of<LoginViewModel>(context, listen: false);
-      final userDetail = UserData(
-          data: UserToken(
-        userId: userData.data.userId,
-        fullName: userData.data.fullName,
-        email: userData.data.email,
-        phoneNumber: userData.data.phoneNumber,
-        accessToken: userData.data.accessToken,
-        refreshToken: userData.data.refreshToken,
-      ));
-      data.addUser(userDetail);
+        // State Management
+        final data = Provider.of<LoginViewModel>(context, listen: false);
+        final userDetail = UserData(
+            data: UserToken(
+          userId: userData.data.userId,
+          fullName: userData.data.fullName,
+          email: userData.data.email,
+          phoneNumber: userData.data.phoneNumber,
+          accessToken: userData.data.accessToken,
+          refreshToken: userData.data.refreshToken,
+        ));
+        data.addUser(userDetail);
+        print(userData.data.accessToken);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => BottomNavigationBarController(
+                      token: userData.data.accessToken,
+                    )));
 
-      showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-                title: Text('Info Login'),
-                content: Text(response.message),
-              ));
-    } else {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-                title: Text('Info Login'),
-                content: Text(response.message),
-              ));
-      debugPrint('Response ${response.message}');
+        // showDialog(
+        //     context: context,
+        //     builder: (BuildContext context) => AlertDialog(
+        //           title: const Center(child: Text('INFO LOGIN')),
+        //           content: Text(
+        //             response.message,
+        //             textAlign: TextAlign.center,
+        //           ),
+        //         ));
+      } else {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+                  title: const Center(child: Text('INFO LOGIN')),
+                  content: Text(
+                    response.message,
+                    textAlign: TextAlign.center,
+                  ),
+                ));
+        debugPrint('Response ${response.message}');
+      }
     }
   }
 }

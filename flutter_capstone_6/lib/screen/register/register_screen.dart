@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/component/repository.dart';
 import 'package:flutter_capstone_6/model/user_model.dart';
@@ -15,6 +16,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final formKey = GlobalKey<FormState>();
   bool isHide = true;
   bool isChecked = false;
 
@@ -63,30 +65,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
 
               // Login Form Section
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.all(15),
-                    width: double.infinity,
-                    child:
-                        SvgPicture.asset('assets/register/register_screen.svg'),
-                  ),
-                  const SizedBox(height: 15),
-                  firstNameFormItem(),
-                  const SizedBox(height: 15),
-                  lastNameFormItem(),
-                  const SizedBox(height: 15),
-                  phoneNumberFormItem(),
-                  const SizedBox(height: 15),
-                  emailFormItem(),
-                  const SizedBox(height: 15),
-                  passwordFormItem(),
-                  const SizedBox(height: 15),
-                  confirmPasswordFormItem(),
-                  const SizedBox(height: 24),
-                ],
+              Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(15),
+                      width: double.infinity,
+                      child: SvgPicture.asset(
+                          'assets/register/register_screen.svg'),
+                    ),
+                    const SizedBox(height: 15),
+                    firstNameFormItem(),
+                    const SizedBox(height: 15),
+                    lastNameFormItem(),
+                    const SizedBox(height: 15),
+                    phoneNumberFormItem(),
+                    const SizedBox(height: 15),
+                    emailFormItem(),
+                    const SizedBox(height: 15),
+                    passwordFormItem(),
+                    const SizedBox(height: 15),
+                    // confirmPasswordFormItem(),
+                    // const SizedBox(height: 24),
+                  ],
+                ),
               ),
 
               // Agree Privacy Section
@@ -166,22 +171,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
 
               // Divider
-              Container(
-                margin: const EdgeInsets.all(20),
-                width: double.infinity,
-                child: SvgPicture.asset(
-                  'assets/icons/divider.svg',
-                  fit: BoxFit.cover,
-                ),
-              ),
+              // Container(
+              //   margin: const EdgeInsets.all(20),
+              //   width: double.infinity,
+              //   child: SvgPicture.asset(
+              //     'assets/icons/divider.svg',
+              //     fit: BoxFit.cover,
+              //   ),
+              // ),
 
               // Login with Another
-              const SizedBox(height: 4),
-              anotherRegisterItem('assets/icons/google_logo.png', 'Google'),
-              const SizedBox(height: 24),
-              anotherRegisterItem('assets/icons/facebook_logo.png', 'Facebook'),
-              const SizedBox(height: 24),
-              anotherRegisterItem('assets/icons/apple_logo.png', 'Apple'),
+              // const SizedBox(height: 4),
+              // anotherRegisterItem('assets/icons/google_logo.png', 'Google'),
+              // const SizedBox(height: 24),
+              // anotherRegisterItem('assets/icons/facebook_logo.png', 'Facebook'),
+              // const SizedBox(height: 24),
+              // anotherRegisterItem('assets/icons/apple_logo.png', 'Apple'),
 
               // Goto login
               const SizedBox(height: 32),
@@ -228,13 +233,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget firstNameFormItem() {
     return Container(
       padding: const EdgeInsets.only(left: 25, right: 25),
-      height: 50,
+      // height: 50,
       child: TextFormField(
         controller: _controller.firstNameController,
         validator: (String? value) => value == '' ? "Required" : null,
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
         // controller: _titleController,
-        maxLines: 1,
         decoration: const InputDecoration(
           labelText: 'first name',
           labelStyle:
@@ -256,7 +260,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget lastNameFormItem() {
     return Container(
       padding: const EdgeInsets.only(left: 25, right: 25),
-      height: 50,
+      // height: 50,
       child: TextFormField(
         controller: _controller.lastNameController,
         validator: (String? value) => value == '' ? "Required" : null,
@@ -284,11 +288,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget phoneNumberFormItem() {
     return Container(
       padding: const EdgeInsets.only(left: 25, right: 25),
-      height: 50,
+      // height: 50,
       child: TextFormField(
         controller: _controller.phoneNumberController,
         validator: (String? value) => value == '' ? "Required" : null,
-        // inputFormatters: [LengthLimitingTextInputFormatter(20)],
+        inputFormatters: [
+          FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+        ],
         // controller: _titleController,
         maxLines: 1,
         decoration: const InputDecoration(
@@ -312,7 +318,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget emailFormItem() {
     return Container(
       padding: const EdgeInsets.only(left: 25, right: 25),
-      height: 50,
+      // height: 50,
       child: TextFormField(
         controller: _controller.emailController,
         validator: (String? value) => value == '' ? "Required" : null,
@@ -340,7 +346,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget passwordFormItem() {
     return Container(
       padding: const EdgeInsets.only(left: 25, right: 25),
-      height: 50,
+      // height: 50,
       child: TextFormField(
         controller: _controller.passwordController,
         validator: (String? value) => value == '' ? "Required" : null,
@@ -456,33 +462,47 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future _register() async {
-    UserModel response = await _controller.register();
+    if (formKey.currentState!.validate()) {
+      if (isChecked) {
+        UserModel response = await _controller.register();
 
-    if (response.data == null) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: Text('Info Regist'),
-          content: Text('${response.message}, please verify OTP code'),
-        ),
-      );
-      Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
-        Repository sendOtp = Repository();
-        sendOtp.sendOtp(_controller.emailController.text);
-        return RegisterVerificationScreen(
-          email: _controller.emailController.text,
-          password: _controller.passwordController.text,
-        );
-      })));
-    } else {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-                title: Text('Info Regist'),
-                content: Text(response.message),
-              ));
+        if (response.data == null) {
+          // showDialog(
+          //   context: context,
+          //   builder: (BuildContext context) => AlertDialog(
+          //     title: Text('Info Regist'),
+          //     content: Text('${response.message}, please verify OTP code'),
+          //   ),
+          // );
+          Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
+            Repository sendOtp = Repository();
+            sendOtp.sendOtp(_controller.emailController.text);
+            return RegisterVerificationScreen(
+              email: _controller.emailController.text,
+              password: _controller.passwordController.text,
+            );
+          })));
+        } else {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                    title: const Text('INFO REGISTER'),
+                    content: Text(response.message),
+                  ));
+        }
+
+        debugPrint('Response = ${response.message}');
+      } else {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => const AlertDialog(
+                  title: Center(child: Text("INFO")),
+                  content: Text(
+                    'Please accept our Privacy Policy and Term of Use to continue.',
+                    textAlign: TextAlign.center,
+                  ),
+                ));
+      }
     }
-
-    debugPrint('Response = ${response.message}');
   }
 }

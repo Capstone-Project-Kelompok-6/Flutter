@@ -59,7 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(
                   height: 24,
                 ),
-                buttonSection(context),
+                buttonSection(context, data),
               ]),
             ),
           );
@@ -141,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget buttonSection(BuildContext context) {
+  Widget buttonSection(BuildContext context, LoginViewModel data) {
     return Column(children: [
       ElevatedButton(
           style: ElevatedButton.styleFrom(primary: whiteBg, elevation: 0),
@@ -238,6 +238,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(primary: whiteBg, elevation: 0),
                 onPressed: () {
+                  data.deleteUser(0);
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: ((context) => LoginScreen())));
                 },

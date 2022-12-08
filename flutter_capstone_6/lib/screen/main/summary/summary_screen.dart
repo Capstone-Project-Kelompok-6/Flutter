@@ -100,9 +100,10 @@ class _SummaryScreenState extends State<SummaryScreen> {
       padding: const EdgeInsets.fromLTRB(26, 0, 26, 0),
       child: TextField(
         decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             hintText: 'Search',
-            prefixIcon: Icon(Icons.search),
+            prefixIcon: const Icon(Icons.search),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
             )),

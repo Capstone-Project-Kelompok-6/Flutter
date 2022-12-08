@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/main/explore/video_detail_screen.dart';
+import 'package:flutter_capstone_6/widget/appbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class VideoListScreen extends StatefulWidget {
@@ -15,35 +16,10 @@ class _VideoListScreenState extends State<VideoListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteBg,
-      appBar: AppBar(
-        title: const Text(
-          'Videos',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-            color: n100,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: whiteBg,
-        elevation: 0,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                'assets/icons/arrow_back.svg',
-              ),
-            ],
-          ),
-        ),
-      ),
+      appBar: appBar(context, 'Videos'),
       body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.only(left: 25),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 25),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -124,13 +100,16 @@ class _VideoListScreenState extends State<VideoListScreen> {
                 width: double.infinity,
                 margin: const EdgeInsets.only(right: 25),
                 child: Wrap(
-                  alignment: WrapAlignment.spaceEvenly,
+                  alignment: WrapAlignment.start,
                   children: [
                     topViewCard('img9.png', 'Body Workout', '03:12'),
+                    const SizedBox(width: 26),
                     topViewCard('img10.png', 'Planking', '05:52'),
                     topViewCard('img11.png', 'Zumba', '04:22'),
+                    const SizedBox(width: 26),
                     topViewCard('img12.png', 'Yoga', '04:35'),
                     topViewCard('img13.png', 'Streching', '04:59'),
+                    const SizedBox(width: 26),
                     topViewCard('img14.png', 'Cardio', '03:48'),
                   ],
                 ),

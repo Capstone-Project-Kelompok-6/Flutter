@@ -284,8 +284,8 @@ class _RegisterVerificationScreenState
         ),
 
         // Button Next Section
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 56),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 56),
           child: ElevatedButton(
             onPressed: () {
               _controller

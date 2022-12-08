@@ -4,6 +4,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/payment_success.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class PaymentDetail extends StatefulWidget {
   const PaymentDetail({Key? key}) : super(key: key);
@@ -190,8 +192,8 @@ class _PaymentDetailState extends State<PaymentDetail> {
                   const SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         "1190812345678",
                         style: TextStyle(
                           fontSize: 18,
@@ -199,12 +201,50 @@ class _PaymentDetailState extends State<PaymentDetail> {
                           color: orange,
                         ),
                       ),
-                      Text(
-                        "Copy",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: navy,
+                      GestureDetector(
+                        onTap: () async {
+                          await Clipboard.setData(
+                              const ClipboardData(text: "1190812345678"));
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            backgroundColor: white,
+                            behavior: SnackBarBehavior.floating,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 24),
+                            margin: const EdgeInsets.only(
+                                left: 24, right: 24, bottom: 5),
+                            elevation: 3,
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(100))),
+                            content: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/payment/check.svg',
+                                  color: violet,
+                                  width: 24,
+                                  height: 24,
+                                ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  "Account number has been copy",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: violet,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ));
+                        },
+                        child: const Text(
+                          "Copy",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: navy,
+                          ),
                         ),
                       ),
                     ],

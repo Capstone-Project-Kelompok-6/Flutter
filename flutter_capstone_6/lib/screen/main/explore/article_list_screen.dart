@@ -56,33 +56,38 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
       child: TextFormField(
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
         // controller: _titleController,
-        decoration: InputDecoration(
-            fillColor: white,
-            labelText: 'Search',
-            labelStyle: const TextStyle(
-              fontSize: 16,
-              color: n20,
-              fontWeight: FontWeight.w400,
-              height: 1,
-            ),
-            floatingLabelBehavior: FloatingLabelBehavior.never,
-            floatingLabelAlignment: FloatingLabelAlignment.center,
-            focusedBorder: const OutlineInputBorder(
+        decoration: const InputDecoration(
+          fillColor: white,
+          labelText: 'Search',
+          labelStyle: TextStyle(
+            fontSize: 16,
+            color: n20,
+            fontWeight: FontWeight.w400,
+            height: 1,
+          ),
+          floatingLabelBehavior: FloatingLabelBehavior.never,
+          floatingLabelAlignment: FloatingLabelAlignment.center,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderSide: BorderSide(color: n100),
+          ),
+          border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
-              borderSide: BorderSide(color: n100),
-            ),
-            border: const OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: BorderSide(color: n60)),
-            contentPadding: const EdgeInsets.all(12),
-            prefixIcon: Container(
-              margin: const EdgeInsets.only(
-                  left: 20, right: 8, top: 14, bottom: 14),
-              child: SvgPicture.asset(
-                'assets/icons/search.svg',
-                fit: BoxFit.cover,
-              ),
-            )),
+              borderSide: BorderSide(color: n60)),
+          contentPadding: EdgeInsets.all(12),
+          // prefixIcon: Container(
+          //   margin: const EdgeInsets.only(
+          //       left: 20, right: 8, top: 14, bottom: 14),
+          //   child: SvgPicture.asset(
+          //     'assets/icons/search.svg',
+          //     fit: BoxFit.cover,
+          //   ),
+          // ),
+          prefixIcon: Icon(
+            Icons.search_rounded,
+            color: n20,
+          ),
+        ),
       ),
     );
   }

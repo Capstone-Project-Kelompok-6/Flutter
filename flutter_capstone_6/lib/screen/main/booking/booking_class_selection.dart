@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
-import 'package:flutter_capstone_6/screen/main/booking/booking_offline_class.dart';
+import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_class.dart';
 import 'package:flutter_capstone_6/screen/main/booking/booking_online_class.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

@@ -84,11 +84,7 @@ class _RegisterVerificationScreenState
             ? Container()
             : GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => RegisterVerificationScreen(
-                          email: _registerController.emailController.text,
-                          password:
-                              _registerController.passwordController.text)));
+                  Navigator.pop(context);
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -233,7 +229,15 @@ class _RegisterVerificationScreenState
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Repository sendOtp = Repository();
+                  sendOtp.sendOtp(widget.email);
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: ((context) => RegisterVerificationScreen(
+                            email: widget.email,
+                            password: widget.password,
+                          ))));
+                },
                 child: const Text(
                   " Resend code",
                   style: TextStyle(

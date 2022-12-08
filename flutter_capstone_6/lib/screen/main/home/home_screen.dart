@@ -83,7 +83,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   storage().then(
                       (value) => getOnlineClass(value.getString('token')!));
-                  print('click');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BookingClassScreen()));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(top: 8, bottom: 21),

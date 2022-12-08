@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
-import 'package:flutter_capstone_6/screen/main/booking/offline_class/payment_booking_class.dart';
+import 'package:flutter_capstone_6/screen/main/booking/offline_class/payment_method.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 
 class BookingOfflineClassDetail extends StatefulWidget {
@@ -191,7 +191,7 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const PaymentOfflineClass()));
+                                              const PaymentMethod()));
                                 },
                                 style: ElevatedButton.styleFrom(
                                   primary: violet,

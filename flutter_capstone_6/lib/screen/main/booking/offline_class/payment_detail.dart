@@ -4,19 +4,19 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 
-class PaymentOfflineClass extends StatefulWidget {
-  const PaymentOfflineClass({Key? key}) : super(key: key);
+class PaymentDetail extends StatefulWidget {
+  const PaymentDetail({Key? key}) : super(key: key);
 
   @override
-  State<PaymentOfflineClass> createState() => _PaymentOfflineClassState();
+  State<PaymentDetail> createState() => _PaymentDetailState();
 }
 
-class _PaymentOfflineClassState extends State<PaymentOfflineClass> {
+class _PaymentDetailState extends State<PaymentDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteBg,
-      appBar: appBar(context, 'Payment'),
+      appBar: appBar(context, "Payment"),
       body: Column(
         children: [],
       ),

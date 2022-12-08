@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import '../../model/user_data.dart';
 import '../../model/user_token.dart';
 import '../login/login_view_model.dart';
+import 'register_controller.dart';
 
 class RegisterVerificationScreen extends StatefulWidget {
   const RegisterVerificationScreen(
@@ -32,6 +33,8 @@ class _RegisterVerificationScreenState
   var onTapRecognizer;
   TextEditingController pinController = TextEditingController();
   LoginController _controller = LoginController();
+
+  RegisterController _registerController = RegisterController();
 
   String pin = "";
   bool isComplete = false;
@@ -80,7 +83,13 @@ class _RegisterVerificationScreenState
         leading: isComplete
             ? Container()
             : GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => RegisterVerificationScreen(
+                          email: _registerController.emailController.text,
+                          password:
+                              _registerController.passwordController.text)));
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

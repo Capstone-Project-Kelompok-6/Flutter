@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/repository.dart';
@@ -12,7 +13,7 @@ class RegisterController {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
 
-  Repository _repository = Repository();
+  final Repository _repository = Repository();
   Future<UserModel> register() async {
     http.Response result = await _repository.register(
         firstNameController.text,
@@ -25,7 +26,7 @@ class RegisterController {
     UserModel registerResponse =
         UserModel.fromJson(registerBody, UserModel.fromJson);
 
-    print('${registerResponse.message}');
+    log(registerResponse.message);
     return registerResponse;
   }
 }

@@ -233,7 +233,7 @@ class _RegisterVerificationScreenState
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: resendOtp(),
                 child: const Text(
                   " Resend code",
                   style: TextStyle(
@@ -353,7 +353,7 @@ class _RegisterVerificationScreenState
         const SizedBox(
           width: 300,
           child: Text(
-            "Your account is already registered",
+            "Your OTP code is invalid",
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w400,
@@ -388,5 +388,10 @@ class _RegisterVerificationScreenState
         ),
       ],
     );
+  }
+
+  resendOtp() {
+    Repository sendOtp = Repository();
+    sendOtp.sendOtp(_controller.emailController.text);
   }
 }

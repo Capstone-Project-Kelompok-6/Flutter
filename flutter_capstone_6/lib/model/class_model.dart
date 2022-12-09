@@ -1,119 +1,81 @@
 import 'dart:convert';
 
-class ClassModel {
-  Data? data;
-  String? message;
+import 'package:flutter/widgets.dart';
 
-  ClassModel({this.data, this.message});
-
-  ClassModel.fromJson(Map<String, dynamic> json) {
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-    message = json['message'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    data['message'] = this.message;
-    return data;
-  }
-}
-
-class Data {
+class DataModel {
   int? limit;
   int? page;
   String? sort;
-  int? totalRows;
-  int? totalPages;
+  int? total_rows;
+  int? total_pages;
   int? size;
-  List<Rows>? rows;
+  List<RowsModel>? rows;
 
-  Data(
+  DataModel(
       {this.limit,
       this.page,
       this.sort,
-      this.totalRows,
-      this.totalPages,
+      this.total_rows,
+      this.total_pages,
       this.size,
       this.rows});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  DataModel.fromJson(Map<String, dynamic> json) {
     limit = json['limit'];
     page = json['page'];
     sort = json['sort'];
-    totalRows = json['total_rows'];
-    totalPages = json['total_pages'];
+    total_rows = json['total_rows'];
+    total_pages = json['total_pages'];
     size = json['size'];
-    if (json['rows'] != null) {
-      rows = <Rows>[];
-      json['rows'].forEach((v) {
-        rows!.add(new Rows.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['limit'] = this.limit;
-    data['page'] = this.page;
-    data['sort'] = this.sort;
-    data['total_rows'] = this.totalRows;
-    data['total_pages'] = this.totalPages;
-    data['size'] = this.size;
-    if (this.rows != null) {
-      data['rows'] = this.rows!.toList();
-    }
-    return data;
+    rows = (json['rows'] as List<dynamic>)
+        .map((e) => RowsModel.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 }
 
-class Rows {
-  String? classId;
+class RowsModel {
+  String? class_id;
   String? workout;
-  String? videoTitle;
-  String? videoName;
+  String? video_title;
+  String? video_name;
   String? video;
   int? price;
   String? description;
-  int? updatedAt;
-  int? createdAt;
+  int? updated_at;
+  int? created_at;
 
-  Rows(
-      {this.classId,
+  RowsModel(
+      {this.class_id,
       this.workout,
-      this.videoTitle,
-      this.videoName,
+      this.video_title,
+      this.video_name,
       this.video,
       this.price,
       this.description,
-      this.updatedAt,
-      this.createdAt});
+      this.updated_at,
+      this.created_at});
 
-  Rows.fromJson(Map<String, dynamic> json) {
-    classId = json['class_id'];
+  RowsModel.fromJson(Map<String, dynamic> json) {
+    class_id = json['class_id'];
     workout = json['workout'];
-    videoTitle = json['video_title'];
-    videoName = json['video_name'];
+    video_title = json['video_title'];
+    video_name = json['video_name'];
     video = json['video'];
     price = json['price'];
     description = json['description'];
-    updatedAt = json['updated_at'];
-    createdAt = json['created_at'];
+    updated_at = json['updated_at'];
+    created_at = json['created_at'];
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['class_id'] = this.classId;
-    data['workout'] = this.workout;
-    data['video_title'] = this.videoTitle;
-    data['video_name'] = this.videoName;
-    data['video'] = this.video;
-    data['price'] = this.price;
-    data['description'] = this.description;
-    data['updated_at'] = this.updatedAt;
-    data['created_at'] = this.createdAt;
-    return data;
+class AllModel {
+  DataModel? data;
+  String? message;
+
+  AllModel({this.data, this.message});
+
+  AllModel.fromJson(Map<String, dynamic> json) {
+    data = DataModel.fromJson(json['data']);
+    message = json['message'];
   }
 }

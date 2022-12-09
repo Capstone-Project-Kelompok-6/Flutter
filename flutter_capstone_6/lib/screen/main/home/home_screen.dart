@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/component/repository.dart';
 import 'package:flutter_capstone_6/screen/main/booking/booking_class_screen.dart';
 import 'package:flutter_capstone_6/widget/appbar_home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -81,8 +82,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  storage().then(
-                      (value) => getOnlineClass(value.getString('token')!));
+                  Repository getOnlineClass = Repository();
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => BookingClassScreen()));
+                  storage().then((value) =>
+                      getOnlineClass.getOnlineClass(value.getString('token')!));
                   print('click');
                 },
                 child: Container(
@@ -406,25 +410,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
-  }
-
-  Future getOnlineClass(String token) async {
-    var headers = {
-      'Authorization': 'Bearer ' + token,
-      'Content-type': 'application/json'
-    };
-    try {
-      var request = await http.get(
-          Uri.parse('https://www.go-rest-api.live/api/v1/classes/offline'),
-          headers: headers);
-      if (request.statusCode == 200) {
-        print(request.body);
-      }
-      print(request.statusCode);
-      print(token);
-    } catch (e) {
-      print(e);
-    }
   }
 
   Future<SharedPreferences> storage() async {

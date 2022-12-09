@@ -1,5 +1,7 @@
+import 'package:flutter_capstone_6/model/class_model.dart';
+
 class OtpModel {
-  Null? data;
+  DataModel? data;
   String? message;
 
   OtpModel({this.data, this.message});

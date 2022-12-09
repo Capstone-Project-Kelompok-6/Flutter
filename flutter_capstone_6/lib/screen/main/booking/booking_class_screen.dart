@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/component/offline_class_provider.dart';
+import 'package:flutter_capstone_6/model/class_model.dart';
 import 'package:flutter_capstone_6/screen/main/booking/booking_class_selection.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../component/repository.dart';
 
 class BookingClassScreen extends StatefulWidget {
   const BookingClassScreen({Key? key}) : super(key: key);
@@ -54,11 +59,14 @@ class _BookingClassScreenState extends State<BookingClassScreen> {
                     const EdgeInsets.symmetric(horizontal: 25, vertical: 64),
                 child: ElevatedButton(
                   onPressed: () {
+                    OfflineClassProvider getClass = OfflineClassProvider();
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
                                 const BookingClassSelection()));
+                    storage().then((value) =>
+                        getClass.getOfflineClass(value.getString('token')!));
                   },
                   style: ElevatedButton.styleFrom(
                       primary: violet,
@@ -80,5 +88,10 @@ class _BookingClassScreenState extends State<BookingClassScreen> {
         ),
       ),
     );
+  }
+
+  Future<SharedPreferences> storage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs;
   }
 }

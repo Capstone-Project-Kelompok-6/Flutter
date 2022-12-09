@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/component/offline_class_provider.dart';
 import 'package:flutter_capstone_6/screen/main/booking/booking_offline_class.dart';
 import 'package:flutter_capstone_6/screen/main/booking/booking_online_class.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BookingClassSelection extends StatefulWidget {
   const BookingClassSelection({Key? key}) : super(key: key);
@@ -12,6 +14,21 @@ class BookingClassSelection extends StatefulWidget {
 }
 
 class _BookingClassSelectionState extends State<BookingClassSelection> {
+  late SharedPreferences storageData;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initialize();
+    // Provider.of<OfflineClassProvider>(context, listen: false)
+    //     .getOfflineClass(storageData.getString('token').toString());
+    // print(storageData.getString('token').toString());
+  }
+
+  void initialize() async {
+    storageData = await SharedPreferences.getInstance();
+  }
+
   String selectedChips = '';
   @override
   Widget build(BuildContext context) {
@@ -61,13 +78,19 @@ class _BookingClassSelectionState extends State<BookingClassSelection> {
             ],
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
-            BookingOfflineClass(),
+            BookingOfflineClass(
+                token: storageData.getString('token').toString()),
             BookingOnlineClass(),
           ],
         ),
       ),
     );
+  }
+
+  Future<SharedPreferences> storage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs;
   }
 }

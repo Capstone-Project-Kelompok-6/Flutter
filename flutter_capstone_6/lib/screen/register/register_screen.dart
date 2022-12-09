@@ -293,6 +293,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       padding: const EdgeInsets.only(left: 25, right: 25),
       // height: 50,
       child: TextFormField(
+        keyboardType: TextInputType.number,
         controller: _controller.phoneNumberController,
         validator: (String? value) => value == '' ? "Required" : null,
         inputFormatters: [
@@ -322,6 +323,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       padding: const EdgeInsets.only(left: 25, right: 25),
       // height: 50,
       child: TextFormField(
+        keyboardType: TextInputType.emailAddress,
         controller: _controller.emailController,
         validator: (String? value) {
           if (value == null) {

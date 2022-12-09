@@ -51,17 +51,11 @@ class _HomeScreenState extends State<HomeScreen> {
         print('JSON Response: ${response.body}');
 
         Map<String, dynamic> classBody = jsonDecode(response.body);
-        print("after map: $classBody");
+        classOfflineOuter = ClassOfflineOuter.fromJson(classBody);
+        classOfflineRows = classOfflineOuter!.data.rows;
 
-        setState(() {
-          classOfflineOuter = ClassOfflineOuter.fromJson(classBody);
-          classOfflineRows = classOfflineOuter!.data.rows;
-
-          print(classOfflineOuter!.data.page);
-          print(classOfflineRows!.first.workout);
-        });
-
-        print("cek sini");
+        print(classOfflineOuter!.data.page);
+        print(classOfflineRows!.first.workout);
       }
     } catch (e) {
       print(e);

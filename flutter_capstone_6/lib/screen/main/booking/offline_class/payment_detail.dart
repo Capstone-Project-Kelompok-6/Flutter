@@ -218,6 +218,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                     BorderRadius.all(Radius.circular(100))),
                             content: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SvgPicture.asset(
                                   'assets/payment/check.svg',

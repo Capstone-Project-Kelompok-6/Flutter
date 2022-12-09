@@ -326,7 +326,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         keyboardType: TextInputType.emailAddress,
         controller: _controller.emailController,
         validator: (String? value) {
-          if (value == null) {
+          if (value == null || value.isEmpty) {
             return 'Required';
           }
           if (!value.contains("@")) {
@@ -358,7 +358,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
       // height: 50,
       child: TextFormField(
         controller: _controller.passwordController,
-        validator: (String? value) => value == '' ? "Required" : null,
+        validator: (String? value) {
+          if (value == null || value.isEmpty) {
+            return 'Required';
+          }
+          if (value.contains(" ")) {
+            return "Password contain space";
+          }
+        },
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
         maxLines: 1,
         obscureText: isHide,
@@ -396,9 +403,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget confirmPasswordFormItem() {
     return Container(
       padding: const EdgeInsets.only(left: 25, right: 25),
-      height: 50,
+      // height: 50,
       child: TextFormField(
-        validator: (String? value) => value == '' ? "Required" : null,
+        validator: (String? value) {
+          if (value == null || value.isEmpty) {
+            return 'Required';
+          }
+          if (value.contains(" ")) {
+            return "Password contain space";
+          }
+        },
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
         controller: _controller.confirmPassController,
         maxLines: 1,
@@ -519,7 +533,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             builder: (BuildContext context) => const AlertDialog(
                   title: Center(child: Text("INFO")),
                   content: Text(
-                    'Your password not match.',
+                    'Your password and confirm password not match.',
                     textAlign: TextAlign.center,
                   ),
                 ));

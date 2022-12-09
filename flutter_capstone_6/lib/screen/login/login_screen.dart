@@ -202,10 +202,13 @@ class _LoginScreenState extends State<LoginScreen> {
       padding: const EdgeInsets.only(left: 25, right: 25),
       // height: 50,
       child: TextFormField(
+        keyboardType: TextInputType.emailAddress,
         controller: _controller.emailController,
-        validator: (String? value) => value == '' ? "Required" : null,
-        // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
+        validator: (String? value) {
+          if (value == null || value.isEmpty) {
+            return 'Required';
+          }
+        },
         maxLines: 1,
         decoration: const InputDecoration(
           labelText: 'email address',
@@ -231,9 +234,12 @@ class _LoginScreenState extends State<LoginScreen> {
       // height: 50,
       child: TextFormField(
         controller: _controller.passwordController,
-        validator: (String? value) => value == '' ? "Required" : null,
+        validator: (String? value) {
+          if (value == null || value.isEmpty) {
+            return 'Required';
+          }
+        },
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
         maxLines: 1,
         obscureText: isHide,
         decoration: InputDecoration(

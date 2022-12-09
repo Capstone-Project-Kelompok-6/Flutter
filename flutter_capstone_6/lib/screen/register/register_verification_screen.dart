@@ -188,6 +188,7 @@ class _RegisterVerificationScreenState
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp("[0-9]")),
             ],
+            keyboardType: TextInputType.number,
             onCompleted: (v) {
               print("Completed");
               setState(() {

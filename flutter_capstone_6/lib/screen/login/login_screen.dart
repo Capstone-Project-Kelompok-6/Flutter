@@ -344,7 +344,7 @@ class _LoginScreenState extends State<LoginScreen> {
           refreshToken: userData.data.refreshToken,
         ));
         data.addUser(userDetail);
-        print(userData.data.accessToken);
+        print('user token: ${userData.data.accessToken}');
         Navigator.push(
             context,
             MaterialPageRoute(

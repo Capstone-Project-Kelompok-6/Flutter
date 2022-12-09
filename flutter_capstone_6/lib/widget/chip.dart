@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class ChipWidget extends StatefulWidget {
-  const ChipWidget({super.key});
+  const ChipWidget({Key? key}) : super(key: key);
 
   @override
   State<ChipWidget> createState() => _ChipWidgetState();

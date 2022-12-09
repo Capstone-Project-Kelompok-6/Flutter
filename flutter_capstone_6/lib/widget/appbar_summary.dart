@@ -6,7 +6,7 @@ import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/main/summary/offline%20class/offline_class_screen.dart';
 
 class AppBarSummary extends StatefulWidget {
-  const AppBarSummary({super.key});
+  const AppBarSummary({Key? key}) : super(key: key);
 
   @override
   State<AppBarSummary> createState() => _AppBarSummaryState();

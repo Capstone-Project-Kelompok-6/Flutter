@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class OnlineClassScreen extends StatefulWidget {
-  const OnlineClassScreen({super.key});
+  const OnlineClassScreen({Key? key}) : super(key: key);
 
   @override
   State<OnlineClassScreen> createState() => _OnlineClassScreenState();

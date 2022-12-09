@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/model/class_offline_data.dart';
+import 'package:flutter_capstone_6/model/class_offline_outer.dart';
+import 'package:flutter_capstone_6/model/class_offline_rows.dart';
 import 'package:flutter_capstone_6/screen/main/booking/booking_class_screen.dart';
 import 'package:flutter_capstone_6/widget/appbar_home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,6 +20,54 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  ClassOfflineOuter? classOfflineOuter;
+  List<ClassOfflineRows>? classOfflineRows;
+  String? coba;
+
+  late SharedPreferences storageData;
+
+  @override
+  void initState() {
+    super.initState();
+    initial();
+  }
+
+  void initial() async {
+    storageData = await SharedPreferences.getInstance();
+  }
+
+  Future getOfflineClass(String token) async {
+    var headers = {
+      'Authorization': 'Bearer ' + token,
+      'Content-type': 'application/json'
+    };
+
+    try {
+      http.Response response = await http.get(
+          Uri.parse('https://www.go-rest-api.live/api/v1/classes/offline'),
+          headers: headers);
+
+      if (response.statusCode == 200) {
+        print('JSON Response: ${response.body}');
+
+        Map<String, dynamic> classBody = jsonDecode(response.body);
+        print("after map: $classBody");
+
+        setState(() {
+          classOfflineOuter = ClassOfflineOuter.fromJson(classBody);
+          classOfflineRows = classOfflineOuter!.data.rows;
+
+          print(classOfflineOuter!.data.page);
+          print(classOfflineRows!.first.workout);
+        });
+
+        print("cek sini");
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,12 +134,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  storage().then(
-                      (value) => getOnlineClass(value.getString('token')!));
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const BookingClassScreen()));
+                  getOfflineClass(storageData.getString('token').toString());
+                  // print(classOfflineRows![0].workout);
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const BookingClassScreen()));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(top: 8, bottom: 21),
@@ -409,29 +462,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
-  }
-
-  Future getOnlineClass(String token) async {
-    var headers = {
-      'Authorization': 'Bearer ' + token,
-      'Content-type': 'application/json'
-    };
-    try {
-      var request = await http.get(
-          Uri.parse('https://www.go-rest-api.live/api/v1/classes/offline'),
-          headers: headers);
-      if (request.statusCode == 200) {
-        print(request.body);
-      }
-      print(request.statusCode);
-      print(token);
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<SharedPreferences> storage() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs;
   }
 }

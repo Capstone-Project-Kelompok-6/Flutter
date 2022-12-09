@@ -5,7 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import '../../../../component/colors.dart';
 
 class OfflineClassScreen extends StatefulWidget {
-  const OfflineClassScreen({super.key});
+  const OfflineClassScreen({Key? key}) : super(key: key);
 
   @override
   State<OfflineClassScreen> createState() => _OfflineClassScreenState();

@@ -11,6 +11,7 @@ class RegisterController {
   var phoneNumberController = TextEditingController();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+  var confirmPassController = TextEditingController();
 
   Repository _repository = Repository();
   Future<UserModel> register() async {

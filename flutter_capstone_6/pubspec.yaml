@@ -20,6 +20,7 @@ dependencies:
   pin_code_fields: ^7.4.0
   carousel_slider: ^4.1.1
   shared_preferences: ^2.0.15
+  email_validator: '^2.1.16'
 
 dev_dependencies:
   flutter_test:

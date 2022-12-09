@@ -255,7 +255,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
 
             // promo code
             const Padding(
-              padding: const EdgeInsets.only(left: 24, bottom: 12),
+              padding: EdgeInsets.only(left: 24, bottom: 12),
               child: Text(
                 "Promo Code",
                 style: TextStyle(

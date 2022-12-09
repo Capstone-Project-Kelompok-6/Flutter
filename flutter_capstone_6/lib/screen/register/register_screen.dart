@@ -7,6 +7,7 @@ import 'package:flutter_capstone_6/screen/login/login_screen.dart';
 import 'package:flutter_capstone_6/screen/register/register_controller.dart';
 import 'package:flutter_capstone_6/screen/register/register_verification_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:email_validator/email_validator.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -88,8 +89,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     const SizedBox(height: 15),
                     passwordFormItem(),
                     const SizedBox(height: 15),
-                    // confirmPasswordFormItem(),
-                    // const SizedBox(height: 24),
+                    confirmPasswordFormItem(),
+                    const SizedBox(height: 24),
                   ],
                 ),
               ),
@@ -237,8 +238,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: TextFormField(
         controller: _controller.firstNameController,
         validator: (String? value) => value == '' ? "Required" : null,
-        // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
+        inputFormatters: [
+          FilteringTextInputFormatter.allow(RegExp("[A-Za-z]")),
+        ],
         decoration: const InputDecoration(
           labelText: 'first name',
           labelStyle:
@@ -264,8 +266,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: TextFormField(
         controller: _controller.lastNameController,
         validator: (String? value) => value == '' ? "Required" : null,
-        // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
+        inputFormatters: [
+          FilteringTextInputFormatter.allow(RegExp("[A-Za-z]")),
+        ],
         maxLines: 1,
         decoration: const InputDecoration(
           labelText: 'last name',
@@ -295,7 +298,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp("[0-9]")),
         ],
-        // controller: _titleController,
         maxLines: 1,
         decoration: const InputDecoration(
           labelText: 'phone number',
@@ -321,9 +323,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
       // height: 50,
       child: TextFormField(
         controller: _controller.emailController,
-        validator: (String? value) => value == '' ? "Required" : null,
-        // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
+        validator: (String? value) {
+          if (value == null) {
+            return 'Required';
+          }
+          if (!value.contains("@")) {
+            return 'Not a valid email';
+          }
+        },
         maxLines: 1,
         decoration: const InputDecoration(
           labelText: 'new email address',
@@ -351,7 +358,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         controller: _controller.passwordController,
         validator: (String? value) => value == '' ? "Required" : null,
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
         maxLines: 1,
         obscureText: isHide,
         decoration: InputDecoration(
@@ -390,9 +396,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       padding: const EdgeInsets.only(left: 25, right: 25),
       height: 50,
       child: TextFormField(
-        // validator: (String? value) => value == '' ? "Required" : null,
+        validator: (String? value) => value == '' ? "Required" : null,
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
+        controller: _controller.confirmPassController,
         maxLines: 1,
         obscureText: isHide,
         decoration: InputDecoration(
@@ -463,42 +469,55 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Future _register() async {
     if (formKey.currentState!.validate()) {
-      if (isChecked) {
-        UserModel response = await _controller.register();
+      if (_controller.confirmPassController.text ==
+          _controller.passwordController.text) {
+        if (isChecked) {
+          UserModel response = await _controller.register();
 
-        if (response.data == null) {
-          // showDialog(
-          //   context: context,
-          //   builder: (BuildContext context) => AlertDialog(
-          //     title: Text('Info Regist'),
-          //     content: Text('${response.message}, please verify OTP code'),
-          //   ),
-          // );
-          Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
-            Repository sendOtp = Repository();
-            sendOtp.sendOtp(_controller.emailController.text);
-            return RegisterVerificationScreen(
-              email: _controller.emailController.text,
-              password: _controller.passwordController.text,
-            );
-          })));
+          if (response.data == null) {
+            // showDialog(
+            //   context: context,
+            //   builder: (BuildContext context) => AlertDialog(
+            //     title: Text('Info Regist'),
+            //     content: Text('${response.message}, please verify OTP code'),
+            //   ),
+            // );
+            Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
+              Repository sendOtp = Repository();
+              sendOtp.sendOtp(_controller.emailController.text);
+              return RegisterVerificationScreen(
+                email: _controller.emailController.text,
+                password: _controller.passwordController.text,
+              );
+            })));
+          } else {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                      title: const Text('INFO REGISTER'),
+                      content: Text(response.message),
+                    ));
+          }
+
+          debugPrint('Response = ${response.message}');
         } else {
           showDialog(
               context: context,
-              builder: (BuildContext context) => AlertDialog(
-                    title: const Text('INFO REGISTER'),
-                    content: Text(response.message),
+              builder: (BuildContext context) => const AlertDialog(
+                    title: Center(child: Text("INFO")),
+                    content: Text(
+                      'Please accept our Privacy Policy and Term of Use to continue.',
+                      textAlign: TextAlign.center,
+                    ),
                   ));
         }
-
-        debugPrint('Response = ${response.message}');
       } else {
         showDialog(
             context: context,
             builder: (BuildContext context) => const AlertDialog(
                   title: Center(child: Text("INFO")),
                   content: Text(
-                    'Please accept our Privacy Policy and Term of Use to continue.',
+                    'Your password not match.',
                     textAlign: TextAlign.center,
                   ),
                 ));

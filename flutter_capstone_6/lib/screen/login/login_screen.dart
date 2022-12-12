@@ -330,8 +330,6 @@ class _LoginScreenState extends State<LoginScreen> {
         //           password: '',
         //         )));
 
-        print('user fullname: ${userData.data.fullName}');
-
         // State Management
         final data = Provider.of<LoginViewModel>(context, listen: false);
         final userDetail = UserData(
@@ -344,7 +342,9 @@ class _LoginScreenState extends State<LoginScreen> {
           refreshToken: userData.data.refreshToken,
         ));
         data.addUser(userDetail);
-        print('user token: ${userData.data.accessToken}');
+        print('User fullname: ${userData.data.fullName}');
+        print('User access token: ${userData.data.accessToken}');
+
         Navigator.push(
             context,
             MaterialPageRoute(

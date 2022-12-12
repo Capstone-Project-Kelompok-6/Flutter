@@ -48,7 +48,7 @@ class LoginController {
       Map<String, dynamic> loginBody = jsonDecode(result.body);
       UserData userData = UserData.fromJson(loginBody);
 
-      print('JSON Response: ${result.body}');
+      // print('JSON Response: ${result.body}');
       // print('user fullname: ${userData.data.fullName}');
 
       return userData;

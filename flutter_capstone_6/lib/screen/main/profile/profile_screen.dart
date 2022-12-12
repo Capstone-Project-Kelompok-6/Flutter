@@ -18,13 +18,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? userEmail;
 
   @override
-  void initState() {
-    super.initState();
-    // Provider.of<ProfileProvider>(context, listen: false)
-    //     .getProfile(widget.fullName);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteBg,

@@ -190,7 +190,7 @@ class _RegisterVerificationScreenState
             ],
             keyboardType: TextInputType.number,
             onCompleted: (v) {
-              print("Completed");
+              // print("Completed");
               setState(() {
                 isInit = false;
                 isLoading = true;
@@ -308,7 +308,8 @@ class _RegisterVerificationScreenState
                   refreshToken: userData.data.refreshToken,
                 ));
                 data.addUser(userDetail);
-                print(userData.data.accessToken);
+                print(' User fullname: ${userData.data.fullName}');
+                print(' User access token: ${userData.data.accessToken}');
                 Navigator.push(
                     context,
                     MaterialPageRoute(

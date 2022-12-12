@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/payment_method.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 
 class BookingOfflineClassDetail extends StatefulWidget {
-  const BookingOfflineClassDetail({Key? key}) : super(key: key);
+  const BookingOfflineClassDetail({
+    Key? key,
+    required this.classTitle,
+    required this.classImage,
+    required this.classInstructor,
+    required this.classDesc,
+    required this.classSchedule,
+    required this.price,
+  }) : super(key: key);
+  final String classTitle;
+  final String classImage;
+  final String classInstructor;
+  final String classDesc;
+  final List classSchedule;
+  final int price;
 
   @override
   State<BookingOfflineClassDetail> createState() =>
@@ -18,7 +30,7 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteBg,
-      appBar: appBar(context, 'Yoga'),
+      appBar: appBar(context, widget.classTitle),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -28,8 +40,8 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
               // workout image
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  'assets/explore/img2.png',
+                child: Image.network(
+                  widget.classImage,
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
@@ -38,8 +50,16 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
               // instructor name
               const SizedBox(height: 24),
               const Text(
-                'Endah',
+                "Instructor:",
                 style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  color: n100,
+                ),
+              ),
+              Text(
+                widget.classInstructor,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: n100,
@@ -59,10 +79,10 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
-                "Pada kelas ini akan melatih basic, vinyasa dan power yoga sesuai dengan tubuh Anda masing-masing. Selama yoga kita akan memfokuskan diri hanya ke tubuh nafas dan konsentrasi penuh. Kelas ini akan diajar oleh Endah seorang instruktur berpengalaman mengajar yoga selama 2 tahun.",
+              Text(
+                widget.classDesc,
                 textAlign: TextAlign.justify,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                   color: n80,
@@ -78,15 +98,24 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
-                "Sunday : 14.00 - 18.00\nSunday : 14.00 - 18.00\nSunday : 14.00 - 18.00",
-                textAlign: TextAlign.justify,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: n80,
-                ),
-              ),
+              ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: widget.classSchedule.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 3),
+                      child: Text(
+                        widget.classSchedule[index],
+                        textAlign: TextAlign.justify,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: n80,
+                        ),
+                      ),
+                    );
+                  }),
             ],
           ),
         ),
@@ -110,8 +139,8 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
+              children: [
+                const Text(
                   "Total Payment",
                   style: TextStyle(
                     fontSize: 12,
@@ -119,13 +148,33 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
                     color: n100,
                   ),
                 ),
-                Text(
-                  "Rp.500.000/ month",
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: violet,
-                  ),
+                Row(
+                  children: [
+                    const Text(
+                      "Rp.",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: violet,
+                      ),
+                    ),
+                    Text(
+                      widget.price.toString(),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: violet,
+                      ),
+                    ),
+                    const Text(
+                      "/ month",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: violet,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

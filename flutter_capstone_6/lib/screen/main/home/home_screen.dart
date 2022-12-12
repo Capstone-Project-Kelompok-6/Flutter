@@ -6,10 +6,12 @@ import 'package:flutter_capstone_6/model/class_offline_data.dart';
 import 'package:flutter_capstone_6/model/class_offline_outer.dart';
 import 'package:flutter_capstone_6/model/class_offline_rows.dart';
 import 'package:flutter_capstone_6/screen/main/booking/booking_class_screen.dart';
+import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_view_model.dart';
 import 'package:flutter_capstone_6/widget/appbar_home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.token}) : super(key: key);
@@ -22,7 +24,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   ClassOfflineOuter? classOfflineOuter;
   List<ClassOfflineRows>? classOfflineRows;
-  String? coba;
+  ClassOfflineRows? classDetail;
 
   late SharedPreferences storageData;
 
@@ -54,8 +56,32 @@ class _HomeScreenState extends State<HomeScreen> {
         classOfflineOuter = ClassOfflineOuter.fromJson(classBody);
         classOfflineRows = classOfflineOuter!.data.rows;
 
-        print(classOfflineOuter!.data.page);
-        print(classOfflineRows!.first.workout);
+        // print(classOfflineOuter!.data.page);
+        // print(classOfflineRows!.first.workout);
+
+        // State Management
+        final data = Provider.of<OfflineClassViewModel>(context, listen: false);
+
+        for (int i = 0; i < classOfflineRows!.length; i++) {
+          classDetail = ClassOfflineRows(
+            classId: classOfflineRows![i].classId,
+            workoutId: classOfflineRows![i].workoutId,
+            workout: classOfflineRows![i].workout,
+            workoutImage: classOfflineRows![i].workoutImage,
+            instructorId: classOfflineRows![i].instructorId,
+            instructorName: classOfflineRows![i].instructorName,
+            instructorImage: classOfflineRows![i].instructorImage,
+            classDates: classOfflineRows![i].classDates,
+            price: classOfflineRows![i].price,
+            description: classOfflineRows![i].description,
+          );
+          data.addUser(classDetail!);
+        }
+
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const BookingClassScreen()));
       }
     } catch (e) {
       print(e);
@@ -129,11 +155,6 @@ class _HomeScreenState extends State<HomeScreen> {
               GestureDetector(
                 onTap: () {
                   getOfflineClass(storageData.getString('token').toString());
-                  // print(classOfflineRows![0].workout);
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => const BookingClassScreen()));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(top: 8, bottom: 21),

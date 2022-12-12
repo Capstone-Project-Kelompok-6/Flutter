@@ -43,9 +43,9 @@ class Repository {
 
       request.headers.addAll(headers);
 
-      if (request.statusCode == 200) {
-        print('object');
-      }
+      // if (request.statusCode == 200) {
+      //   print('object');
+      // }
       return request;
     } catch (e) {
       print(e);
@@ -64,7 +64,7 @@ class Repository {
       request.headers.addAll(headers);
 
       if (request.statusCode == 200) {
-        print('object');
+        // print('object');
         return true;
       }
     } catch (e) {

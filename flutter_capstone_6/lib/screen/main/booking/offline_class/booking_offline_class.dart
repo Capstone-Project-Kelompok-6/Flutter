@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_class_detail.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_view_model.dart';
+import 'package:provider/provider.dart';
 
 class BookingOfflineClass extends StatefulWidget {
   const BookingOfflineClass({Key? key}) : super(key: key);
@@ -15,28 +14,50 @@ class BookingOfflineClass extends StatefulWidget {
 class _BookingOfflineClassState extends State<BookingOfflineClass> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        children: [
-          searchBarItem(),
-          const SizedBox(height: 24),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => BookingOfflineClassDetail()));
-            },
-            child: offlineClassCard('img4.png', 'Yoga', 'Sunday - Saturday'),
-          ),
-        ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          children: [
+            searchBarItem(),
+            const SizedBox(height: 24),
+            Consumer(builder: (context, OfflineClassViewModel data, child) {
+              return ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: data.getDatas.length,
+                itemBuilder: (context, index) {
+                  final classData = data.getDatas[index];
+
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BookingOfflineClassDetail(
+                                  classTitle: classData.workout,
+                                  classImage: classData.workoutImage,
+                                  classInstructor: classData.instructorName,
+                                  classDesc: classData.description,
+                                  classSchedule: classData.classDates,
+                                  price: classData.price)));
+                    },
+                    child: offlineClassCard(context, classData.workoutImage,
+                        classData.workout, classData.classDates),
+                  );
+                },
+              );
+            }),
+          ],
+        ),
       ),
     );
   }
 
-  Widget offlineClassCard(String image, String title, String schedule) {
+  Widget offlineClassCard(
+      BuildContext context, String? image, String? title, List? schedule) {
     return Container(
+      margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
@@ -55,12 +76,16 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
               topLeft: Radius.circular(15),
               topRight: Radius.circular(15),
             ),
-            child: Image.asset(
-              'assets/explore/$image',
-              height: 160,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
+            child: image != null
+                ? Image.network(
+                    image,
+                    height: 160,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  )
+                : Container(
+                    color: white,
+                  ),
           ),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 23),
@@ -68,35 +93,51 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    title!,
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: n100,
                     ),
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Class Schedule : ",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: n60,
-                        ),
-                      ),
-                      Text(
-                        schedule,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: n60,
-                        ),
-                      )
-                    ],
-                  )
+                  const Text(
+                    "Class Schedule : ",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: n60,
+                    ),
+                  ),
+                  ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: schedule!.length,
+                      itemBuilder: (context, index) {
+                        return Text(
+                          schedule[index],
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: n60,
+                          ),
+                        );
+                      }),
+                  // Row(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   children: [
+
+                  //     // Text(
+                  //     //   schedule![0],
+                  //     //   style: const TextStyle(
+                  //     //     fontSize: 12,
+                  //     //     fontWeight: FontWeight.w400,
+                  //     //     color: n60,
+                  //     //   ),
+                  //     // ),
+
+                  //   ],
+                  // ),
                 ],
               ))
         ],

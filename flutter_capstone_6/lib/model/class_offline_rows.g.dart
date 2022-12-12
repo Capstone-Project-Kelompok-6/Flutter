@@ -8,18 +8,17 @@ part of 'class_offline_rows.dart';
 
 ClassOfflineRows _$ClassOfflineRowsFromJson(Map<String, dynamic> json) {
   return ClassOfflineRows(
-    classId: json['class_id'] as String?,
-    workoutId: json['workout_id'] as String?,
-    workout: json['workout'] as String?,
-    workoutImage: json['workout_image'] as String?,
-    instructorId: json['instructor_id'] as String?,
-    instructorName: json['instructor_name'] as String?,
-    instructorImage: json['instructor_image'] as String?,
-    classDates: (json['class_dates'] as List<dynamic>?)
-        ?.map((e) => e as String)
-        .toList(),
-    price: json['price'] as int?,
-    description: json['description'] as String?,
+    classId: json['class_id'] as String,
+    workoutId: json['workout_id'] as String,
+    workout: json['workout'] as String,
+    workoutImage: json['workout_image'] as String,
+    instructorId: json['instructor_id'] as String,
+    instructorName: json['instructor_name'] as String,
+    instructorImage: json['instructor_image'] as String,
+    classDates:
+        (json['class_dates'] as List<dynamic>).map((e) => e as String).toList(),
+    price: json['price'] as int,
+    description: json['description'] as String,
     updatedAt: json['updated_at'] as int?,
     createdAt: json['created_at'] as int?,
   );

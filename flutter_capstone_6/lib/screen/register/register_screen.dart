@@ -515,7 +515,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ));
           }
 
-          debugPrint('Response = ${response.message}');
+          // debugPrint('Response = ${response.message}');
         } else {
           showDialog(
               context: context,

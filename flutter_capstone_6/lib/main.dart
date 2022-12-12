@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
+import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_view_model.dart';
 import 'package:flutter_capstone_6/screen/splash_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +19,10 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider<LoginViewModel>(
             create: (context) => LoginViewModel(),
-          )
+          ),
+          ChangeNotifierProvider<OfflineClassViewModel>(
+            create: (context) => OfflineClassViewModel(),
+          ),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

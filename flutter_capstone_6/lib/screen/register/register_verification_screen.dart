@@ -5,6 +5,7 @@ import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/component/repository.dart';
 import 'package:flutter_capstone_6/screen/login/login_controller.dart';
 import 'package:flutter_capstone_6/screen/login/login_screen.dart';
+import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_controller.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -33,6 +34,7 @@ class _RegisterVerificationScreenState
   var onTapRecognizer;
   TextEditingController pinController = TextEditingController();
   LoginController _controller = LoginController();
+  BookingOfflineController _bOfflineController = BookingOfflineController();
 
   RegisterController _registerController = RegisterController();
 
@@ -310,6 +312,10 @@ class _RegisterVerificationScreenState
                 data.addUser(userDetail);
                 print(' User fullname: ${userData.data.fullName}');
                 print(' User access token: ${userData.data.accessToken}');
+
+                _bOfflineController.getOfflineClass(
+                    context, userData.data.accessToken);
+
                 Navigator.push(
                     context,
                     MaterialPageRoute(

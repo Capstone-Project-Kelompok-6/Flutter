@@ -1,11 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/payment_method.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class BookingOfflineClassDetail extends StatefulWidget {
   const BookingOfflineClassDetail({
     Key? key,
+    required this.classId,
     required this.classTitle,
     required this.classImage,
     required this.classInstructor,
@@ -13,6 +20,7 @@ class BookingOfflineClassDetail extends StatefulWidget {
     required this.classSchedule,
     required this.price,
   }) : super(key: key);
+  final String classId;
   final String classTitle;
   final String classImage;
   final String classInstructor;
@@ -26,6 +34,43 @@ class BookingOfflineClassDetail extends StatefulWidget {
 }
 
 class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
+  late SharedPreferences storageData;
+
+  @override
+  void initState() {
+    super.initState();
+    initial();
+  }
+
+  void initial() async {
+    storageData = await SharedPreferences.getInstance();
+  }
+
+  Future bookOfflineClass(String token, String userId) async {
+    try {
+      http.Response response = await http.post(
+          Uri.parse('https://www.go-rest-api.live/api/v1/books/offline'),
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-type': 'application/json'
+          },
+          body: jsonEncode({
+            "class_id": widget.classId,
+            "user_id": userId,
+            "is_online": false
+          }));
+
+      if (response.statusCode == 200) {
+        print('JSON Response: ${response.body}');
+
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const PaymentMethod()));
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +105,7 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
               Text(
                 widget.classInstructor,
                 style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                   color: n100,
                 ),
@@ -93,7 +138,7 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
                 "Time Schedule :",
                 style: TextStyle(
                   fontSize: 14,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                   color: n100,
                 ),
               ),
@@ -188,15 +233,35 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          title: const Center(
-                            child: Text(
-                              "Buy Yoga Class ?",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: violet,
+                          title: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "Buy ",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: violet,
+                                ),
                               ),
-                            ),
+                              Text(
+                                widget.classTitle,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: violet,
+                                ),
+                              ),
+                              const Text(
+                                " Class ?",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: violet,
+                                ),
+                              ),
+                            ],
                           ),
                           titlePadding: const EdgeInsets.symmetric(
                               horizontal: 16, vertical: 24),
@@ -236,11 +301,19 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
                               // booking button
                               ElevatedButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const PaymentMethod()));
+                                  bookOfflineClass(
+                                      storageData.getString('token').toString(),
+                                      context
+                                          .read<LoginViewModel>()
+                                          .getDatas
+                                          .first
+                                          .data
+                                          .userId);
+                                  // Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) =>
+                                  //             const PaymentMethod()));
                                 },
                                 style: ElevatedButton.styleFrom(
                                   primary: violet,

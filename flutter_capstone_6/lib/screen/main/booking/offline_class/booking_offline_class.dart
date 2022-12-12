@@ -35,6 +35,7 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => BookingOfflineClassDetail(
+                                  classId: classData.classId,
                                   classTitle: classData.workout,
                                   classImage: classData.workoutImage,
                                   classInstructor: classData.instructorName,
@@ -70,6 +71,7 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
         color: white,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.only(
@@ -108,20 +110,34 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
                       color: n60,
                     ),
                   ),
-                  ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: schedule!.length,
-                      itemBuilder: (context, index) {
-                        return Text(
-                          schedule[index],
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: n60,
-                          ),
-                        );
-                      }),
+                  // ListView.builder(
+                  //     scrollDirection: Axis.horizontal,
+                  //     shrinkWrap: true,
+                  //     itemCount: schedule!.length,
+                  //     itemBuilder: (context, index) {
+                  //       return Text(
+                  //         schedule[index],
+                  //         style: const TextStyle(
+                  //           fontSize: 12,
+                  //           fontWeight: FontWeight.w400,
+                  //           color: n60,
+                  //         ),
+                  //       );
+                  //     }),
+
+                  Wrap(alignment: WrapAlignment.start, children: [
+                    for (int i = 0; i < schedule!.length; i++)
+                      Text(
+                        (schedule[i] as String).split(',')[0] +
+                            ((schedule.length - 1 == i) ? '' : ' - '),
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: n60,
+                        ),
+                      ),
+                  ]),
+
                   // Row(
                   //   crossAxisAlignment: CrossAxisAlignment.start,
                   //   mainAxisAlignment: MainAxisAlignment.start,

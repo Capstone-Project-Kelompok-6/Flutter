@@ -26,16 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
   List<ClassOfflineRows>? classOfflineRows;
   ClassOfflineRows? classDetail;
 
-  late SharedPreferences storageData;
-
   @override
   void initState() {
     super.initState();
-    initial();
-  }
-
-  void initial() async {
-    storageData = await SharedPreferences.getInstance();
   }
 
   Future getOfflineClass(String token) async {
@@ -77,11 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
           );
           data.addUser(classDetail!);
         }
-
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const BookingClassScreen()));
       }
     } catch (e) {
       print(e);
@@ -154,7 +142,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  getOfflineClass(storageData.getString('token').toString());
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BookingClassScreen()));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(top: 8, bottom: 21),

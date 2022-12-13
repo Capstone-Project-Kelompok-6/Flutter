@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
-import 'package:flutter_capstone_6/model/class_offline_data.dart';
-import 'package:flutter_capstone_6/model/class_offline_outer.dart';
-import 'package:flutter_capstone_6/model/class_offline_rows.dart';
+import 'package:flutter_capstone_6/model/class_offline/class_offline_data.dart';
+import 'package:flutter_capstone_6/model/class_offline/class_offline_outer.dart';
+import 'package:flutter_capstone_6/model/class_offline/class_offline_rows.dart';
 import 'package:flutter_capstone_6/screen/main/booking/booking_class_screen.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_view_model.dart';
 import 'package:flutter_capstone_6/widget/appbar_home.dart';

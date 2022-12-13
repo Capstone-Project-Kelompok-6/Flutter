@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/main/summary/history/history_screen.dart';
-import 'package:flutter_capstone_6/screen/main/summary/offline%20class/offline_class_screen.dart';
+import 'package:flutter_capstone_6/screen/main/summary/offline%20class/summary_offline_class_screen.dart';
 import 'package:flutter_capstone_6/screen/main/summary/online%20class/online_class_screen.dart';
 import 'package:flutter_capstone_6/widget/appbar_summary.dart';
 
@@ -17,19 +17,30 @@ class _SummaryScreenState extends State<SummaryScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         backgroundColor: whiteBg,
         appBar: AppBar(
-          elevation: 0.7,
           backgroundColor: whiteBg,
+          elevation: 0.7,
           automaticallyImplyLeading: false,
-          title: Text(
-            'Summary',
-            style: TextStyle(color: Colors.black),
+          title: Container(
+            margin: const EdgeInsets.only(left: 9),
+            child: const Text(
+              'Summary',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+                color: n100,
+              ),
+            ),
           ),
-          bottom: TabBar(
-            labelColor: Colors.black,
+          bottom: const TabBar(
+            labelColor: violet,
+            unselectedLabelColor: n60,
+            indicator: UnderlineTabIndicator(
+                borderSide: BorderSide(color: violet, width: 2),
+                insets: EdgeInsets.symmetric(horizontal: 60, vertical: 5)),
             tabs: [
               Tab(
                 text: 'Offline Class',
@@ -37,17 +48,17 @@ class _SummaryScreenState extends State<SummaryScreen> {
               Tab(
                 text: 'Online Class',
               ),
-              Tab(
-                text: 'History',
-              )
+              // Tab(
+              //   text: 'History',
+              // )
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
-            OfflineClassScreen(),
+            SummaryOfflineClassScreen(),
             OnlineClassScreen(),
-            HistoryScreen()
+            // HistoryScreen()
           ],
         ),
       ),

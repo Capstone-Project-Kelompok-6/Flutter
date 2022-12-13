@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_capstone_6/model/class_offline_outer.dart';
-import 'package:flutter_capstone_6/model/class_offline_rows.dart';
+import 'package:flutter_capstone_6/model/class_offline/class_offline_outer.dart';
+import 'package:flutter_capstone_6/model/class_offline/class_offline_rows.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_view_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';

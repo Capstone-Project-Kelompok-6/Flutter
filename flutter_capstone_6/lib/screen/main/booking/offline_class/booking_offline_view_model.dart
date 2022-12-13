@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_capstone_6/model/class_offline_rows.dart';
+import 'package:flutter_capstone_6/model/class_offline/class_offline_rows.dart';
 
 class OfflineClassViewModel with ChangeNotifier {
   List<ClassOfflineRows> _datas = [];

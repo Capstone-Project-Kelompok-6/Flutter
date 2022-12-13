@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/repository.dart';
-import 'package:flutter_capstone_6/model/user_model.dart';
+import 'package:flutter_capstone_6/model/user/user_model.dart';
 import 'package:http/http.dart' as http;
 
 class RegisterController {

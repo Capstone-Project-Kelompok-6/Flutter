@@ -11,8 +11,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/user_data.dart';
-import '../../model/user_token.dart';
+import '../../model/user/user_data.dart';
+import '../../model/user/user_token.dart';
 import '../login/login_view_model.dart';
 import 'register_controller.dart';
 

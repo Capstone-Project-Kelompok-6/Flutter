@@ -365,6 +365,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           if (value.contains(" ")) {
             return "Password contain space";
           }
+          if (value.length < 8) {
+            return "min password length 8";
+          }
         },
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
         maxLines: 1,

@@ -258,7 +258,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
           onChanged: (value) {
             setState(() {
               radioValue = value as int;
-              print(radioValue);
+              print('rValue: $radioValue');
             });
           },
         )

@@ -26,7 +26,7 @@ class RegisterController {
     UserModel registerResponse =
         UserModel.fromJson(registerBody, UserModel.fromJson);
 
-    print('${registerResponse.message}');
+    print('Response: ${registerResponse.message}');
     return registerResponse;
   }
 }

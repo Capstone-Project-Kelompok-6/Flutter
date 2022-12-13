@@ -25,7 +25,7 @@ class LoginController {
       UserModel<UserToken> loginResponse =
           UserModel.fromJson(loginBody, UserToken.fromJson);
 
-      debugPrint('Response = ${loginResponse.message}');
+      debugPrint('Response: ${loginResponse.message}');
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('token', loginBody['data']['access_token']);
 

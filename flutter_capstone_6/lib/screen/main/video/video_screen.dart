@@ -29,6 +29,7 @@ class _VideoScreenState extends State<VideoScreen> {
         autoInitialize: true,
         autoPlay: false,
         looping: false,
+        showOptions: true,
         errorBuilder: (context, string) {
           return Center(
               child: Text(

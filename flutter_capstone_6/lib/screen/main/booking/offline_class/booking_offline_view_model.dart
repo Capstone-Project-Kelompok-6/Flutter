@@ -8,9 +8,6 @@ class OfflineClassViewModel with ChangeNotifier {
 
   void addUser(ClassOfflineRows classData) {
     _datas.add(classData);
-    for (var item in _datas) {
-      print(item.classDates);
-    }
     notifyListeners();
   }
 

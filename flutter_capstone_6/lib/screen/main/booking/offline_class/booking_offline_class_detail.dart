@@ -60,11 +60,33 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
             "is_online": false
           }));
 
+      // print(response.statusCode);
+      // print(userId);
+
       if (response.statusCode == 200) {
         print('JSON Response: ${response.body}');
 
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const PaymentMethod()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => PaymentMethod(
+                      classTitle: widget.classTitle,
+                      classInstructor: widget.classInstructor,
+                      price: widget.price,
+                    )));
+      }
+
+      if (response.statusCode == 409) {
+        Navigator.pop(context);
+        showDialog(
+            context: context,
+            builder: (BuildContext context) => const AlertDialog(
+                  title: Center(child: Text("INFO BOOKING")),
+                  content: Text(
+                    'You already book this class.',
+                    textAlign: TextAlign.center,
+                  ),
+                ));
       }
     } catch (e) {
       print(e);
@@ -88,6 +110,7 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
                 child: Image.network(
                   widget.classImage,
                   width: double.infinity,
+                  height: 185,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -309,11 +332,6 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
                                           .first
                                           .data
                                           .userId);
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) =>
-                                  //             const PaymentMethod()));
                                 },
                                 style: ElevatedButton.styleFrom(
                                   primary: violet,

@@ -295,34 +295,37 @@ class _RegisterVerificationScreenState
           padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 56),
           child: ElevatedButton(
             onPressed: () {
-              _controller
-                  .getUser(email: widget.email, password: widget.password)
-                  .then((userData) {
-                final data =
-                    Provider.of<LoginViewModel>(context, listen: false);
-                final userDetail = UserData(
-                    data: UserToken(
-                  userId: userData.data.userId,
-                  fullName: userData.data.fullName,
-                  email: userData.data.email,
-                  phoneNumber: userData.data.phoneNumber,
-                  accessToken: userData.data.accessToken,
-                  refreshToken: userData.data.refreshToken,
-                ));
-                data.addUser(userDetail);
-                print(' User fullname: ${userData.data.fullName}');
-                print(' User access token: ${userData.data.accessToken}');
+              // _controller
+              //     .getUser(email: widget.email, password: widget.password)
+              //     .then((userData) {
+              //   final data =
+              //       Provider.of<LoginViewModel>(context, listen: false);
+              //   final userDetail = UserData(
+              //       data: UserToken(
+              //     userId: userData.data.userId,
+              //     fullName: userData.data.fullName,
+              //     email: userData.data.email,
+              //     phoneNumber: userData.data.phoneNumber,
+              //     accessToken: userData.data.accessToken,
+              //     refreshToken: userData.data.refreshToken,
+              //   ));
+              //   data.addUser(userDetail);
+              //   print(' User fullname: ${userData.data.fullName}');
+              //   print(' User access token: ${userData.data.accessToken}');
 
-                _bOfflineController.getOfflineClass(
-                    context, userData.data.accessToken);
+              //   _bOfflineController.getOfflineClass(
+              //       context, userData.data.accessToken);
 
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => BottomNavigationBarController(
-                              token: userData.data.accessToken,
-                            )));
-              });
+              //   Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //           builder: (context) => BottomNavigationBarController(
+              //                 token: userData.data.accessToken,
+              //               )));
+              // });
+
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()));
             },
             style: ElevatedButton.styleFrom(
                 primary: violet,

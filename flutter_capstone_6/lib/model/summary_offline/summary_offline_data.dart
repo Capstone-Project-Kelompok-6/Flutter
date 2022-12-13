@@ -1,11 +1,12 @@
-import 'package:flutter_capstone_6/model/class_offline_rows.dart';
+import 'package:flutter_capstone_6/model/class_offline/class_offline_rows.dart';
+import 'package:flutter_capstone_6/model/summary_offline/summary_offline_rows.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'class_offline_data.g.dart';
+part 'summary_offline_data.g.dart';
 
 @JsonSerializable()
-class ClassOfflineData {
-  ClassOfflineData({
+class SummaryOfflineData {
+  SummaryOfflineData({
     this.limit,
     this.page,
     this.sort,
@@ -34,9 +35,9 @@ class ClassOfflineData {
   int? size;
 
   @JsonKey(name: 'rows')
-  List<ClassOfflineRows>? rows;
+  List<SummaryOfflineRows>? rows;
 
-  factory ClassOfflineData.fromJson(Map<String, dynamic> json) =>
-      _$ClassOfflineDataFromJson(json);
-  Map<String, dynamic> toJson() => _$ClassOfflineDataToJson(this);
+  factory SummaryOfflineData.fromJson(Map<String, dynamic> json) =>
+      _$SummaryOfflineDataFromJson(json);
+  Map<String, dynamic> toJson() => _$SummaryOfflineDataToJson(this);
 }

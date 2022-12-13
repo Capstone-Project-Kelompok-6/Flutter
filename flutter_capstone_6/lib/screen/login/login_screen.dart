@@ -1,17 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/component/repository.dart';
-import 'package:flutter_capstone_6/model/user_data.dart';
-import 'package:flutter_capstone_6/model/user_token.dart';
+import 'package:flutter_capstone_6/model/class_offline/class_offline_outer.dart';
+import 'package:flutter_capstone_6/model/class_offline/class_offline_rows.dart';
+import 'package:flutter_capstone_6/model/user/user_data.dart';
+import 'package:flutter_capstone_6/model/user/user_token.dart';
 import 'package:flutter_capstone_6/screen/login/login_controller.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
+import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_controller.dart';
+import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_view_model.dart';
 import 'package:flutter_capstone_6/screen/register/register_screen.dart';
 import 'package:flutter_capstone_6/screen/register/register_verification_screen.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/user_model.dart';
+import '../../model/user/user_model.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -24,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   bool isHide = true;
   LoginController _controller = LoginController();
+  BookingOfflineController _bOfflineController = BookingOfflineController();
 
   @override
   Widget build(BuildContext context) {
@@ -344,6 +351,8 @@ class _LoginScreenState extends State<LoginScreen> {
         data.addUser(userDetail);
         print('User fullname: ${userData.data.fullName}');
         print('User access token: ${userData.data.accessToken}');
+
+        _bOfflineController.getOfflineClass(context, userData.data.accessToken);
 
         Navigator.push(
             context,

@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
-import 'package:flutter_capstone_6/screen/main/summary/offline%20class/offline_class_screen.dart';
+import 'package:flutter_capstone_6/screen/main/summary/offline%20class/summary_offline_class_screen.dart';
 
 class AppBarSummary extends StatefulWidget {
   const AppBarSummary({Key? key}) : super(key: key);

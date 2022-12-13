@@ -12,7 +12,6 @@ class BookingClassSelection extends StatefulWidget {
 }
 
 class _BookingClassSelectionState extends State<BookingClassSelection> {
-  String selectedChips = '';
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

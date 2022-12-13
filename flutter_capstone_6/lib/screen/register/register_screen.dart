@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/component/repository.dart';
-import 'package:flutter_capstone_6/model/user_model.dart';
+import 'package:flutter_capstone_6/model/user/user_model.dart';
 import 'package:flutter_capstone_6/screen/login/login_screen.dart';
 import 'package:flutter_capstone_6/screen/register/register_controller.dart';
 import 'package:flutter_capstone_6/screen/register/register_verification_screen.dart';
@@ -364,6 +364,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           }
           if (value.contains(" ")) {
             return "Password contain space";
+          }
+          if (value.length < 8) {
+            return "min password length 8";
           }
         },
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],

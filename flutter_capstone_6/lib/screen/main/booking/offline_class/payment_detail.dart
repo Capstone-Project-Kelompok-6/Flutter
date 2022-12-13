@@ -1,20 +1,71 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/payment_success.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class PaymentDetail extends StatefulWidget {
-  const PaymentDetail({Key? key}) : super(key: key);
+  const PaymentDetail({
+    Key? key,
+    required this.rValue,
+    required this.price,
+    required this.classTitle,
+    required this.classInstructor,
+  }) : super(key: key);
+  final int rValue;
+  final int price;
+  final String classTitle;
+  final String classInstructor;
 
   @override
   State<PaymentDetail> createState() => _PaymentDetailState();
 }
 
 class _PaymentDetailState extends State<PaymentDetail> {
+  final DateTime today = DateTime.now();
+  DateTime nextMonth = DateTime.now();
+  String paymentBy = "Dana";
+  String paymentPhoto = "dana.png";
+
+  @override
+  void initState() {
+    checkPayment();
+    nextMonth = DateTime(today.year, today.month + 1, today.day);
+  }
+
+  void checkPayment() {
+    if (widget.rValue == 1) {
+      setState(() {
+        paymentBy = "Dana";
+        paymentPhoto = "dana.png";
+      });
+    } else if (widget.rValue == 2) {
+      setState(() {
+        paymentBy = "Gopay";
+        paymentPhoto = "gopay.png";
+      });
+    } else if (widget.rValue == 3) {
+      setState(() {
+        paymentBy = "Ovo";
+        paymentPhoto = "ovo.png";
+      });
+    } else if (widget.rValue == 4) {
+      setState(() {
+        paymentBy = "ShopeePay";
+        paymentPhoto = "spay.png";
+      });
+    } else if (widget.rValue == 5) {
+      setState(() {
+        paymentBy = "Linkaja";
+        paymentPhoto = "linkaja.png";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,9 +88,9 @@ class _PaymentDetailState extends State<PaymentDetail> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Yoga Class",
-                    style: TextStyle(
+                  Text(
+                    widget.classTitle,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                       color: n100,
@@ -52,15 +103,15 @@ class _PaymentDetailState extends State<PaymentDetail> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: const [
-                          Text(
-                            "Booking Number",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: n100,
-                            ),
-                          ),
-                          SizedBox(height: 12),
+                          // Text(
+                          //   "Booking Number",
+                          //   style: TextStyle(
+                          //     fontSize: 12,
+                          //     fontWeight: FontWeight.w400,
+                          //     color: n100,
+                          //   ),
+                          // ),
+                          // SizedBox(height: 12),
                           Text(
                             "Booking Date",
                             style: TextStyle(
@@ -100,35 +151,35 @@ class _PaymentDetailState extends State<PaymentDetail> {
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
+                          // const Text(
+                          //   "YO001",
+                          //   style: TextStyle(
+                          //     fontSize: 12,
+                          //     fontWeight: FontWeight.w400,
+                          //     color: n100,
+                          //   ),
+                          // ),
+                          // const SizedBox(height: 12),
                           Text(
-                            "YO001",
-                            style: TextStyle(
+                            DateFormat("EEEE, dd MMMM yyyy").format(today),
+                            style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
                               color: n100,
                             ),
                           ),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           Text(
-                            "Thursday, 17 November 2022",
-                            style: TextStyle(
+                            DateFormat("EEEE, dd MMMM yyyy").format(nextMonth),
+                            style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
                               color: n100,
                             ),
                           ),
-                          SizedBox(height: 12),
-                          Text(
-                            "Saturday, 17 Desember 2022",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: n100,
-                            ),
-                          ),
-                          SizedBox(height: 12),
-                          Text(
+                          const SizedBox(height: 12),
+                          const Text(
                             "0",
                             style: TextStyle(
                               fontSize: 12,
@@ -136,14 +187,26 @@ class _PaymentDetailState extends State<PaymentDetail> {
                               color: n100,
                             ),
                           ),
-                          SizedBox(height: 12),
-                          Text(
-                            "Rp. 500.000",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: n100,
-                            ),
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              const Text(
+                                "Rp. ",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: n100,
+                                ),
+                              ),
+                              Text(
+                                widget.price.toString(),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: n100,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -169,15 +232,15 @@ class _PaymentDetailState extends State<PaymentDetail> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        "Dana",
-                        style: TextStyle(
+                      Text(
+                        paymentBy,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                           color: n100,
                         ),
                       ),
-                      Image.asset("assets/payment/dana.png"),
+                      Image.asset("assets/payment/$paymentPhoto"),
                     ],
                   ),
                   divider(),
@@ -355,8 +418,11 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              const PaymentSuccess()));
+                                          builder: (context) => PaymentSuccess(
+                                                classTitle: widget.classTitle,
+                                                classInstructor:
+                                                    widget.classInstructor,
+                                              )));
                                 },
                                 style: ElevatedButton.styleFrom(
                                   primary: violet,

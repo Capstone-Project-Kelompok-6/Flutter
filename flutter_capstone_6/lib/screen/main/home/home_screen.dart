@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
-import 'package:flutter_capstone_6/model/class_offline_data.dart';
-import 'package:flutter_capstone_6/model/class_offline_outer.dart';
-import 'package:flutter_capstone_6/model/class_offline_rows.dart';
+import 'package:flutter_capstone_6/model/class_offline/class_offline_data.dart';
+import 'package:flutter_capstone_6/model/class_offline/class_offline_outer.dart';
+import 'package:flutter_capstone_6/model/class_offline/class_offline_rows.dart';
 import 'package:flutter_capstone_6/screen/main/booking/booking_class_screen.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_view_model.dart';
 import 'package:flutter_capstone_6/widget/appbar_home.dart';
@@ -28,16 +28,9 @@ class _HomeScreenState extends State<HomeScreen> {
   List<ClassOfflineRows>? classOfflineRows;
   ClassOfflineRows? classDetail;
 
-  late SharedPreferences storageData;
-
   @override
   void initState() {
     super.initState();
-    initial();
-  }
-
-  void initial() async {
-    storageData = await SharedPreferences.getInstance();
   }
 
   Future getOfflineClass(String token) async {
@@ -79,11 +72,6 @@ class _HomeScreenState extends State<HomeScreen> {
           );
           data.addUser(classDetail!);
         }
-
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const BookingClassScreen()));
       }
     } catch (e) {
       print(e);
@@ -156,14 +144,17 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  getOfflineClass(storageData.getString('token').toString());
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BookingClassScreen()));
                 },
                 child: Container(
                   margin: const EdgeInsets.only(top: 8, bottom: 21),
                   padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
                     color: violet,
-                    borderRadius: const BorderRadius.all(Radius.circular(25)),
+                    borderRadius: BorderRadius.all(Radius.circular(25)),
                   ),
                   child: Column(
                     children: [

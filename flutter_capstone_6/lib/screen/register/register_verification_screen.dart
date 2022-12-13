@@ -5,13 +5,14 @@ import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/component/repository.dart';
 import 'package:flutter_capstone_6/screen/login/login_controller.dart';
 import 'package:flutter_capstone_6/screen/login/login_screen.dart';
+import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_controller.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/user_data.dart';
-import '../../model/user_token.dart';
+import '../../model/user/user_data.dart';
+import '../../model/user/user_token.dart';
 import '../login/login_view_model.dart';
 import 'register_controller.dart';
 
@@ -33,6 +34,7 @@ class _RegisterVerificationScreenState
   var onTapRecognizer;
   TextEditingController pinController = TextEditingController();
   LoginController _controller = LoginController();
+  BookingOfflineController _bOfflineController = BookingOfflineController();
 
   RegisterController _registerController = RegisterController();
 
@@ -293,30 +295,37 @@ class _RegisterVerificationScreenState
           padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 56),
           child: ElevatedButton(
             onPressed: () {
-              _controller
-                  .getUser(email: widget.email, password: widget.password)
-                  .then((userData) {
-                final data =
-                    Provider.of<LoginViewModel>(context, listen: false);
-                final userDetail = UserData(
-                    data: UserToken(
-                  userId: userData.data.userId,
-                  fullName: userData.data.fullName,
-                  email: userData.data.email,
-                  phoneNumber: userData.data.phoneNumber,
-                  accessToken: userData.data.accessToken,
-                  refreshToken: userData.data.refreshToken,
-                ));
-                data.addUser(userDetail);
-                print(' User fullname: ${userData.data.fullName}');
-                print(' User access token: ${userData.data.accessToken}');
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => BottomNavigationBarController(
-                              token: userData.data.accessToken,
-                            )));
-              });
+              // _controller
+              //     .getUser(email: widget.email, password: widget.password)
+              //     .then((userData) {
+              //   final data =
+              //       Provider.of<LoginViewModel>(context, listen: false);
+              //   final userDetail = UserData(
+              //       data: UserToken(
+              //     userId: userData.data.userId,
+              //     fullName: userData.data.fullName,
+              //     email: userData.data.email,
+              //     phoneNumber: userData.data.phoneNumber,
+              //     accessToken: userData.data.accessToken,
+              //     refreshToken: userData.data.refreshToken,
+              //   ));
+              //   data.addUser(userDetail);
+              //   print(' User fullname: ${userData.data.fullName}');
+              //   print(' User access token: ${userData.data.accessToken}');
+
+              //   _bOfflineController.getOfflineClass(
+              //       context, userData.data.accessToken);
+
+              //   Navigator.push(
+              //       context,
+              //       MaterialPageRoute(
+              //           builder: (context) => BottomNavigationBarController(
+              //                 token: userData.data.accessToken,
+              //               )));
+              // });
+
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()));
             },
             style: ElevatedButton.styleFrom(
                 primary: violet,

@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_capstone_6/model/user_data.dart';
+import 'package:flutter_capstone_6/model/user/user_data.dart';
 
 class LoginViewModel with ChangeNotifier {
   List<UserData> _datas = [];

@@ -1,4 +1,4 @@
-import 'package:flutter_capstone_6/model/user_token.dart';
+import 'package:flutter_capstone_6/model/user/user_token.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_data.g.dart';

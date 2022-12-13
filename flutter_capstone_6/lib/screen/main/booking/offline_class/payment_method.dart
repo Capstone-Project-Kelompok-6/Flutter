@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/payment_detail.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 
 class PaymentMethod extends StatefulWidget {
-  const PaymentMethod({Key? key}) : super(key: key);
+  const PaymentMethod(
+      {Key? key,
+      required this.classTitle,
+      required this.classInstructor,
+      required this.price})
+      : super(key: key);
+  final String classTitle;
+  final String classInstructor;
+  final int price;
 
   @override
   State<PaymentMethod> createState() => _PaymentMethodState();
 }
 
 class _PaymentMethodState extends State<PaymentMethod> {
-  int? radioValue = 1;
+  int radioValue = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -90,26 +96,26 @@ class _PaymentMethodState extends State<PaymentMethod> {
                       const SizedBox(width: 62),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
-                            "Yoga",
-                            style: TextStyle(
+                            widget.classTitle,
+                            style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
                               color: n100,
                             ),
                           ),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           Text(
-                            "Endah",
-                            style: TextStyle(
+                            widget.classInstructor,
+                            style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
                               color: n100,
                             ),
                           ),
-                          SizedBox(height: 12),
-                          Text(
+                          const SizedBox(height: 12),
+                          const Text(
                             "0",
                             style: TextStyle(
                               fontSize: 12,
@@ -117,14 +123,26 @@ class _PaymentMethodState extends State<PaymentMethod> {
                               color: n100,
                             ),
                           ),
-                          SizedBox(height: 12),
-                          Text(
-                            "Rp. 500.000",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: n100,
-                            ),
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              const Text(
+                                "Rp. ",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: n100,
+                                ),
+                              ),
+                              Text(
+                                widget.price.toString(),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: n100,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -178,7 +196,12 @@ class _PaymentMethodState extends State<PaymentMethod> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const PaymentDetail()));
+                          builder: (context) => PaymentDetail(
+                                rValue: radioValue,
+                                price: widget.price,
+                                classTitle: widget.classTitle,
+                                classInstructor: widget.classInstructor,
+                              )));
                 },
                 style: ElevatedButton.styleFrom(
                     primary: violet,
@@ -234,8 +257,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
           groupValue: radioValue,
           onChanged: (value) {
             setState(() {
-              radioValue = value as int?;
-              print(radioValue);
+              radioValue = value as int;
+              print('rValue: $radioValue');
             });
           },
         )

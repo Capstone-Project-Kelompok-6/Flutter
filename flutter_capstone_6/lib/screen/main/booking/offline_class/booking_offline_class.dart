@@ -35,6 +35,7 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => BookingOfflineClassDetail(
+                                  classId: classData.classId,
                                   classTitle: classData.workout,
                                   classImage: classData.workoutImage,
                                   classInstructor: classData.instructorName,
@@ -42,8 +43,12 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
                                   classSchedule: classData.classDates,
                                   price: classData.price)));
                     },
-                    child: offlineClassCard(context, classData.workoutImage,
-                        classData.workout, classData.classDates),
+                    child: offlineClassCard(
+                        context,
+                        classData.workoutImage,
+                        classData.workout,
+                        classData.classDates,
+                        classData.instructorName),
                   );
                 },
               );
@@ -54,8 +59,8 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
     );
   }
 
-  Widget offlineClassCard(
-      BuildContext context, String? image, String? title, List? schedule) {
+  Widget offlineClassCard(BuildContext context, String image, String title,
+      List schedule, String instructor) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
@@ -70,6 +75,7 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
         color: white,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.only(
@@ -93,51 +99,64 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title!,
+                    title,
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: n100,
                     ),
                   ),
-                  const Text(
-                    "Class Schedule : ",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: n60,
-                    ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Instructor : ",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: n60,
+                        ),
+                      ),
+                      Text(
+                        instructor,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: n60,
+                        ),
+                      ),
+                    ],
                   ),
-                  ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: schedule!.length,
-                      itemBuilder: (context, index) {
-                        return Text(
-                          schedule[index],
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: n60,
-                          ),
-                        );
-                      }),
-                  // Row(
-                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   children: [
-
-                  //     // Text(
-                  //     //   schedule![0],
-                  //     //   style: const TextStyle(
-                  //     //     fontSize: 12,
-                  //     //     fontWeight: FontWeight.w400,
-                  //     //     color: n60,
-                  //     //   ),
-                  //     // ),
-
-                  //   ],
-                  // ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Class Schedule : ",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: n60,
+                        ),
+                      ),
+                      Wrap(
+                        alignment: WrapAlignment.start,
+                        children: [
+                          for (int i = 0; i < schedule.length; i++)
+                            Text(
+                              (schedule[i] as String).split(',')[0] +
+                                  ((schedule.length - 1 == i) ? '' : ', '),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: n60,
+                              ),
+                            ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ],
               ))
         ],

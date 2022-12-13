@@ -1,4 +1,4 @@
-import 'package:flutter_capstone_6/model/class_offline_data.dart';
+import 'package:flutter_capstone_6/model/class_offline/class_offline_data.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'class_offline_outer.g.dart';

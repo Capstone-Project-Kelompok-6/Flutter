@@ -29,19 +29,18 @@ class _AppBarContentState extends State<AppBarContent> {
                   var userData = data.getDatas[0];
                   userFullname = userData.data.fullName;
                 }
-                ;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Hey $userFullname',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: n100,
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    Text(
+                    const Text(
                       "Let's Exercise",
                       style: TextStyle(
                         color: fontLightGrey,

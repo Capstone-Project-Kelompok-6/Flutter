@@ -60,12 +60,11 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
             "is_online": false
           }));
 
+      print('JSON Response: ${response.body}');
       // print(response.statusCode);
       // print(userId);
 
       if (response.statusCode == 200) {
-        print('JSON Response: ${response.body}');
-
         Navigator.push(
             context,
             MaterialPageRoute(

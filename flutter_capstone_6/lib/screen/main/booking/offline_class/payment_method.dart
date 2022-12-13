@@ -200,6 +200,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                                 rValue: radioValue,
                                 price: widget.price,
                                 classTitle: widget.classTitle,
+                                classInstructor: widget.classInstructor,
                               )));
                 },
                 style: ElevatedButton.styleFrom(

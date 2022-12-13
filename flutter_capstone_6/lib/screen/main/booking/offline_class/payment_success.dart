@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_done.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PaymentSuccess extends StatefulWidget {
-  const PaymentSuccess({Key? key}) : super(key: key);
+  const PaymentSuccess({
+    Key? key,
+    required this.classTitle,
+    required this.classInstructor,
+  }) : super(key: key);
+  final String classTitle;
+  final String classInstructor;
 
   @override
   State<PaymentSuccess> createState() => _PaymentSuccessState();
@@ -91,7 +96,15 @@ class _PaymentSuccessState extends State<PaymentSuccess> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BookingOfflineDone(
+                                    classTitle: widget.classTitle,
+                                    classInstructor: widget.classInstructor,
+                                  )));
+                    },
                     style: ElevatedButton.styleFrom(
                       primary: violet,
                       minimumSize: const Size(double.infinity, 48),

@@ -14,10 +14,12 @@ class PaymentDetail extends StatefulWidget {
     required this.rValue,
     required this.price,
     required this.classTitle,
+    required this.classInstructor,
   }) : super(key: key);
   final int rValue;
   final int price;
   final String classTitle;
+  final String classInstructor;
 
   @override
   State<PaymentDetail> createState() => _PaymentDetailState();
@@ -31,8 +33,6 @@ class _PaymentDetailState extends State<PaymentDetail> {
 
   @override
   void initState() {
-    final userId = context.read<LoginViewModel>().getDatas.first.data.userId;
-    print(userId);
     checkPayment();
     nextMonth = DateTime(today.year, today.month + 1, today.day);
   }
@@ -418,8 +418,11 @@ class _PaymentDetailState extends State<PaymentDetail> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              const PaymentSuccess()));
+                                          builder: (context) => PaymentSuccess(
+                                                classTitle: widget.classTitle,
+                                                classInstructor:
+                                                    widget.classInstructor,
+                                              )));
                                 },
                                 style: ElevatedButton.styleFrom(
                                   primary: violet,

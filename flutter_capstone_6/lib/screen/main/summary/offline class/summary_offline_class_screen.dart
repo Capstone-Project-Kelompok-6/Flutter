@@ -21,9 +21,10 @@ class SummaryOfflineClassScreen extends StatefulWidget {
 }
 
 class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
-  // SummaryOfflineOuter? summaryOfflineOuter;
-  // List<SummaryOfflineRows>? summaryOfflineRows;
-  // SummaryOfflineRows? summaryDetail;
+  SummaryOfflineOuter? summaryOfflineOuter;
+  List<SummaryOfflineRows>? summaryOfflineRows;
+  SummaryOfflineRows? summaryDetail;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -47,18 +48,18 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
         },
       );
 
+      isLoading = false;
       print('JSON Response: ${response.body}');
       // print(response.statusCode);
       // print(userId);
 
       if (response.statusCode == 200) {
         Map<String, dynamic> summaryBody = jsonDecode(response.body);
-        print('after map: $summaryBody');
-        SummaryOfflineOuter summaryOfflineOuter =
-            SummaryOfflineOuter.fromJson(summaryBody);
-        print(summaryOfflineOuter.data!.rows!.first.workout);
 
-        // summaryOfflineRows = summaryOfflineOuter!.data!.rows;
+        setState(() {
+          summaryOfflineOuter = SummaryOfflineOuter.fromJson(summaryBody);
+          summaryOfflineRows = summaryOfflineOuter!.data!.rows;
+        });
 
         // print(summaryOfflineRows!.first.workout);
 
@@ -104,14 +105,33 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
           children: [
             searchBarItem(),
             const SizedBox(height: 24),
-            itemCard('img4.png', 'title', 'view'),
+            isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : summaryOfflineRows != null
+                    ? ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: summaryOfflineRows!.length,
+                        itemBuilder: (context, index) {
+                          print(summaryOfflineRows![0].workout);
+                          return itemCard(
+                              summaryOfflineRows![index].workoutImage,
+                              summaryOfflineRows![index].workout,
+                              summaryOfflineRows![index].instructorName,
+                              summaryOfflineRows![index].classDates);
+                        },
+                      )
+                    : Container(),
           ],
         ),
       ),
     );
   }
 
-  Widget itemCard(String image, String title, String schedule) {
+  Widget itemCard(
+      String image, String title, String instructor, List? schedule) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
@@ -131,8 +151,8 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              'assets/explore/$image',
+            child: Image.network(
+              image,
               fit: BoxFit.cover,
               width: 90,
               height: 90,
@@ -147,24 +167,24 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
                 child: Text(
                   title,
                   style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
                     color: n100,
                     height: 1.4,
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
-              const Text(
-                "Articles",
-                style: TextStyle(
-                  fontSize: 12,
+              Text(
+                instructor,
+                style: const TextStyle(
+                  fontSize: 13,
                   fontWeight: FontWeight.w400,
                   color: n80,
                 ),
               ),
-              const SizedBox(height: 8),
-              Row(
+              const SizedBox(height: 5),
+              Wrap(
+                alignment: WrapAlignment.start,
                 children: [
                   const Text(
                     "Schedule : ",
@@ -174,14 +194,17 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
                       color: n60,
                     ),
                   ),
-                  Text(
-                    schedule,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: n60,
+                  for (int i = 0; i < schedule!.length; i++)
+                    Text(
+                      (schedule[i] as String).split(',')[0] +
+                          ((schedule.length - 1 == i) ? '' : ', '),
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: n60,
+                        // height: 1,
+                      ),
                     ),
-                  )
                 ],
               )
             ],

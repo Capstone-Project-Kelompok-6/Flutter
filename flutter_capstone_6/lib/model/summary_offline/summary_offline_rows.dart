@@ -15,7 +15,7 @@ class SummaryOfflineRows {
     required this.instructorName,
     required this.classDates,
     required this.price,
-    // required this.description,
+    required this.description,
     this.createdAt,
   });
 
@@ -44,13 +44,13 @@ class SummaryOfflineRows {
   String instructorName;
 
   @JsonKey(name: 'class_dates', defaultValue: [])
-  List<String>? classDates;
+  List<String> classDates;
 
   @JsonKey(name: 'price')
   int price;
 
-  // @JsonKey(name: 'description')
-  // String description;
+  @JsonKey(name: 'description')
+  String description;
 
   @JsonKey(name: 'created_at')
   int? createdAt;

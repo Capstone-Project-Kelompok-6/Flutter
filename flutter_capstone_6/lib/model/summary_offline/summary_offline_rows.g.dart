@@ -21,6 +21,7 @@ SummaryOfflineRows _$SummaryOfflineRowsFromJson(Map<String, dynamic> json) {
             .toList() ??
         [],
     price: json['price'] as int,
+    description: json['description'] as String,
     createdAt: json['created_at'] as int?,
   );
 }
@@ -37,5 +38,6 @@ Map<String, dynamic> _$SummaryOfflineRowsToJson(SummaryOfflineRows instance) =>
       'instructor_name': instance.instructorName,
       'class_dates': instance.classDates,
       'price': instance.price,
+      'description': instance.description,
       'created_at': instance.createdAt,
     };

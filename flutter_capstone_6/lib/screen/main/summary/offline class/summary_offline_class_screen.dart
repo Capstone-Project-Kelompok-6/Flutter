@@ -5,6 +5,7 @@ import 'package:flutter_capstone_6/model/summary_offline/summary_offline_data.da
 import 'package:flutter_capstone_6/model/summary_offline/summary_offline_outer.dart';
 import 'package:flutter_capstone_6/model/summary_offline/summary_offline_rows.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
+import 'package:flutter_capstone_6/screen/main/summary/offline%20class/summary_offline_class_detail.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -116,14 +117,43 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
                         itemCount: summaryOfflineRows!.length,
                         itemBuilder: (context, index) {
                           print(summaryOfflineRows![0].workout);
-                          return itemCard(
-                              summaryOfflineRows![index].workoutImage,
-                              summaryOfflineRows![index].workout,
-                              summaryOfflineRows![index].instructorName,
-                              summaryOfflineRows![index].classDates);
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SummaryOfflineClassDetail(
+                                            classId: summaryOfflineRows![index]
+                                                .classId,
+                                            classTitle:
+                                                summaryOfflineRows![index]
+                                                    .workout,
+                                            classImage:
+                                                summaryOfflineRows![index]
+                                                    .workoutImage,
+                                            classInstructor:
+                                                summaryOfflineRows![index]
+                                                    .instructorName,
+                                            classDesc:
+                                                summaryOfflineRows![index]
+                                                    .description,
+                                            classSchedule:
+                                                summaryOfflineRows![index]
+                                                    .classDates,
+                                            price: summaryOfflineRows![index]
+                                                .price,
+                                          )));
+                            },
+                            child: itemCard(
+                                summaryOfflineRows![index].workoutImage,
+                                summaryOfflineRows![index].workout,
+                                summaryOfflineRows![index].instructorName,
+                                summaryOfflineRows![index].classDates),
+                          );
                         },
                       )
-                    : Container(),
+                    : emptyCard(),
           ],
         ),
       ),
@@ -131,7 +161,7 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
   }
 
   Widget itemCard(
-      String image, String title, String instructor, List? schedule) {
+      String image, String title, String instructor, List schedule) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
@@ -194,7 +224,7 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
                       color: n60,
                     ),
                   ),
-                  for (int i = 0; i < schedule!.length; i++)
+                  for (int i = 0; i < schedule.length; i++)
                     Text(
                       (schedule[i] as String).split(',')[0] +
                           ((schedule.length - 1 == i) ? '' : ', '),
@@ -208,6 +238,27 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
                 ],
               )
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget emptyCard() {
+    return SizedBox(
+      height: 320,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: const [
+          Text(
+            "There's nothing here, yet.",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              color: n60,
+            ),
           ),
         ],
       ),

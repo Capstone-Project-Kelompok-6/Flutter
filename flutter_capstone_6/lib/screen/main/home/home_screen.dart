@@ -13,6 +13,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
+import '../video/video_screen.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.token}) : super(key: key);
 
@@ -368,7 +370,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: btnBlack,
                 ),
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => VideoScreen()));
+                  },
                   padding: EdgeInsets.zero,
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   child: Text(

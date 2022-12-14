@@ -81,6 +81,7 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             searchBarItem(),
             const SizedBox(height: 24),
@@ -95,39 +96,35 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                         itemCount: classOnlineRows2.length,
                         itemBuilder: (context, index) {
                           final workout = classOnlineRows2.toList()[index];
-                          print(classOnlineRows3.keys.toList()[index]);
 
                           return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               titleWorkout(workout),
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    if (workout ==
-                                        classOnlineRows3.keys.toList()[index])
-                                      for (int i = 0;
-                                          i <
-                                              classOnlineRows3.values
-                                                  .toList()[index]
-                                                  .length;
-                                          i++)
-                                        SizedBox(
-                                          height: 300,
-                                          child: onlineClassCard(
-                                              'image',
-                                              classOnlineRows3.values
-                                                  .toList()[index][i]
-                                                  .videoTitle,
-                                              classOnlineRows3.values
-                                                  .toList()[index][i]
-                                                  .description),
-                                        ),
-                                  ],
-                                ),
-                              )
+                              const SizedBox(height: 12),
+                              if (workout ==
+                                  classOnlineRows3.keys.toList()[index])
+                                SizedBox(
+                                  height: 245,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
+                                    physics: const BouncingScrollPhysics(),
+                                    itemCount: classOnlineRows3.values
+                                        .toList()[index]
+                                        .length,
+                                    itemBuilder: (context, index2) {
+                                      final classData = classOnlineRows3.values
+                                          .toList()[index][index2];
+
+                                      return onlineClassCard(
+                                          'image',
+                                          classData.videoTitle,
+                                          classData.description);
+                                    },
+                                  ),
+                                )
                             ],
                           );
                         },
@@ -141,9 +138,8 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
 
   Widget onlineClassCard(String image, String title, String description) {
     return Container(
-      width: 300,
-      height: 200,
-      margin: const EdgeInsets.only(bottom: 12),
+      width: 350,
+      margin: const EdgeInsets.only(bottom: 12, right: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
@@ -156,6 +152,7 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
         color: white,
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // ClipRRect(
@@ -183,6 +180,7 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 23),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -193,13 +191,16 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                       color: n100,
                     ),
                   ),
-                  Text(
-                    description,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: n60,
+                  SizedBox(
+                    height: 20,
+                    child: Text(
+                      description,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: n60,
+                      ),
                     ),
                   ),
                 ],

@@ -25,6 +25,7 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
               return ListView.builder(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: data.getDatas.length,
                 itemBuilder: (context, index) {
                   final classData = data.getDatas[index];
@@ -78,21 +79,16 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15),
-            ),
-            child: image != null
-                ? Image.network(
-                    image,
-                    height: 160,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  )
-                : Container(
-                    color: white,
-                  ),
-          ),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15),
+                topRight: Radius.circular(15),
+              ),
+              child: Image.network(
+                image,
+                height: 160,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              )),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 23),
               child: Column(

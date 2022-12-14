@@ -1,17 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter_capstone_6/component/api.dart';
 import 'package:http/http.dart' as http;
 
 class Repository {
+  ApiEndpoint api = ApiEndpoint();
   Future<http.Response> login(String email, String password) async {
     try {
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization':
-            'capstoneIb1eP7LctQNIjsbg9J4mzvHll6ap9RtIOCqkaEBHiD60ev0upL9DRp0JDUKEmVfWSiMcZqoUElLfwst4wPQrUAvxvCbeRvt9oNvjkrGSFs3ObOdGSCnwH'
+        'Authorization': api.ApiKey
       };
       var request = await http.post(
-        Uri.parse('https://www.go-rest-api.live/api/v1/auth/login'),
+        Uri.parse(api.BASE_URL + 'auth/login'),
         body: {"email": email, 'password': password},
       );
 
@@ -28,11 +29,9 @@ class Repository {
     try {
       var headers = {
         'Content-Type': 'application/json',
-        'Authorization':
-            'capstoneIb1eP7LctQNIjsbg9J4mzvHll6ap9RtIOCqkaEBHiD60ev0upL9DRp0JDUKEmVfWSiMcZqoUElLfwst4wPQrUAvxvCbeRvt9oNvjkrGSFs3ObOdGSCnwH'
+        'Authorization': api.ApiKey
       };
-      var request = await http.post(
-          Uri.parse('https://www.go-rest-api.live/api/v1/auth/register'),
+      var request = await http.post(Uri.parse(api.BASE_URL + 'auth/register'),
           body: jsonEncode({
             "first_name": firstName,
             'last_name': lastName,
@@ -52,7 +51,7 @@ class Repository {
     try {
       var headers = {'Content-Type': 'application/json'};
       var request = await http.post(
-        Uri.parse('https://www.go-rest-api.live/api/v1/auth/otp'),
+        Uri.parse('${api.BASE_URL}auth/otp'),
         body: {"email": email},
       );
 
@@ -69,7 +68,7 @@ class Repository {
     try {
       var headers = {'Content-Type': 'application/json'};
       var request = await http.patch(
-        Uri.parse('https://www.go-rest-api.live/api/v1/auth/otp'),
+        Uri.parse('${api.BASE_URL}auth/otp'),
         body: {"email": email, "otp": otp},
       );
 

@@ -35,6 +35,10 @@ class _SummaryScreenState extends State<SummaryScreen> {
           ),
           bottom: const TabBar(
             labelColor: violet,
+            labelStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
             unselectedLabelColor: n60,
             indicator: UnderlineTabIndicator(
                 borderSide: BorderSide(color: violet, width: 2),

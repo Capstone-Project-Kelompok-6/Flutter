@@ -82,6 +82,7 @@ class _BottomNavigationBarControllerState
             selectedFontSize: 14,
             unselectedFontSize: 14,
             type: BottomNavigationBarType.fixed,
+            landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
           ),
         ),
       );

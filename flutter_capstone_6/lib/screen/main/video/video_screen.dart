@@ -15,7 +15,7 @@ class _VideoScreenState extends State<VideoScreen> {
 
   Future initVideo() async {
     videoController = VideoPlayerController.network(
-        'https://storage.googleapis.com/clean-code-72e8f.appspot.com/online-class-video/67277a55f7874b41a93df7db33d79060.mp4?Expires=1702383500&GoogleAccessId=firebase-adminsdk-lenaf%40clean-code-72e8f.iam.gserviceaccount.com&Signature=lAj%2FLvC0rg5dn8iyGAIzaQ0PRWIRaZIsrZmglgi2DxWumi9UYSSuWTrlGmAZ48TWAgR2B%2FnZHJbJONzY1ITb5xPN6p40BB0D1LPkNKFZb8k6oS%2BcrByDl3oFfc4mKxWzHUF5G8QIzwbwv7nYCySMqjAq55dXlqVpnKETYTSpBYqgXpmsrC%2Bxzq%2FSMhjlZCHvpQh%2Bk1jposqY1WXSRhN1jhDCWqcCdFowEdMU4gwtzfhtnIl%2FIG02BC4jsZeKeWCPk7tFlyLa9o97kctWxQDd0VhSYxiViWW6bT33W5qKaFfFwFtlH2xfGJl%2FL%2B3p2oS9XeMs7fEzE6iRIKJRh4bNYg%3D%3D');
+        'https://storage.googleapis.com/clean-code-72e8f.appspot.com/online-class-video/bec58991f9b74e2b9ab19ab31b703fff.mp4?Expires=1702545208\u0026GoogleAccessId=firebase-adminsdk-lenaf%40clean-code-72e8f.iam.gserviceaccount.com\u0026Signature=tFbqAMDcDqBWBrEv3WV88i9iwUCXU7Mr4tfXzBgYs8vI01buP9MvKzMckQwJJ3kcw5V9Bv17EXNcvbE4QGKLGjuFdwMOSVhqsfzuVrv4S652turmUBUeicyRTrBUrSMh2Gc03%2BTUJ04IKmU1icEBtaTjNTAjPNKuwwFqPdla15ujsGDL6PyrolCK6IDOj6kW%2BwHC37MwResdJzI2ZH87tkq28mcrDVHglqx8XMWf1XnrP0gtSR91Pc%2F%2BNXbm7U768h4609san2bNQiAdpn%2F9JL2JBl0tTiPKDjxtfc6EpGGCYd5Pabtc55DLzxgsGk6OmYkDhWywQebaXCBHYFZU6A%3D%3D');
     await videoController.initialize();
 
     chewieController = ChewieController(

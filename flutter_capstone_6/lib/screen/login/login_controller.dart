@@ -14,14 +14,14 @@ class LoginController {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
 
-  Repository _repository = Repository();
+  final Repository _repository = Repository();
 
   Future<UserModel> login() async {
     http.Response? result =
         await _repository.login(emailController.text, passwordController.text);
 
-    if (result?.statusCode == 200) {
-      Map<String, dynamic> loginBody = jsonDecode(result!.body);
+    if (result.statusCode == 200) {
+      Map<String, dynamic> loginBody = jsonDecode(result.body);
       UserModel<UserToken> loginResponse =
           UserModel.fromJson(loginBody, UserToken.fromJson);
 
@@ -31,7 +31,7 @@ class LoginController {
 
       return loginResponse;
     } else {
-      UserModel response = UserModel();
+      // UserModel response = UserModel();
       return UserModel(message: 'Invalid email or password');
     }
   }
@@ -44,7 +44,7 @@ class LoginController {
     http.Response? result =
         await _repository.login(emailController.text, passwordController.text);
 
-    if (result!.statusCode == 200) {
+    if (result.statusCode == 200) {
       Map<String, dynamic> loginBody = jsonDecode(result.body);
       UserData userData = UserData.fromJson(loginBody);
 

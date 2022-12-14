@@ -29,8 +29,8 @@ class ExploreScreen extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.only(left: 25),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 25),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

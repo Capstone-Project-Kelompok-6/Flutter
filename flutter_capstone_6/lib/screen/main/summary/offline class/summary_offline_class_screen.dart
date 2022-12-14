@@ -24,7 +24,6 @@ class SummaryOfflineClassScreen extends StatefulWidget {
 class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
   SummaryOfflineOuter? summaryOfflineOuter;
   List<SummaryOfflineRows>? summaryOfflineRows;
-  SummaryOfflineRows? summaryDetail;
   bool isLoading = true;
 
   @override

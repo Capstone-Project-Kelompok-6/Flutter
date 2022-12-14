@@ -45,7 +45,6 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
                                   price: classData.price)));
                     },
                     child: offlineClassCard(
-                        context,
                         classData.workoutImage,
                         classData.workout,
                         classData.classDates,
@@ -60,8 +59,8 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
     );
   }
 
-  Widget offlineClassCard(BuildContext context, String image, String title,
-      List schedule, String instructor) {
+  Widget offlineClassCard(
+      String image, String title, List schedule, String instructor) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(

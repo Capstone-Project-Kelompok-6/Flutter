@@ -1,4 +1,3 @@
-import 'package:flutter_capstone_6/model/class_offline/class_offline_rows.dart';
 import 'package:flutter_capstone_6/model/summary_offline/summary_offline_rows.dart';
 import 'package:json_annotation/json_annotation.dart';
 

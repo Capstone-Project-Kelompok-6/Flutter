@@ -1,7 +1,5 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoScreen extends StatefulWidget {
@@ -58,7 +56,7 @@ class _VideoScreenState extends State<VideoScreen> {
           child: chewieController != null &&
                   chewieController!.videoPlayerController.value.isInitialized
               ? Chewie(controller: chewieController!)
-              : CircularProgressIndicator()),
+              : const CircularProgressIndicator()),
     );
   }
 }

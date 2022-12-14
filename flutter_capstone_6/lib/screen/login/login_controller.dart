@@ -17,11 +17,11 @@ class LoginController {
   Repository _repository = Repository();
 
   Future<UserModel> login() async {
-    http.Response result =
+    http.Response? result =
         await _repository.login(emailController.text, passwordController.text);
 
-    if (result.statusCode == 200) {
-      Map<String, dynamic> loginBody = jsonDecode(result.body);
+    if (result?.statusCode == 200) {
+      Map<String, dynamic> loginBody = jsonDecode(result!.body);
       UserModel<UserToken> loginResponse =
           UserModel.fromJson(loginBody, UserToken.fromJson);
 
@@ -41,10 +41,10 @@ class LoginController {
       emailController.text = email!;
       passwordController.text = password!;
     }
-    http.Response result =
+    http.Response? result =
         await _repository.login(emailController.text, passwordController.text);
 
-    if (result.statusCode == 200) {
+    if (result!.statusCode == 200) {
       Map<String, dynamic> loginBody = jsonDecode(result.body);
       UserData userData = UserData.fromJson(loginBody);
 

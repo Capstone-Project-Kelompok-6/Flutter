@@ -40,7 +40,7 @@ class _BottomNavigationBarControllerState
   int _selectedIndex = 0;
 
   Widget _bottomNavigationBar(int selectedIndex) => Container(
-        height: 110,
+        height: 100,
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(40), topRight: Radius.circular(40)),

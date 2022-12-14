@@ -138,7 +138,7 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
 
   Widget onlineClassCard(String image, String title, String description) {
     return Container(
-      width: 350,
+      width: 361,
       margin: const EdgeInsets.only(bottom: 12, right: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),

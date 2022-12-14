@@ -14,7 +14,7 @@ class LoginController {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
 
-  Repository _repository = Repository();
+  final Repository _repository = Repository();
 
   Future<UserModel> login() async {
     http.Response? result =
@@ -31,7 +31,7 @@ class LoginController {
 
       return loginResponse;
     } else {
-      UserModel response = UserModel();
+      // UserModel response = UserModel();
       return UserModel(message: 'Invalid email or password');
     }
   }

@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
-import 'package:flutter_capstone_6/model/class_offline/class_offline_data.dart';
 import 'package:flutter_capstone_6/model/class_offline/class_offline_outer.dart';
 import 'package:flutter_capstone_6/model/class_offline/class_offline_rows.dart';
 import 'package:flutter_capstone_6/screen/main/booking/booking_class_screen.dart';
@@ -10,7 +9,6 @@ import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_off
 import 'package:flutter_capstone_6/widget/appbar_home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 
 import '../video/video_screen.dart';
@@ -362,8 +360,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: MaterialButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => VideoScreen()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const VideoScreen()));
                   },
                   padding: EdgeInsets.zero,
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

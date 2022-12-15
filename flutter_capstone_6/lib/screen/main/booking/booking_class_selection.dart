@@ -53,7 +53,7 @@ class _BookingClassSelectionState extends State<BookingClassSelection> {
             unselectedLabelColor: n60,
             indicator: UnderlineTabIndicator(
                 borderSide: BorderSide(color: violet, width: 2),
-                insets: EdgeInsets.symmetric(horizontal: 60, vertical: 5)),
+                insets: EdgeInsets.symmetric(horizontal: 30, vertical: 5)),
             tabs: [
               Tab(
                 text: 'Offline Class',

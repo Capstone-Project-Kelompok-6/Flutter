@@ -15,7 +15,7 @@ class _VideoScreenState extends State<VideoScreen> {
 
   Future initVideo() async {
     videoController = VideoPlayerController.network(
-        'https://storage.googleapis.com/clean-code-72e8f.appspot.com/online-class-video/bec58991f9b74e2b9ab19ab31b703fff.mp4?Expires=1702545208\u0026GoogleAccessId=firebase-adminsdk-lenaf%40clean-code-72e8f.iam.gserviceaccount.com\u0026Signature=tFbqAMDcDqBWBrEv3WV88i9iwUCXU7Mr4tfXzBgYs8vI01buP9MvKzMckQwJJ3kcw5V9Bv17EXNcvbE4QGKLGjuFdwMOSVhqsfzuVrv4S652turmUBUeicyRTrBUrSMh2Gc03%2BTUJ04IKmU1icEBtaTjNTAjPNKuwwFqPdla15ujsGDL6PyrolCK6IDOj6kW%2BwHC37MwResdJzI2ZH87tkq28mcrDVHglqx8XMWf1XnrP0gtSR91Pc%2F%2BNXbm7U768h4609san2bNQiAdpn%2F9JL2JBl0tTiPKDjxtfc6EpGGCYd5Pabtc55DLzxgsGk6OmYkDhWywQebaXCBHYFZU6A%3D%3D');
+        'https://storage.googleapis.com/coba-notif-51a0f.appspot.com/online-class-video/ba43cf8680244e2491826c008b8c4c9d.mp4?Expires=1702614625\u0026GoogleAccessId=firebase-adminsdk-wlnrd%40coba-notif-51a0f.iam.gserviceaccount.com\u0026Signature=aMxKGwtS48djGYRBb16zISLE9MR%2BMYSe0AtGBNypTmTVVngElJ5%2Bd%2FbdZJy%2Flbug2Cm9uShOCRBD6ZgNPSEsGAorr91mmvwkuOITDHCWWaokJ2BgTeWHEcX6iJEeBMFG5v4zF2Kh5k4jC0s%2FZLbHmDTCI%2Bm1DMup%2Fyr7CMerJaUY6gwWA2ehDM7GY7Vu1eXLmi0JDy2i5gaSI9v%2FcAewpg%2BdD6niSWE1K6I1GGgmUf2eZEFwCtrvS9%2BvW9E1k%2FK7vMvNjh5T2tvG17jcAzET1W5RBmtyMsJZt1BJcfx1VP3qgPV8kA9hK%2FMrnhveckMIp122cAzuFYQFvFnatDPT5w%3D%3D');
     await videoController.initialize();
 
     chewieController = ChewieController(

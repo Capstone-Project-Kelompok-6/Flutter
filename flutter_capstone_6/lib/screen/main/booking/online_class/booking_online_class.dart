@@ -8,6 +8,7 @@ import 'package:flutter_capstone_6/model/class_online/class_online_rows.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 
 class BookingOnlineClass extends StatefulWidget {
   const BookingOnlineClass({Key? key}) : super(key: key);
@@ -22,6 +23,10 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
   Set<String> classOnlineRows2 = {};
   Map<String, List<ClassOnlineRows>> classOnlineRows3 = {};
   bool isLoading = true;
+
+  // video info
+  late VideoPlayerController videoController;
+  String videoDuration = '';
 
   @override
   void initState() {
@@ -73,6 +78,13 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
     }
   }
 
+  Future<Duration> initVideo(String videoPath) async {
+    videoController = VideoPlayerController.network(videoPath);
+    await videoController.initialize();
+
+    return videoController.value.duration;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -116,10 +128,19 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                                       final classData = classOnlineRows3.values
                                           .toList()[index][index2];
 
+                                      initVideo(classData.video).then((value) {
+                                        print('Video Duration: $value');
+                                        setState(() {
+                                          videoDuration =
+                                              "${value.inMinutes.remainder(60)}:${value.inSeconds.remainder(60)}";
+                                        });
+                                      });
+
                                       return onlineClassCard(
                                           'image',
                                           classData.videoTitle,
-                                          classData.description);
+                                          classData.description,
+                                          videoDuration);
                                     },
                                   ),
                                 )
@@ -134,7 +155,8 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
     );
   }
 
-  Widget onlineClassCard(String image, String title, String description) {
+  Widget onlineClassCard(
+      String image, String title, String description, String duration) {
     return Container(
       width: 361,
       margin: const EdgeInsets.only(bottom: 12, right: 8),
@@ -153,28 +175,51 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ClipRRect(
-          //     borderRadius: const BorderRadius.only(
-          //       topLeft: Radius.circular(15),
-          //       topRight: Radius.circular(15),
-          //     ),
-          //     child: Image.network(
-          //       image,
-          //       height: 160,
-          //       width: double.infinity,
-          //       fit: BoxFit.cover,
-          //     )),
-          ClipRRect(
-              borderRadius: const BorderRadius.only(
+          Container(
+            height: 160,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15),
                 topRight: Radius.circular(15),
               ),
-              child: Image.asset(
-                'assets/explore/img1.png',
-                height: 160,
-                width: double.infinity,
+              image: DecorationImage(
+                image: AssetImage('assets/explore/img4.png'),
                 fit: BoxFit.cover,
-              )),
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 2, horizontal: 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: n100,
+                        ),
+                        child: Text(
+                          duration,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 23),
               child: Column(

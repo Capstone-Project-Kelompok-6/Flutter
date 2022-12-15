@@ -38,9 +38,10 @@ class _ForgotPasswordVerificationScreenState
 
   bool isComplete = false;
   bool isHide = true;
-  bool isAccountBack = false;
+  bool isAccountBack = true;
   bool isLoading = false;
   bool isInit = true;
+  bool onProgress = false;
 
   @override
   void initState() {
@@ -131,9 +132,9 @@ class _ForgotPasswordVerificationScreenState
                       ? Center(
                           child: CircularProgressIndicator(),
                         )
-                      : isComplete
-                          ? failureVerification()
-                          : resetPassword()),
+                      : isAccountBack
+                          ? resetPassword()
+                          : successVerification()),
         ),
       ),
     );
@@ -237,7 +238,7 @@ class _ForgotPasswordVerificationScreenState
                   _controller.confirmPassController.text,
                   _controller.pinController.text);
               setState(() {
-                isAccountBack = true;
+                isAccountBack = false;
               });
             },
             style: ElevatedButton.styleFrom(
@@ -459,62 +460,62 @@ class _ForgotPasswordVerificationScreenState
     );
   }
 
-  Widget failureVerification() {
-    return Column(
-      children: [
-        // Title Section
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 10),
-          width: double.infinity,
-          child: SvgPicture.asset(
-              'assets/register_verification/verification_success.svg'),
-        ),
-        const SizedBox(height: 8),
-        const Text(
-          "Verification Failed",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: n100,
-          ),
-        ),
-        const SizedBox(
-          width: 300,
-          child: Text(
-            "Your account is already registered",
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: n60,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
+  // Widget failureVerification() {
+  //   return Column(
+  //     children: [
+  //       // Title Section
+  //       Container(
+  //         margin: const EdgeInsets.symmetric(vertical: 10),
+  //         width: double.infinity,
+  //         child: SvgPicture.asset(
+  //             'assets/register_verification/verification_success.svg'),
+  //       ),
+  //       const SizedBox(height: 8),
+  //       const Text(
+  //         "Verification Failed",
+  //         style: TextStyle(
+  //           fontSize: 18,
+  //           fontWeight: FontWeight.w600,
+  //           color: n100,
+  //         ),
+  //       ),
+  //       const SizedBox(
+  //         width: 300,
+  //         child: Text(
+  //           "Your account is already registered",
+  //           style: TextStyle(
+  //             fontSize: 14,
+  //             fontWeight: FontWeight.w400,
+  //             color: n60,
+  //           ),
+  //           textAlign: TextAlign.center,
+  //         ),
+  //       ),
 
-        // Button Next Section
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 56),
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()));
-            },
-            style: ElevatedButton.styleFrom(
-                primary: violet,
-                minimumSize: const Size(double.infinity, 48),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20))),
-            child: const Text(
-              "Next",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: white,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  //       // Button Next Section
+  //       Container(
+  //         margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 56),
+  //         child: ElevatedButton(
+  //           onPressed: () {
+  //             Navigator.push(context,
+  //                 MaterialPageRoute(builder: (context) => const LoginScreen()));
+  //           },
+  //           style: ElevatedButton.styleFrom(
+  //               primary: violet,
+  //               minimumSize: const Size(double.infinity, 48),
+  //               shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(20))),
+  //           child: const Text(
+  //             "Next",
+  //             style: TextStyle(
+  //               fontSize: 16,
+  //               fontWeight: FontWeight.w500,
+  //               color: white,
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 }

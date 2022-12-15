@@ -4,7 +4,6 @@ import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_done.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class PaymentSuccess extends StatefulWidget {
   const PaymentSuccess({

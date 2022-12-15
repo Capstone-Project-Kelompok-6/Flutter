@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/model/summary_online/summary_online_outer.dart';
 import 'package:flutter_capstone_6/model/summary_online/summary_online_rows.dart';

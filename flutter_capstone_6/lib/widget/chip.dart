@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class ChipWidget extends StatefulWidget {
   const ChipWidget({Key? key}) : super(key: key);

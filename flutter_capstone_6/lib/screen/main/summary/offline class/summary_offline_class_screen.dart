@@ -1,15 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_capstone_6/model/summary_offline/summary_offline_data.dart';
 import 'package:flutter_capstone_6/model/summary_offline/summary_offline_outer.dart';
 import 'package:flutter_capstone_6/model/summary_offline/summary_offline_rows.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/main/summary/offline%20class/summary_offline_class_detail.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../component/colors.dart';
 

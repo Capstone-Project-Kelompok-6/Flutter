@@ -31,8 +31,9 @@ class _ForgotPasswordVerificationScreenState
     extends State<ForgotPasswordVerificationScreen> {
   // pin code
   var onTapRecognizer;
-  TextEditingController pinController = TextEditingController();
-  ForgotPasswordController _controller = ForgotPasswordController();
+
+  late ForgotPasswordController _controller = ForgotPasswordController();
+
   String pin = "";
 
   bool isComplete = false;
@@ -48,6 +49,8 @@ class _ForgotPasswordVerificationScreenState
         Navigator.pop(context);
       };
     super.initState();
+    _controller.emailController.text = widget.email;
+    _controller.pinController.text = widget.pin;
   }
 
   @override
@@ -224,6 +227,10 @@ class _ForgotPasswordVerificationScreenState
           margin: const EdgeInsets.only(left: 5, right: 5, bottom: 32),
           child: ElevatedButton(
             onPressed: () {
+              print(_controller.emailController.text);
+              print(_controller.pinController.text);
+              print(_controller.confirmPassController.text);
+              print(_controller.passwordController.text);
               _controller.changePassword(
                   _controller.emailController.text,
                   _controller.passwordController.text,
@@ -389,7 +396,7 @@ class _ForgotPasswordVerificationScreenState
               height: 1.6,
             ),
             backgroundColor: white,
-            controller: pinController,
+            controller: _controller.pinController,
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp("[0-9]")),
             ],

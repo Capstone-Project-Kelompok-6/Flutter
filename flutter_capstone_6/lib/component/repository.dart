@@ -87,16 +87,25 @@ class Repository {
 
   Future<http.Response> forgotPassword(String email, String password,
       String confirm_password, String otp) async {
+    print(confirm_password);
     try {
       var headers = {
         'Content-Type': 'application/json',
       };
+      print(
+        {
+          "email": email,
+          'password': password,
+          'confirm_password': confirm_password,
+          'otp': otp
+        },
+      );
       var request = await http.patch(
         Uri.parse('https://www.go-rest-api.live/api/v1/auth/forgot-password'),
         body: {
           "email": email,
           'password': password,
-          'confirm_password': confirm_password,
+          'ConfirmPassword': confirm_password,
           'otp': otp
         },
       );

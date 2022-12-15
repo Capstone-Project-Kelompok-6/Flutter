@@ -4,6 +4,7 @@ import 'package:flutter_capstone_6/screen/login/login_screen.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'edit_profile/edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -78,7 +79,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           right: 57,
           child: IconButton(
             iconSize: 50,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => EditProfileScreen()));
+            },
             icon: SvgPicture.asset('assets/profile_change.svg'),
 
             // child: Container(

@@ -17,7 +17,7 @@ class LoginController {
   final Repository _repository = Repository();
 
   Future<UserModel> login() async {
-    http.Response? result =
+    http.Response result =
         await _repository.login(emailController.text, passwordController.text);
 
     if (result.statusCode == 200) {
@@ -41,16 +41,12 @@ class LoginController {
       emailController.text = email!;
       passwordController.text = password!;
     }
-    http.Response? result =
+    http.Response result =
         await _repository.login(emailController.text, passwordController.text);
 
     if (result.statusCode == 200) {
       Map<String, dynamic> loginBody = jsonDecode(result.body);
       UserData userData = UserData.fromJson(loginBody);
-
-      // print('JSON Response: ${result.body}');
-      // print('user fullname: ${userData.data.fullName}');
-
       return userData;
     } else {
       return UserData(

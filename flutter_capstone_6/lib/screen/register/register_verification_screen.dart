@@ -25,7 +25,6 @@ class RegisterVerificationScreen extends StatefulWidget {
 
 class _RegisterVerificationScreenState
     extends State<RegisterVerificationScreen> {
-  // pin code
   var onTapRecognizer;
   TextEditingController pinController = TextEditingController();
   LoginController _controller = LoginController();

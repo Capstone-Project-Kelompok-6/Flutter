@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/main/summary/offline%20class/summary_offline_class_screen.dart';
-import 'package:flutter_capstone_6/screen/main/summary/online%20class/online_class_screen.dart';
+import 'package:flutter_capstone_6/screen/main/summary/online%20class/summary_online_class_screen.dart';
 
 class SummaryScreen extends StatefulWidget {
   const SummaryScreen({Key? key}) : super(key: key);
@@ -59,7 +59,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
         body: const TabBarView(
           children: [
             SummaryOfflineClassScreen(),
-            OnlineClassScreen(),
+            SummaryOnlineClassScreen(),
             // HistoryScreen()
           ],
         ),

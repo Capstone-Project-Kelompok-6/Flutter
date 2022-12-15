@@ -1,29 +1,27 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_capstone_6/model/summary_offline/summary_offline_data.dart';
-import 'package:flutter_capstone_6/model/summary_offline/summary_offline_outer.dart';
-import 'package:flutter_capstone_6/model/summary_offline/summary_offline_rows.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/model/summary_online/summary_online_outer.dart';
+import 'package:flutter_capstone_6/model/summary_online/summary_online_rows.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
-import 'package:flutter_capstone_6/screen/main/summary/offline%20class/summary_offline_class_detail.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_capstone_6/screen/main/summary/online%20class/summary_online_class_detail.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
-import '../../../../component/colors.dart';
-
-class SummaryOfflineClassScreen extends StatefulWidget {
-  const SummaryOfflineClassScreen({Key? key}) : super(key: key);
+class SummaryOnlineClassScreen extends StatefulWidget {
+  const SummaryOnlineClassScreen({Key? key}) : super(key: key);
 
   @override
-  State<SummaryOfflineClassScreen> createState() =>
-      _SummaryOfflineClassScreenState();
+  State<SummaryOnlineClassScreen> createState() =>
+      _SummaryOnlineClassScreenState();
 }
 
-class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
-  SummaryOfflineOuter? summaryOfflineOuter;
-  List<SummaryOfflineRows>? summaryOfflineRows;
+class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
+  SummaryOnlineOuter? summaryOnlineOuter;
+  List<SummaryOnlineRows>? summaryOnlineRows;
   bool isLoading = true;
 
   @override
@@ -33,15 +31,15 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
     final userToken =
         context.read<LoginViewModel>().getDatas.first.data.accessToken;
 
-    getBookOfflineClass(userToken, userId);
+    getBookOnlineClass(userToken, userId);
     print(userId);
   }
 
-  Future getBookOfflineClass(String token, String userId) async {
+  Future getBookOnlineClass(String token, String userId) async {
     try {
       http.Response response = await http.get(
         Uri.parse(
-            'https://www.go-rest-api.live/api/v1/books/offline?userId=$userId'),
+            'https://www.go-rest-api.live/api/v1/books/online?userId=$userId'),
         headers: {
           'Authorization': 'Bearer ' + token,
           'Content-type': 'application/json'
@@ -57,8 +55,8 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
         Map<String, dynamic> summaryBody = jsonDecode(response.body);
 
         setState(() {
-          summaryOfflineOuter = SummaryOfflineOuter.fromJson(summaryBody);
-          summaryOfflineRows = summaryOfflineOuter!.data!.rows;
+          summaryOnlineOuter = SummaryOnlineOuter.fromJson(summaryBody);
+          summaryOnlineRows = summaryOnlineOuter!.data!.rows;
         });
       }
     } catch (e) {
@@ -79,46 +77,37 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
-                : summaryOfflineRows != null
+                : summaryOnlineRows != null
                     ? ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
-                        itemCount: summaryOfflineRows!.length,
+                        itemCount: summaryOnlineRows!.length,
                         itemBuilder: (context, index) {
-                          print(summaryOfflineRows![0].workout);
+                          print(summaryOnlineRows![0].workout);
                           return GestureDetector(
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          SummaryOfflineClassDetail(
-                                            classId: summaryOfflineRows![index]
-                                                .classId,
+                                          SummaryOnlineClassDetail(
                                             classTitle:
-                                                summaryOfflineRows![index]
+                                                summaryOnlineRows![index]
                                                     .workout,
-                                            classImage:
-                                                summaryOfflineRows![index]
-                                                    .workoutImage,
-                                            classInstructor:
-                                                summaryOfflineRows![index]
-                                                    .instructorName,
-                                            classDesc:
-                                                summaryOfflineRows![index]
-                                                    .description,
-                                            classSchedule:
-                                                summaryOfflineRows![index]
-                                                    .classDates,
-                                            price: summaryOfflineRows![index]
-                                                .price,
+                                            classImage: 'classImage',
+                                            classVideoTitle:
+                                                summaryOnlineRows![index]
+                                                    .videoTitle,
+                                            classDesc: summaryOnlineRows![index]
+                                                .description,
+                                            video:
+                                                summaryOnlineRows![index].video,
                                           )));
                             },
                             child: itemCard(
-                                summaryOfflineRows![index].workoutImage,
-                                summaryOfflineRows![index].workout,
-                                summaryOfflineRows![index].instructorName,
-                                summaryOfflineRows![index].classDates),
+                                'summaryOnlineRows![index].workoutImage',
+                                summaryOnlineRows![index].videoTitle,
+                                'summaryOnlineRows![index].duration'),
                           );
                         },
                       )
@@ -129,8 +118,7 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
     );
   }
 
-  Widget itemCard(
-      String image, String title, String instructor, List schedule) {
+  Widget itemCard(String image, String title, String duration) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
@@ -148,10 +136,19 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
       ),
       child: Row(
         children: [
+          // ClipRRect(
+          //   borderRadius: BorderRadius.circular(10),
+          //   child: Image.network(
+          //     image,
+          //     fit: BoxFit.cover,
+          //     width: 90,
+          //     height: 90,
+          //   ),
+          // ),
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              image,
+            child: Image.asset(
+              'assets/explore/img4.png',
               fit: BoxFit.cover,
               width: 90,
               height: 90,
@@ -173,37 +170,26 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
                   ),
                 ),
               ),
-              Text(
-                instructor,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: n80,
-                ),
-              ),
               const SizedBox(height: 5),
               Wrap(
                 alignment: WrapAlignment.start,
                 children: [
                   const Text(
-                    "Schedule : ",
+                    "Duration : ",
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                       color: n60,
                     ),
                   ),
-                  for (int i = 0; i < schedule.length; i++)
-                    Text(
-                      (schedule[i] as String).split(',')[0] +
-                          ((schedule.length - 1 == i) ? '' : ', '),
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: n60,
-                        // height: 1,
-                      ),
+                  const Text(
+                    "15m 28s",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: n60,
                     ),
+                  ),
                 ],
               )
             ],

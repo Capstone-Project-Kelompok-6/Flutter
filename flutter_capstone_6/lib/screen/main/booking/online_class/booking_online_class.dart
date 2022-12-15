@@ -133,30 +133,30 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                                             .toList()[index][index2];
 
                                         // get video duration
-                                        // FFprobeKit.getMediaInformation(
-                                        //         classData.video)
-                                        //     .then((session) {
-                                        //   final durationInfo = session
-                                        //       .getMediaInformation()!
-                                        //       .getDuration();
+                                        FFprobeKit.getMediaInformation(
+                                                classData.video)
+                                            .then((session) {
+                                          final durationInfo = session
+                                              .getMediaInformation()!
+                                              .getDuration();
 
-                                        //   // change to duration
-                                        //   var seconds =
-                                        //       double.parse(durationInfo!)
-                                        //           .round();
-                                        //   duration = Duration(seconds: seconds);
+                                          // change to duration
+                                          var seconds =
+                                              double.parse(durationInfo!)
+                                                  .round();
+                                          duration = Duration(seconds: seconds);
 
-                                        //   // formatting duration
-                                        //   format(Duration d) =>
-                                        //       d.toString().substring(2, 7);
-                                        //   setState(() {
-                                        //     videoDuration =
-                                        //         format(duration).toString();
-                                        //   });
+                                          // formatting duration
+                                          format(Duration d) =>
+                                              d.toString().substring(2, 7);
+                                          setState(() {
+                                            videoDuration =
+                                                format(duration).toString();
+                                          });
 
-                                        //   print(
-                                        //       "${classData.videoTitle}: $videoDuration");
-                                        // });
+                                          print(
+                                              "${classData.videoTitle}: $videoDuration");
+                                        });
 
                                         return GestureDetector(
                                           onTap: () {

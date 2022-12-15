@@ -18,6 +18,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../model/user/user_model.dart';
+import '../forgot_password/forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -89,34 +90,36 @@ class _LoginScreenState extends State<LoginScreen> {
                     emailFormItem(),
                     const SizedBox(height: 15),
                     passwordFormItem(),
-                    // const SizedBox(height: 15),
+                    SizedBox(
+                      height: 15,
+                    )
                   ],
                 ),
               ),
 
               // Forgot Password Section
-              // Container(
-              //   margin: const EdgeInsets.symmetric(horizontal: 25),
-              //   width: double.infinity,
-              //   child: GestureDetector(
-              //     onTap: () {
-              //       Navigator.push(
-              //           context,
-              //           MaterialPageRoute(
-              //               builder: (context) =>
-              //                   const ForgotPasswordScreen()));
-              //     },
-              //     child: const Text(
-              //       "Forgot Password?",
-              //       textAlign: TextAlign.right,
-              //       style: TextStyle(
-              //         fontSize: 12,
-              //         fontWeight: FontWeight.w400,
-              //         color: violet,
-              //       ),
-              //     ),
-              //   ),
-              // ),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 25),
+                width: double.infinity,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                const ForgotPasswordScreen()));
+                  },
+                  child: const Text(
+                    "Forgot Password?",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: violet,
+                    ),
+                  ),
+                ),
+              ),
 
               // Button Login Section
               Padding(

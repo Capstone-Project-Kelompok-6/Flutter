@@ -2,12 +2,25 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/screen/forgot_password/forgot_password_controller.dart';
 import 'package:flutter_capstone_6/screen/login/login_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../../component/repository.dart';
+
 class ForgotPasswordVerificationScreen extends StatefulWidget {
-  const ForgotPasswordVerificationScreen({Key? key}) : super(key: key);
+  final String email;
+  final String password;
+  final String confirmPassword;
+  final String pin;
+  const ForgotPasswordVerificationScreen(
+      {Key? key,
+      required this.email,
+      required this.password,
+      required this.confirmPassword,
+      required this.pin})
+      : super(key: key);
 
   @override
   State<ForgotPasswordVerificationScreen> createState() =>
@@ -18,12 +31,17 @@ class _ForgotPasswordVerificationScreenState
     extends State<ForgotPasswordVerificationScreen> {
   // pin code
   var onTapRecognizer;
-  TextEditingController pinController = TextEditingController();
+
+  late ForgotPasswordController _controller = ForgotPasswordController();
+
   String pin = "";
 
   bool isComplete = false;
   bool isHide = true;
-  bool isAccountBack = false;
+  bool isAccountBack = true;
+  bool isLoading = false;
+  bool isInit = true;
+  bool onProgress = false;
 
   @override
   void initState() {
@@ -32,6 +50,8 @@ class _ForgotPasswordVerificationScreenState
         Navigator.pop(context);
       };
     super.initState();
+    _controller.emailController.text = widget.email;
+    _controller.pinController.text = widget.pin;
   }
 
   @override
@@ -105,13 +125,16 @@ class _ForgotPasswordVerificationScreenState
             ],
           ),
           child: Container(
-            margin: const EdgeInsets.all(5),
-            child: isComplete
-                ? isAccountBack
-                    ? successVerification()
-                    : resetPassword()
-                : codeVerification(),
-          ),
+              margin: const EdgeInsets.all(5),
+              child: isInit
+                  ? codeVerification()
+                  : isLoading
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : isAccountBack
+                          ? resetPassword()
+                          : successVerification()),
         ),
       ),
     );
@@ -205,8 +228,17 @@ class _ForgotPasswordVerificationScreenState
           margin: const EdgeInsets.only(left: 5, right: 5, bottom: 32),
           child: ElevatedButton(
             onPressed: () {
+              print(_controller.emailController.text);
+              print(_controller.pinController.text);
+              print(_controller.confirmPassController.text);
+              print(_controller.passwordController.text);
+              _controller.changePassword(
+                  _controller.emailController.text,
+                  _controller.passwordController.text,
+                  _controller.confirmPassController.text,
+                  _controller.pinController.text);
               setState(() {
-                isAccountBack = true;
+                isAccountBack = false;
               });
             },
             style: ElevatedButton.styleFrom(
@@ -235,7 +267,7 @@ class _ForgotPasswordVerificationScreenState
       child: TextFormField(
         validator: (String? value) => value == '' ? "Required" : null,
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
+        controller: _controller.passwordController,
         maxLines: 1,
         obscureText: isHide,
         decoration: InputDecoration(
@@ -276,7 +308,7 @@ class _ForgotPasswordVerificationScreenState
       child: TextFormField(
         validator: (String? value) => value == '' ? "Required" : null,
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
+        controller: _controller.confirmPassController,
         maxLines: 1,
         obscureText: isHide,
         decoration: InputDecoration(
@@ -365,14 +397,25 @@ class _ForgotPasswordVerificationScreenState
               height: 1.6,
             ),
             backgroundColor: white,
-            controller: pinController,
+            controller: _controller.pinController,
             inputFormatters: [
               FilteringTextInputFormatter.allow(RegExp("[0-9]")),
             ],
             onCompleted: (v) {
               print("Completed");
               setState(() {
-                isComplete = true;
+                isInit = false;
+                isLoading = true;
+                Repository verifyOtp = Repository();
+                verifyOtp.verifyOtp(widget.email, pin).then((value) {
+                  isLoading = false;
+                  if (value) {
+                    isComplete = true;
+                  } else {
+                    isComplete = false;
+                  }
+                  setState(() {});
+                });
               });
             },
             onChanged: (value) {
@@ -416,4 +459,63 @@ class _ForgotPasswordVerificationScreenState
       ],
     );
   }
+
+  // Widget failureVerification() {
+  //   return Column(
+  //     children: [
+  //       // Title Section
+  //       Container(
+  //         margin: const EdgeInsets.symmetric(vertical: 10),
+  //         width: double.infinity,
+  //         child: SvgPicture.asset(
+  //             'assets/register_verification/verification_success.svg'),
+  //       ),
+  //       const SizedBox(height: 8),
+  //       const Text(
+  //         "Verification Failed",
+  //         style: TextStyle(
+  //           fontSize: 18,
+  //           fontWeight: FontWeight.w600,
+  //           color: n100,
+  //         ),
+  //       ),
+  //       const SizedBox(
+  //         width: 300,
+  //         child: Text(
+  //           "Your account is already registered",
+  //           style: TextStyle(
+  //             fontSize: 14,
+  //             fontWeight: FontWeight.w400,
+  //             color: n60,
+  //           ),
+  //           textAlign: TextAlign.center,
+  //         ),
+  //       ),
+
+  //       // Button Next Section
+  //       Container(
+  //         margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 56),
+  //         child: ElevatedButton(
+  //           onPressed: () {
+  //             Navigator.push(context,
+  //                 MaterialPageRoute(builder: (context) => const LoginScreen()));
+  //           },
+  //           style: ElevatedButton.styleFrom(
+  //               primary: violet,
+  //               minimumSize: const Size(double.infinity, 48),
+  //               shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(20))),
+  //           child: const Text(
+  //             "Next",
+  //             style: TextStyle(
+  //               fontSize: 16,
+  //               fontWeight: FontWeight.w500,
+  //               color: white,
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 }

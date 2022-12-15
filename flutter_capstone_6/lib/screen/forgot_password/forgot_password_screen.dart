@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/screen/forgot_password/forgot_password_controller.dart';
 import 'package:flutter_capstone_6/screen/forgot_password/forgot_password_verification_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../component/repository.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({Key? key}) : super(key: key);
@@ -11,6 +14,8 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  ForgotPasswordController _controller = ForgotPasswordController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,10 +98,16 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   padding: const EdgeInsets.only(left: 5, right: 5),
                   height: 50,
                   child: TextFormField(
-                    validator: (String? value) =>
-                        value == '' ? "Required" : null,
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Required';
+                      }
+                      if (!value.contains("@")) {
+                        return 'Not a valid email';
+                      }
+                    },
                     // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-                    // controller: _titleController,
+                    controller: _controller.emailController,
                     maxLines: 1,
                     decoration: const InputDecoration(
                       labelText: 'email address',
@@ -122,11 +133,20 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   margin: const EdgeInsets.only(left: 5, right: 5, bottom: 32),
                   child: ElevatedButton(
                     onPressed: () {
+                      Repository sendOtp = Repository();
+                      sendOtp.sendOtp(_controller.emailController.text);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  const ForgotPasswordVerificationScreen()));
+                                  ForgotPasswordVerificationScreen(
+                                    email: _controller.emailController.text,
+                                    password:
+                                        _controller.passwordController.text,
+                                    confirmPassword:
+                                        _controller.confirmPassController.text,
+                                    pin: _controller.pinController.text,
+                                  )));
                     },
                     style: ElevatedButton.styleFrom(
                         primary: violet,
@@ -150,4 +170,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       ),
     );
   }
+//   Repository sendOtp = Repository();
+// sendOtp.sendOtp(widget.email);
+// Navigator.of(context).push(MaterialPageRoute(
+//     builder: ((context) => RegisterVerificationScreen(
+//           email: widget.email,
+//           password: widget.password,
+//         ))));
 }

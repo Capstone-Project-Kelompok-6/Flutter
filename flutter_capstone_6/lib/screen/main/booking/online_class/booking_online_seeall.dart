@@ -1,8 +1,8 @@
+import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/model/class_online/class_online_rows.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
-import 'package:video_player/video_player.dart';
 
 class BookingOnlineSeeAll extends StatefulWidget {
   BookingOnlineSeeAll(
@@ -16,22 +16,7 @@ class BookingOnlineSeeAll extends StatefulWidget {
 }
 
 class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
-  // video info
-  late VideoPlayerController videoController;
   String videoDuration = '';
-
-  Future<Duration> initVideo(String videoPath) async {
-    videoController = VideoPlayerController.network(videoPath);
-    await videoController.initialize();
-
-    return videoController.value.duration;
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    videoController.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,29 +32,43 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
               const SizedBox(height: 12),
               for (int i = 0; i < widget.classOnlineRows3.keys.length; i++)
                 if (widget.title == widget.classOnlineRows3.keys.toList()[i])
-                  SizedBox(
-                    height: 245,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount:
-                          widget.classOnlineRows3.values.toList()[i].length,
-                      itemBuilder: (context, index2) {
-                        final classData =
-                            widget.classOnlineRows3.values.toList()[i][index2];
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 18),
+                    child: SizedBox(
+                      height: 245,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount:
+                            widget.classOnlineRows3.values.toList()[i].length,
+                        itemBuilder: (context, index2) {
+                          final classData = widget.classOnlineRows3.values
+                              .toList()[i][index2];
 
-                        initVideo(classData.video).then((value) {
-                          print('Video Duration: $value');
-                          setState(() {
-                            videoDuration =
-                                "${value.inMinutes.remainder(60)}:${value.inSeconds.remainder(60)}";
+                          // get video duration
+                          FFprobeKit.getMediaInformation(classData.video)
+                              .then((session) {
+                            final durationInfo =
+                                session.getMediaInformation()!.getDuration();
+
+                            // change to duration
+                            var seconds = double.parse(durationInfo!).round();
+                            Duration duration = Duration(seconds: seconds);
+
+                            // formatting duration
+                            format(Duration d) => d.toString().substring(2, 7);
+                            videoDuration = format(duration).toString();
+
+                            print("${classData.videoTitle}: $videoDuration");
+
+                            // print("this see all");
                           });
-                        });
 
-                        return onlineClassCard('image', classData.videoTitle,
-                            classData.description, videoDuration);
-                      },
+                          return onlineClassCard('image', classData.videoTitle,
+                              classData.description, videoDuration);
+                        },
+                      ),
                     ),
                   )
             ],

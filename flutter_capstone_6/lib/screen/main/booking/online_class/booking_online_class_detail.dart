@@ -19,6 +19,7 @@ class BookingOnlineClassDetail extends StatefulWidget {
     required this.classDesc,
     required this.price,
     required this.video,
+    required this.duration,
   }) : super(key: key);
   final String classId;
   final String classTitle;
@@ -27,6 +28,7 @@ class BookingOnlineClassDetail extends StatefulWidget {
   final String classDesc;
   final int price;
   final String video;
+  final Duration duration;
 
   @override
   State<BookingOnlineClassDetail> createState() =>
@@ -58,7 +60,7 @@ class _BookingOnlineClassDetailState extends State<BookingOnlineClassDetail> {
             MaterialPageRoute(
                 builder: (context) => PaymentMethod(
                       videoTitle: widget.classVideoTitle,
-                      duration: '',
+                      duration: widget.duration,
                       price: widget.price,
                       video: widget.video,
                     )));
@@ -166,7 +168,7 @@ class _BookingOnlineClassDetailState extends State<BookingOnlineClassDetail> {
                         SvgPicture.asset('assets/booking_class/duration.svg'),
                         const SizedBox(width: 8),
                         Text(
-                          '15m 20s',
+                          '${widget.duration.inMinutes}m ${widget.duration.inSeconds}s',
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,

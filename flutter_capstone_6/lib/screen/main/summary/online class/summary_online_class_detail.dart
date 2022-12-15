@@ -14,12 +14,14 @@ class SummaryOnlineClassDetail extends StatefulWidget {
     required this.classVideoTitle,
     required this.classDesc,
     required this.video,
+    required this.duration,
   }) : super(key: key);
   final String classTitle;
   final String classImage;
   final String classVideoTitle;
   final String classDesc;
   final String video;
+  final Duration duration;
 
   @override
   State<SummaryOnlineClassDetail> createState() =>
@@ -112,7 +114,7 @@ class _SummaryOnlineClassDetailState extends State<SummaryOnlineClassDetail> {
                         SvgPicture.asset('assets/booking_class/duration.svg'),
                         const SizedBox(width: 8),
                         Text(
-                          '15m 20s',
+                          '${widget.duration.inMinutes}m ${widget.duration.inSeconds}s',
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,

@@ -12,7 +12,7 @@ class PaymentMethod extends StatefulWidget {
     required this.video,
   }) : super(key: key);
   final String videoTitle;
-  final String duration;
+  final Duration duration;
   final int price;
   final String video;
 
@@ -109,7 +109,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            widget.duration,
+                            '${widget.duration.inMinutes}m ${widget.duration.inSeconds}s',
                             style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,

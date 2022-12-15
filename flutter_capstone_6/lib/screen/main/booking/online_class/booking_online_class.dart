@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit_config.dart';
+import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/model/class_online/class_online_outer.dart';
@@ -10,7 +12,6 @@ import 'package:flutter_capstone_6/screen/main/booking/online_class/booking_onli
 import 'package:flutter_capstone_6/screen/main/booking/online_class/booking_online_seeall.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:video_player/video_player.dart';
 
 class BookingOnlineClass extends StatefulWidget {
   const BookingOnlineClass({Key? key}) : super(key: key);
@@ -27,8 +28,8 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
   bool isLoading = true;
 
   // video info
-  // late VideoPlayerController videoController;
   String videoDuration = '';
+  Duration duration = Duration.zero;
 
   @override
   void initState() {
@@ -41,7 +42,6 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
   @override
   void dispose() {
     super.dispose();
-    // videoController.dispose();
   }
 
   Future getOnlineClass(String token) async {
@@ -86,13 +86,6 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
     }
   }
 
-  // Future<Duration> initVideo(String videoPath) async {
-  //   videoController = VideoPlayerController.network(videoPath);
-  //   await videoController.initialize();
-
-  //   return videoController.value.duration;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -123,54 +116,77 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                               const SizedBox(height: 12),
                               if (workout ==
                                   classOnlineRows3.keys.toList()[index])
-                                SizedBox(
-                                  height: 240,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    shrinkWrap: true,
-                                    physics: const BouncingScrollPhysics(),
-                                    itemCount: classOnlineRows3.values
-                                        .toList()[index]
-                                        .length,
-                                    itemBuilder: (context, index2) {
-                                      final classData = classOnlineRows3.values
-                                          .toList()[index][index2];
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 18),
+                                  child: SizedBox(
+                                    height: 240,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      shrinkWrap: true,
+                                      physics: const BouncingScrollPhysics(),
+                                      itemCount: classOnlineRows3.values
+                                          .toList()[index]
+                                          .length,
+                                      itemBuilder: (context, index2) {
+                                        final classData = classOnlineRows3
+                                            .values
+                                            .toList()[index][index2];
 
-                                      // initVideo(classData.video).then((value) {
-                                      //   // print('Video Duration: $value');
-                                      //   setState(() {
-                                      //     videoDuration =
-                                      //         "${value.inMinutes.remainder(60)}:${value.inSeconds.remainder(60)}";
-                                      //   });
-                                      // });
+                                        // get video duration
+                                        FFprobeKit.getMediaInformation(
+                                                classData.video)
+                                            .then((session) {
+                                          final durationInfo = session
+                                              .getMediaInformation()!
+                                              .getDuration();
 
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      BookingOnlineClassDetail(
-                                                        classId:
-                                                            classData.classId,
-                                                        classTitle:
-                                                            classData.workout,
-                                                        classImage: '',
-                                                        classVideoTitle:
-                                                            classData
-                                                                .videoTitle,
-                                                        classDesc: classData
-                                                            .description,
-                                                        price: classData.price,
-                                                        video: classData.video,
-                                                      )));
-                                        },
-                                        child: onlineClassCard(
-                                            'image',
-                                            classData.videoTitle,
-                                            videoDuration),
-                                      );
-                                    },
+                                          // change to duration
+                                          var seconds =
+                                              double.parse(durationInfo!)
+                                                  .round();
+                                          duration = Duration(seconds: seconds);
+
+                                          // formatting duration
+                                          format(Duration d) =>
+                                              d.toString().substring(2, 7);
+                                          videoDuration =
+                                              format(duration).toString();
+
+                                          print(
+                                              "${classData.videoTitle}: $videoDuration");
+                                        });
+
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        BookingOnlineClassDetail(
+                                                          classId:
+                                                              classData.classId,
+                                                          classTitle:
+                                                              classData.workout,
+                                                          classImage: '',
+                                                          classVideoTitle:
+                                                              classData
+                                                                  .videoTitle,
+                                                          classDesc: classData
+                                                              .description,
+                                                          price:
+                                                              classData.price,
+                                                          video:
+                                                              classData.video,
+                                                          duration: duration,
+                                                        )));
+                                          },
+                                          child: onlineClassCard(
+                                              'image',
+                                              classData.videoTitle,
+                                              videoDuration),
+                                        );
+                                      },
+                                    ),
                                   ),
                                 )
                             ],

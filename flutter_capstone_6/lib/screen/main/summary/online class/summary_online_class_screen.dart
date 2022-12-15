@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -23,6 +24,10 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
   SummaryOnlineOuter? summaryOnlineOuter;
   List<SummaryOnlineRows>? summaryOnlineRows;
   bool isLoading = true;
+
+  // video info
+  String videoDuration = '';
+  Duration duration = Duration.zero;
 
   @override
   void initState() {
@@ -84,6 +89,26 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                         itemCount: summaryOnlineRows!.length,
                         itemBuilder: (context, index) {
                           print(summaryOnlineRows![0].workout);
+
+                          // get video duration
+                          FFprobeKit.getMediaInformation(
+                                  summaryOnlineRows![0].video)
+                              .then((session) {
+                            final durationInfo =
+                                session.getMediaInformation()!.getDuration();
+
+                            // change to duration
+                            var seconds = double.parse(durationInfo!).round();
+                            duration = Duration(seconds: seconds);
+
+                            // formatting duration
+                            format(Duration d) => d.toString().substring(2, 7);
+                            videoDuration = format(duration).toString();
+
+                            print(
+                                "${summaryOnlineRows![0].videoTitle}: $videoDuration");
+                          });
+
                           return GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -102,12 +127,13 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                                                 .description,
                                             video:
                                                 summaryOnlineRows![index].video,
+                                            duration: duration,
                                           )));
                             },
                             child: itemCard(
                                 'summaryOnlineRows![index].workoutImage',
                                 summaryOnlineRows![index].videoTitle,
-                                'summaryOnlineRows![index].duration'),
+                                duration),
                           );
                         },
                       )
@@ -118,7 +144,7 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
     );
   }
 
-  Widget itemCard(String image, String title, String duration) {
+  Widget itemCard(String image, String title, Duration duration) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
@@ -182,9 +208,9 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                       color: n60,
                     ),
                   ),
-                  const Text(
-                    "15m 28s",
-                    style: TextStyle(
+                  Text(
+                    "${duration.inMinutes}m ${duration.inSeconds}s",
+                    style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                       color: n60,

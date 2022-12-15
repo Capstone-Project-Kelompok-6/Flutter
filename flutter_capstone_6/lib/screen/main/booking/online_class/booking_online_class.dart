@@ -6,6 +6,8 @@ import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/model/class_online/class_online_outer.dart';
 import 'package:flutter_capstone_6/model/class_online/class_online_rows.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
+import 'package:flutter_capstone_6/screen/main/booking/online_class/booking_online_class_detail.dart';
+import 'package:flutter_capstone_6/screen/main/booking/online_class/booking_online_seeall.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
@@ -25,7 +27,7 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
   bool isLoading = true;
 
   // video info
-  late VideoPlayerController videoController;
+  // late VideoPlayerController videoController;
   String videoDuration = '';
 
   @override
@@ -34,6 +36,12 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
     final userToken =
         context.read<LoginViewModel>().getDatas.first.data.accessToken;
     getOnlineClass(userToken);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // videoController.dispose();
   }
 
   Future getOnlineClass(String token) async {
@@ -78,12 +86,12 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
     }
   }
 
-  Future<Duration> initVideo(String videoPath) async {
-    videoController = VideoPlayerController.network(videoPath);
-    await videoController.initialize();
+  // Future<Duration> initVideo(String videoPath) async {
+  //   videoController = VideoPlayerController.network(videoPath);
+  //   await videoController.initialize();
 
-    return videoController.value.duration;
-  }
+  //   return videoController.value.duration;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +124,7 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                               if (workout ==
                                   classOnlineRows3.keys.toList()[index])
                                 SizedBox(
-                                  height: 245,
+                                  height: 240,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     shrinkWrap: true,
@@ -128,19 +136,40 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                                       final classData = classOnlineRows3.values
                                           .toList()[index][index2];
 
-                                      initVideo(classData.video).then((value) {
-                                        print('Video Duration: $value');
-                                        setState(() {
-                                          videoDuration =
-                                              "${value.inMinutes.remainder(60)}:${value.inSeconds.remainder(60)}";
-                                        });
-                                      });
+                                      // initVideo(classData.video).then((value) {
+                                      //   // print('Video Duration: $value');
+                                      //   setState(() {
+                                      //     videoDuration =
+                                      //         "${value.inMinutes.remainder(60)}:${value.inSeconds.remainder(60)}";
+                                      //   });
+                                      // });
 
-                                      return onlineClassCard(
-                                          'image',
-                                          classData.videoTitle,
-                                          classData.description,
-                                          videoDuration);
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      BookingOnlineClassDetail(
+                                                        classId:
+                                                            classData.classId,
+                                                        classTitle:
+                                                            classData.workout,
+                                                        classImage: '',
+                                                        classVideoTitle:
+                                                            classData
+                                                                .videoTitle,
+                                                        classDesc: classData
+                                                            .description,
+                                                        price: classData.price,
+                                                        video: classData.video,
+                                                      )));
+                                        },
+                                        child: onlineClassCard(
+                                            'image',
+                                            classData.videoTitle,
+                                            videoDuration),
+                                      );
                                     },
                                   ),
                                 )
@@ -155,8 +184,7 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
     );
   }
 
-  Widget onlineClassCard(
-      String image, String title, String description, String duration) {
+  Widget onlineClassCard(String image, String title, String duration) {
     return Container(
       width: 361,
       margin: const EdgeInsets.only(bottom: 12, right: 8),
@@ -221,33 +249,21 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
             ),
           ),
           Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 23),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: n100,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                    child: Text(
-                      description,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: n60,
-                      ),
-                    ),
-                  ),
-                ],
-              ))
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 23),
+            child: Container(
+              width: double.infinity,
+              height: 35,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: n100,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -267,10 +283,11 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
         ),
         GestureDetector(
           onTap: () {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) => const VideoListScreen()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => BookingOnlineSeeAll(
+                        title: title, classOnlineRows3: classOnlineRows3)));
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),

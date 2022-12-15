@@ -360,8 +360,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: MaterialButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const VideoScreen()));
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //     builder: (context) => const VideoScreen()));
                   },
                   padding: EdgeInsets.zero,
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

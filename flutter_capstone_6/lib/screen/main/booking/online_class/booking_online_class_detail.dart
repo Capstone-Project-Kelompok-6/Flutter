@@ -3,41 +3,41 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
-import 'package:flutter_capstone_6/screen/main/booking/offline_class/payment_method.dart';
+import 'package:flutter_capstone_6/screen/main/booking/online_class/payment_method.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
-class BookingOfflineClassDetail extends StatefulWidget {
-  const BookingOfflineClassDetail({
+class BookingOnlineClassDetail extends StatefulWidget {
+  const BookingOnlineClassDetail({
     Key? key,
     required this.classId,
     required this.classTitle,
     required this.classImage,
-    required this.classInstructor,
+    required this.classVideoTitle,
     required this.classDesc,
-    required this.classSchedule,
     required this.price,
+    required this.video,
   }) : super(key: key);
   final String classId;
   final String classTitle;
   final String classImage;
-  final String classInstructor;
+  final String classVideoTitle;
   final String classDesc;
-  final List classSchedule;
   final int price;
+  final String video;
 
   @override
-  State<BookingOfflineClassDetail> createState() =>
-      _BookingOfflineClassDetailState();
+  State<BookingOnlineClassDetail> createState() =>
+      _BookingOnlineClassDetailState();
 }
 
-class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
-  Future bookOfflineClass(String token, String userId) async {
+class _BookingOnlineClassDetailState extends State<BookingOnlineClassDetail> {
+  Future bookOnlineClass(String token, String userId) async {
     try {
       http.Response response = await http.post(
-          Uri.parse('https://www.go-rest-api.live/api/v1/books/offline'),
+          Uri.parse('https://www.go-rest-api.live/api/v1/books/online'),
           headers: {
             'Authorization': 'Bearer ' + token,
             'Content-type': 'application/json'
@@ -45,7 +45,7 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
           body: jsonEncode({
             "class_id": widget.classId,
             "user_id": userId,
-            "is_online": false
+            "is_online": true,
           }));
 
       print('JSON Response: ${response.body}');
@@ -57,9 +57,10 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
             context,
             MaterialPageRoute(
                 builder: (context) => PaymentMethod(
-                      classTitle: widget.classTitle,
-                      classInstructor: widget.classInstructor,
+                      videoTitle: widget.classVideoTitle,
+                      duration: '',
                       price: widget.price,
+                      video: widget.video,
                     )));
       }
 
@@ -92,31 +93,32 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // workout image
+              // ClipRRect(
+              //   borderRadius: BorderRadius.circular(10),
+              //   child: Image.network(
+              //     widget.classImage,
+              //     width: double.infinity,
+              //     height: 185,
+              //     fit: BoxFit.cover,
+              //   ),
+              // ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  widget.classImage,
+                child: Image.asset(
+                  'assets/explore/img4.png',
                   width: double.infinity,
                   height: 185,
                   fit: BoxFit.cover,
                 ),
               ),
 
-              // instructor name
+              // video title name
               const SizedBox(height: 24),
-              const Text(
-                "Instructor:",
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                  color: n100,
-                ),
-              ),
               Text(
-                widget.classInstructor,
+                widget.classVideoTitle,
                 style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
                   color: n100,
                 ),
               ),
@@ -133,7 +135,61 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
                   color: violet,
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 18),
+
+              // category and duration
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SvgPicture.asset('assets/booking_class/video.svg'),
+                        const SizedBox(width: 8),
+                        Text(
+                          widget.classTitle,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: n100,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SvgPicture.asset('assets/booking_class/duration.svg'),
+                        const SizedBox(width: 8),
+                        Text(
+                          '15m 20s',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: n100,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+
+              // description
+              const SizedBox(height: 18),
+              const Text(
+                'Description:',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: n100,
+                ),
+              ),
+              const SizedBox(height: 5),
               Text(
                 widget.classDesc,
                 textAlign: TextAlign.justify,
@@ -143,34 +199,6 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
                   color: n80,
                 ),
               ),
-              const SizedBox(height: 24),
-              const Text(
-                "Time Schedule :",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: n100,
-                ),
-              ),
-              const SizedBox(height: 10),
-              ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: widget.classSchedule.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 3),
-                      child: Text(
-                        widget.classSchedule[index],
-                        textAlign: TextAlign.justify,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: n80,
-                        ),
-                      ),
-                    );
-                  }),
             ],
           ),
         ),
@@ -216,14 +244,6 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
                     Text(
                       widget.price.toString(),
                       style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: violet,
-                      ),
-                    ),
-                    const Text(
-                      "/ month",
-                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: violet,
@@ -311,7 +331,7 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
                               // booking button
                               ElevatedButton(
                                 onPressed: () {
-                                  bookOfflineClass(
+                                  bookOnlineClass(
                                       context
                                           .read<LoginViewModel>()
                                           .getDatas

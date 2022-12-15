@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
-import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_done.dart';
+import 'package:flutter_capstone_6/screen/main/video/video_screen.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class PaymentSuccess extends StatefulWidget {
   const PaymentSuccess({
     Key? key,
-    required this.classTitle,
-    required this.classInstructor,
+    required this.video,
   }) : super(key: key);
-  final String classTitle;
-  final String classInstructor;
+
+  final String video;
 
   @override
   State<PaymentSuccess> createState() => _PaymentSuccessState();
@@ -57,17 +55,10 @@ class _PaymentSuccessState extends State<PaymentSuccess> {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BottomNavigationBarController(
-                              token: context
-                                  .read<LoginViewModel>()
-                                  .getDatas
-                                  .first
-                                  .data
-                                  .accessToken),
-                        ),
-                      );
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  VideoScreen(video: widget.video)));
                     },
                     style: ElevatedButton.styleFrom(
                       primary: white,
@@ -77,7 +68,7 @@ class _PaymentSuccessState extends State<PaymentSuccess> {
                           borderRadius: BorderRadius.circular(20)),
                     ),
                     child: const Text(
-                      "Back to Home",
+                      "Watch Now",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -92,12 +83,17 @@ class _PaymentSuccessState extends State<PaymentSuccess> {
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => BookingOfflineDone(
-                                    classTitle: widget.classTitle,
-                                    classInstructor: widget.classInstructor,
-                                  )));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BottomNavigationBarController(
+                              token: context
+                                  .read<LoginViewModel>()
+                                  .getDatas
+                                  .first
+                                  .data
+                                  .accessToken),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       primary: violet,
@@ -108,7 +104,7 @@ class _PaymentSuccessState extends State<PaymentSuccess> {
                           side: const BorderSide(color: white)),
                     ),
                     child: const Text(
-                      "Check Details",
+                      "Back to Home",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,

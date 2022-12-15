@@ -88,26 +88,28 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                         shrinkWrap: true,
                         itemCount: summaryOnlineRows!.length,
                         itemBuilder: (context, index) {
-                          print(summaryOnlineRows![0].workout);
+                          // print(summaryOnlineRows![0].workout);
 
                           // get video duration
-                          FFprobeKit.getMediaInformation(
-                                  summaryOnlineRows![0].video)
-                              .then((session) {
-                            final durationInfo =
-                                session.getMediaInformation()!.getDuration();
+                          // FFprobeKit.getMediaInformation(
+                          //         summaryOnlineRows![0].video)
+                          //     .then((session) {
+                          //   final durationInfo =
+                          //       session.getMediaInformation()!.getDuration();
 
-                            // change to duration
-                            var seconds = double.parse(durationInfo!).round();
-                            duration = Duration(seconds: seconds);
+                          //   // change to duration
+                          //   var seconds = double.parse(durationInfo!).round();
+                          //   duration = Duration(seconds: seconds);
 
-                            // formatting duration
-                            format(Duration d) => d.toString().substring(2, 7);
-                            videoDuration = format(duration).toString();
+                          //   // formatting duration
+                          //   format(Duration d) => d.toString().substring(2, 7);
+                          //   setState(() {
+                          //     videoDuration = format(duration).toString();
+                          //   });
 
-                            print(
-                                "${summaryOnlineRows![0].videoTitle}: $videoDuration");
-                          });
+                          //   print(
+                          //       "${summaryOnlineRows![0].videoTitle}: $videoDuration");
+                          // });
 
                           return GestureDetector(
                             onTap: () {
@@ -119,7 +121,9 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                                             classTitle:
                                                 summaryOnlineRows![index]
                                                     .workout,
-                                            classImage: 'classImage',
+                                            classImage:
+                                                summaryOnlineRows![index]
+                                                    .thumbnail,
                                             classVideoTitle:
                                                 summaryOnlineRows![index]
                                                     .videoTitle,
@@ -130,10 +134,8 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                                             duration: duration,
                                           )));
                             },
-                            child: itemCard(
-                                'summaryOnlineRows![index].workoutImage',
-                                summaryOnlineRows![index].videoTitle,
-                                duration),
+                            child: itemCard(summaryOnlineRows![index].thumbnail,
+                                summaryOnlineRows![index].videoTitle, duration),
                           );
                         },
                       )
@@ -162,19 +164,10 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
       ),
       child: Row(
         children: [
-          // ClipRRect(
-          //   borderRadius: BorderRadius.circular(10),
-          //   child: Image.network(
-          //     image,
-          //     fit: BoxFit.cover,
-          //     width: 90,
-          //     height: 90,
-          //   ),
-          // ),
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              'assets/explore/img4.png',
+            child: Image.network(
+              image,
               fit: BoxFit.cover,
               width: 90,
               height: 90,

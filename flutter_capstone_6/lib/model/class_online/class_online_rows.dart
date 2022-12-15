@@ -10,6 +10,8 @@ class ClassOnlineRows {
     required this.videoTitle,
     required this.videoName,
     required this.video,
+    required this.thumbnailName,
+    required this.thumbnail,
     required this.price,
     required this.description,
     this.updatedAt,
@@ -22,9 +24,6 @@ class ClassOnlineRows {
   @JsonKey(name: 'workout')
   String workout;
 
-  // @JsonKey(name: 'workout_image')
-  // String workoutImage;
-
   @JsonKey(name: 'video_title')
   String videoTitle;
 
@@ -33,6 +32,12 @@ class ClassOnlineRows {
 
   @JsonKey(name: 'video')
   String video;
+
+  @JsonKey(name: 'thumbnail_name')
+  String thumbnailName;
+
+  @JsonKey(name: 'thumbnail')
+  String thumbnail;
 
   @JsonKey(name: 'price')
   int price;

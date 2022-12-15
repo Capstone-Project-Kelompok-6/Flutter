@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/main/video/video_screen.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
@@ -41,19 +39,10 @@ class _SummaryOnlineClassDetailState extends State<SummaryOnlineClassDetail> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // workout image
-              // ClipRRect(
-              //   borderRadius: BorderRadius.circular(10),
-              //   child: Image.network(
-              //     widget.classImage,
-              //     width: double.infinity,
-              //     height: 185,
-              //     fit: BoxFit.cover,
-              //   ),
-              // ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  'assets/explore/img4.png',
+                child: Image.network(
+                  widget.classImage,
                   width: double.infinity,
                   height: 185,
                   fit: BoxFit.cover,

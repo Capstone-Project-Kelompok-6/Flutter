@@ -47,26 +47,31 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
                               .toList()[i][index2];
 
                           // get video duration
-                          FFprobeKit.getMediaInformation(classData.video)
-                              .then((session) {
-                            final durationInfo =
-                                session.getMediaInformation()!.getDuration();
+                          // FFprobeKit.getMediaInformation(classData.video)
+                          //     .then((session) {
+                          //   final durationInfo =
+                          //       session.getMediaInformation()!.getDuration();
 
-                            // change to duration
-                            var seconds = double.parse(durationInfo!).round();
-                            Duration duration = Duration(seconds: seconds);
+                          //   // change to duration
+                          //   var seconds = double.parse(durationInfo!).round();
+                          //   Duration duration = Duration(seconds: seconds);
 
-                            // formatting duration
-                            format(Duration d) => d.toString().substring(2, 7);
-                            videoDuration = format(duration).toString();
+                          //   // formatting duration
+                          //   format(Duration d) => d.toString().substring(2, 7);
+                          //   setState(() {
+                          //     videoDuration = format(duration).toString();
+                          //   });
 
-                            print("${classData.videoTitle}: $videoDuration");
+                          //   print("${classData.videoTitle}: $videoDuration");
 
-                            // print("this see all");
-                          });
+                          //   // print("this see all");
+                          // });
 
-                          return onlineClassCard('image', classData.videoTitle,
-                              classData.description, videoDuration);
+                          return onlineClassCard(
+                              classData.thumbnail,
+                              classData.videoTitle,
+                              classData.description,
+                              videoDuration);
                         },
                       ),
                     ),

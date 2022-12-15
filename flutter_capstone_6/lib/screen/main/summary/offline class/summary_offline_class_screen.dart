@@ -34,7 +34,7 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
         context.read<LoginViewModel>().getDatas.first.data.accessToken;
 
     getBookOfflineClass(userToken, userId);
-    print(userId);
+    // print(userId);
   }
 
   Future getBookOfflineClass(String token, String userId) async {
@@ -85,7 +85,7 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
                         shrinkWrap: true,
                         itemCount: summaryOfflineRows!.length,
                         itemBuilder: (context, index) {
-                          print(summaryOfflineRows![0].workout);
+                          // print(summaryOfflineRows![0].workout);
                           return GestureDetector(
                             onTap: () {
                               Navigator.push(

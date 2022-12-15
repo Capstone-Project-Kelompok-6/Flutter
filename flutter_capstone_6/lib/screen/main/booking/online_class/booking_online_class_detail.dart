@@ -95,19 +95,10 @@ class _BookingOnlineClassDetailState extends State<BookingOnlineClassDetail> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // workout image
-              // ClipRRect(
-              //   borderRadius: BorderRadius.circular(10),
-              //   child: Image.network(
-              //     widget.classImage,
-              //     width: double.infinity,
-              //     height: 185,
-              //     fit: BoxFit.cover,
-              //   ),
-              // ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  'assets/explore/img4.png',
+                child: Image.network(
+                  widget.classImage,
                   width: double.infinity,
                   height: 185,
                   fit: BoxFit.cover,

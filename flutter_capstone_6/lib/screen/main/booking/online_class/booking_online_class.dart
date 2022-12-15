@@ -133,28 +133,30 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                                             .toList()[index][index2];
 
                                         // get video duration
-                                        FFprobeKit.getMediaInformation(
-                                                classData.video)
-                                            .then((session) {
-                                          final durationInfo = session
-                                              .getMediaInformation()!
-                                              .getDuration();
+                                        // FFprobeKit.getMediaInformation(
+                                        //         classData.video)
+                                        //     .then((session) {
+                                        //   final durationInfo = session
+                                        //       .getMediaInformation()!
+                                        //       .getDuration();
 
-                                          // change to duration
-                                          var seconds =
-                                              double.parse(durationInfo!)
-                                                  .round();
-                                          duration = Duration(seconds: seconds);
+                                        //   // change to duration
+                                        //   var seconds =
+                                        //       double.parse(durationInfo!)
+                                        //           .round();
+                                        //   duration = Duration(seconds: seconds);
 
-                                          // formatting duration
-                                          format(Duration d) =>
-                                              d.toString().substring(2, 7);
-                                          videoDuration =
-                                              format(duration).toString();
+                                        //   // formatting duration
+                                        //   format(Duration d) =>
+                                        //       d.toString().substring(2, 7);
+                                        //   setState(() {
+                                        //     videoDuration =
+                                        //         format(duration).toString();
+                                        //   });
 
-                                          print(
-                                              "${classData.videoTitle}: $videoDuration");
-                                        });
+                                        //   print(
+                                        //       "${classData.videoTitle}: $videoDuration");
+                                        // });
 
                                         return GestureDetector(
                                           onTap: () {
@@ -167,7 +169,8 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                                                               classData.classId,
                                                           classTitle:
                                                               classData.workout,
-                                                          classImage: '',
+                                                          classImage: classData
+                                                              .thumbnail,
                                                           classVideoTitle:
                                                               classData
                                                                   .videoTitle,
@@ -181,7 +184,7 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                                                         )));
                                           },
                                           child: onlineClassCard(
-                                              'image',
+                                              classData.thumbnail,
                                               classData.videoTitle,
                                               videoDuration),
                                         );
@@ -222,13 +225,13 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
           Container(
             height: 160,
             width: double.infinity,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(15),
                 topRight: Radius.circular(15),
               ),
               image: DecorationImage(
-                image: AssetImage('assets/explore/img4.png'),
+                image: NetworkImage(image),
                 fit: BoxFit.cover,
               ),
             ),

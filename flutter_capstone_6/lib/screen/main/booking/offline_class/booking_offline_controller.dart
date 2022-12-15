@@ -10,9 +10,10 @@ import 'package:provider/provider.dart';
 class BookingOfflineController {
   ClassOfflineOuter? classOfflineOuter;
   List<ClassOfflineRows>? classOfflineRows;
-  ClassOfflineRows? classDetail;
+  // ClassOfflineRows? classDetail;
 
-  Future getOfflineClass(BuildContext context, String token) async {
+  Future<List<ClassOfflineRows>?> getOfflineClass(
+      BuildContext context, String token) async {
     var headers = {
       'Authorization': 'Bearer ' + token,
       'Content-type': 'application/json'
@@ -34,23 +35,24 @@ class BookingOfflineController {
         // print(classOfflineRows!.first.workout);
 
         // State Management
-        final data = Provider.of<OfflineClassViewModel>(context, listen: false);
+        // final data = Provider.of<OfflineClassViewModel>(context, listen: false);
 
-        for (int i = 0; i < classOfflineRows!.length; i++) {
-          classDetail = ClassOfflineRows(
-            classId: classOfflineRows![i].classId,
-            workoutId: classOfflineRows![i].workoutId,
-            workout: classOfflineRows![i].workout,
-            workoutImage: classOfflineRows![i].workoutImage,
-            instructorId: classOfflineRows![i].instructorId,
-            instructorName: classOfflineRows![i].instructorName,
-            instructorImage: classOfflineRows![i].instructorImage,
-            classDates: classOfflineRows![i].classDates,
-            price: classOfflineRows![i].price,
-            description: classOfflineRows![i].description,
-          );
-          data.addUser(classDetail!);
-        }
+        // for (int i = 0; i < classOfflineRows!.length; i++) {
+        //   classDetail = ClassOfflineRows(
+        //     classId: classOfflineRows![i].classId,
+        //     workoutId: classOfflineRows![i].workoutId,
+        //     workout: classOfflineRows![i].workout,
+        //     workoutImage: classOfflineRows![i].workoutImage,
+        //     instructorId: classOfflineRows![i].instructorId,
+        //     instructorName: classOfflineRows![i].instructorName,
+        //     instructorImage: classOfflineRows![i].instructorImage,
+        //     classDates: classOfflineRows![i].classDates,
+        //     price: classOfflineRows![i].price,
+        //     description: classOfflineRows![i].description,
+        //   );
+        //   data.addUser(classDetail!);
+        // }
+        return classOfflineRows;
       }
     } catch (e) {
       print(e);

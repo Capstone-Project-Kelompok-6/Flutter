@@ -66,8 +66,8 @@ class _BookingClassSelectionState extends State<BookingClassSelection> {
         ),
         body: const TabBarView(
           children: [
-            BookingOnlineClass(),
             BookingOfflineClass(),
+            BookingOnlineClass(),
           ],
         ),
       ),

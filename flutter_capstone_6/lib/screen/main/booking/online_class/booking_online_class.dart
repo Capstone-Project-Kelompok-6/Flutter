@@ -28,10 +28,10 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
     super.initState();
     final userToken =
         context.read<LoginViewModel>().getDatas.first.data.accessToken;
-    getOfflineClass(userToken);
+    getOnlineClass(userToken);
   }
 
-  Future getOfflineClass(String token) async {
+  Future getOnlineClass(String token) async {
     var headers = {
       'Authorization': 'Bearer ' + token,
       'Content-type': 'application/json'
@@ -65,10 +65,8 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
             }
           }
 
-          inspect(classOnlineRows3);
+          // inspect(classOnlineRows3);
         });
-
-        // print(classOnlineRows!.first.workout);
       }
     } catch (e) {
       print(e);

@@ -1,8 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/model/class_offline/class_offline_outer.dart';
+import 'package:flutter_capstone_6/model/class_offline/class_offline_rows.dart';
+import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_class_detail.dart';
+import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_controller.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_view_model.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 class BookingOfflineClass extends StatefulWidget {
   const BookingOfflineClass({Key? key}) : super(key: key);
@@ -12,6 +19,45 @@ class BookingOfflineClass extends StatefulWidget {
 }
 
 class _BookingOfflineClassState extends State<BookingOfflineClass> {
+  ClassOfflineOuter? classOfflineOuter;
+  List<ClassOfflineRows>? classOfflineRows;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    final userToken =
+        context.read<LoginViewModel>().getDatas.first.data.accessToken;
+    getOfflineClass(userToken);
+  }
+
+  Future getOfflineClass(String token) async {
+    var headers = {
+      'Authorization': 'Bearer ' + token,
+      'Content-type': 'application/json'
+    };
+
+    try {
+      http.Response response = await http.get(
+          Uri.parse('https://www.go-rest-api.live/api/v1/classes/offline'),
+          headers: headers);
+
+      isLoading = false;
+      print('JSON Response: ${response.body}');
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> classBody = jsonDecode(response.body);
+
+        setState(() {
+          classOfflineOuter = ClassOfflineOuter.fromJson(classBody);
+          classOfflineRows = classOfflineOuter!.data.rows;
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -21,38 +67,46 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
           children: [
             searchBarItem(),
             const SizedBox(height: 24),
-            Consumer(builder: (context, OfflineClassViewModel data, child) {
-              return ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: data.getDatas.length,
-                itemBuilder: (context, index) {
-                  final classData = data.getDatas[index];
+            isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : classOfflineRows != null
+                    ? ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: classOfflineRows!.length,
+                        itemBuilder: (context, index) {
+                          final classData = classOfflineRows![index];
 
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => BookingOfflineClassDetail(
-                                  classId: classData.classId,
-                                  classTitle: classData.workout,
-                                  classImage: classData.workoutImage,
-                                  classInstructor: classData.instructorName,
-                                  classDesc: classData.description,
-                                  classSchedule: classData.classDates,
-                                  price: classData.price)));
-                    },
-                    child: offlineClassCard(
-                        classData.workoutImage,
-                        classData.workout,
-                        classData.classDates,
-                        classData.instructorName),
-                  );
-                },
-              );
-            }),
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          BookingOfflineClassDetail(
+                                              classId: classData.classId,
+                                              classTitle: classData.workout,
+                                              classImage:
+                                                  classData.workoutImage,
+                                              classInstructor:
+                                                  classData.instructorName,
+                                              classDesc: classData.description,
+                                              classSchedule:
+                                                  classData.classDates,
+                                              price: classData.price)));
+                            },
+                            child: offlineClassCard(
+                                classData.workoutImage,
+                                classData.workout,
+                                classData.classDates,
+                                classData.instructorName),
+                          );
+                        },
+                      )
+                    : Container(),
           ],
         ),
       ),

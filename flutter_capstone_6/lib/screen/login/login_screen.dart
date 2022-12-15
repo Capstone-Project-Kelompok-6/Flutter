@@ -30,7 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   bool isHide = true;
   LoginController _controller = LoginController();
-  BookingOfflineController _bOfflineController = BookingOfflineController();
 
   @override
   Widget build(BuildContext context) {
@@ -351,8 +350,6 @@ class _LoginScreenState extends State<LoginScreen> {
         data.addUser(userDetail);
         print('User fullname: ${userData.data.fullName}');
         print('User access token: ${userData.data.accessToken}');
-
-        _bOfflineController.getOfflineClass(context, userData.data.accessToken);
 
         Navigator.push(
             context,

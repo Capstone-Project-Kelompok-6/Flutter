@@ -37,11 +37,6 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
     getOnlineClass(userToken);
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   Future getOnlineClass(String token) async {
     var headers = {
       'Authorization': 'Bearer ' + token,
@@ -147,10 +142,9 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                                           // formatting duration
                                           format(Duration d) =>
                                               d.toString().substring(2, 7);
-                                          setState(() {
-                                            videoDuration =
-                                                format(duration).toString();
-                                          });
+                                          videoDuration =
+                                              format(duration).toString();
+                                          setState(() {});
 
                                           print(
                                               "${classData.videoTitle}: $videoDuration");

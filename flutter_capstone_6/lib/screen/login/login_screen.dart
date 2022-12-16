@@ -84,9 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     emailFormItem(),
                     const SizedBox(height: 15),
                     passwordFormItem(),
-                    SizedBox(
-                      height: 15,
-                    )
+                    const SizedBox(height: 15),
                   ],
                 ),
               ),

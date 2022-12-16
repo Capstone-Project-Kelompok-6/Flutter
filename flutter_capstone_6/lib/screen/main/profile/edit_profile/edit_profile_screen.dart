@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
@@ -16,23 +17,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Profile'),
+        title: const Text('Edit Profile'),
       ),
       body: Center(
         child: Column(
           children: [
             firstNameFormItem(),
-            SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             lastNameFormItem(),
-            SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             emailFormItem(),
-            SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             phoneNumberFormItem()
           ],
         ),
@@ -48,7 +43,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         // controller: _controller.firstNameController,
         validator: (String? value) => value == '' ? "Required" : null,
         inputFormatters: [
-          // FilteringTextInputFormatter.allow(RegExp("[A-Za-z]")),
+          FilteringTextInputFormatter.allow(RegExp("[A-Za-z]")),
         ],
         decoration: const InputDecoration(
           labelText: 'first name',
@@ -76,7 +71,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         // controller: _controller.lastNameController,
         validator: (String? value) => value == '' ? "Required" : null,
         inputFormatters: [
-          // FilteringTextInputFormatter.allow(RegExp("[A-Za-z]")),
+          FilteringTextInputFormatter.allow(RegExp("[A-Za-z]")),
         ],
         maxLines: 1,
         decoration: const InputDecoration(
@@ -106,7 +101,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         // controller: _controller.phoneNumberController,
         validator: (String? value) => value == '' ? "Required" : null,
         inputFormatters: [
-          // FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+          FilteringTextInputFormatter.allow(RegExp("[0-9]")),
         ],
         maxLines: 1,
         decoration: const InputDecoration(

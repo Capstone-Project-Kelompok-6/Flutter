@@ -175,9 +175,8 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
                       ),
                     ],
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
+                  Wrap(
+                    alignment: WrapAlignment.start,
                     children: [
                       const Text(
                         "Class Schedule : ",
@@ -187,21 +186,16 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
                           color: n60,
                         ),
                       ),
-                      Wrap(
-                        alignment: WrapAlignment.start,
-                        children: [
-                          for (int i = 0; i < schedule.length; i++)
-                            Text(
-                              (schedule[i] as String).split(',')[0] +
-                                  ((schedule.length - 1 == i) ? '' : ', '),
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: n60,
-                              ),
-                            ),
-                        ],
-                      ),
+                      for (int i = 0; i < schedule.length; i++)
+                        Text(
+                          (schedule[i] as String).split(',')[0] +
+                              ((schedule.length - 1 == i) ? '' : ', '),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: n60,
+                          ),
+                        ),
                     ],
                   ),
                 ],

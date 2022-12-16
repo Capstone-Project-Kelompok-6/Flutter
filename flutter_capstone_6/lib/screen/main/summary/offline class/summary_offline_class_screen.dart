@@ -1,15 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_capstone_6/model/summary_offline/summary_offline_data.dart';
 import 'package:flutter_capstone_6/model/summary_offline/summary_offline_outer.dart';
 import 'package:flutter_capstone_6/model/summary_offline/summary_offline_rows.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/main/summary/offline%20class/summary_offline_class_detail.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../component/colors.dart';
 
@@ -34,7 +31,7 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
         context.read<LoginViewModel>().getDatas.first.data.accessToken;
 
     getBookOfflineClass(userToken, userId);
-    print(userId);
+    // print(userId);
   }
 
   Future getBookOfflineClass(String token, String userId) async {
@@ -85,7 +82,7 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
                         shrinkWrap: true,
                         itemCount: summaryOfflineRows!.length,
                         itemBuilder: (context, index) {
-                          print(summaryOfflineRows![0].workout);
+                          // print(summaryOfflineRows![0].workout);
                           return GestureDetector(
                             onTap: () {
                               Navigator.push(

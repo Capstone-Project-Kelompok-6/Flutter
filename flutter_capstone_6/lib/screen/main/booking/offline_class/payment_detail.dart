@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
-import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/payment_success.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 class PaymentDetail extends StatefulWidget {

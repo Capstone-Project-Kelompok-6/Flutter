@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/login/login_screen.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
-import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_view_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'edit_profile/edit_profile_screen.dart';
@@ -237,7 +236,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 style: ElevatedButton.styleFrom(primary: whiteBg, elevation: 0),
                 onPressed: () {
                   data.deleteUser(0);
-                  context.read<OfflineClassViewModel>().deleteAll();
 
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: ((context) => LoginScreen())));

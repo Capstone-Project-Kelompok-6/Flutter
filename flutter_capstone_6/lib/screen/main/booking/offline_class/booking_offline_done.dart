@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class BookingOfflineDone extends StatefulWidget {
   const BookingOfflineDone({
@@ -19,19 +20,13 @@ class BookingOfflineDone extends StatefulWidget {
 }
 
 class _BookingOfflineDoneState extends State<BookingOfflineDone> {
-  late SharedPreferences storageData;
   final DateTime today = DateTime.now();
   DateTime nextMonth = DateTime.now();
 
   @override
   void initState() {
     super.initState();
-    initial();
     nextMonth = DateTime(today.year, today.month + 1, today.day);
-  }
-
-  void initial() async {
-    storageData = await SharedPreferences.getInstance();
   }
 
   @override
@@ -56,7 +51,12 @@ class _BookingOfflineDoneState extends State<BookingOfflineDone> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => BottomNavigationBarController(
-                        token: storageData.getString('token').toString())));
+                        token: context
+                            .read<LoginViewModel>()
+                            .getDatas
+                            .first
+                            .data
+                            .accessToken)));
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

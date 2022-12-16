@@ -58,15 +58,20 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
 
                             // formatting duration
                             format(Duration d) => d.toString().substring(2, 7);
-                            videoDuration = format(duration).toString();
+                            setState(() {
+                              videoDuration = format(duration).toString();
+                            });
 
                             print("${classData.videoTitle}: $videoDuration");
 
                             // print("this see all");
                           });
 
-                          return onlineClassCard('image', classData.videoTitle,
-                              classData.description, videoDuration);
+                          return onlineClassCard(
+                              classData.thumbnail,
+                              classData.videoTitle,
+                              classData.description,
+                              videoDuration);
                         },
                       ),
                     ),

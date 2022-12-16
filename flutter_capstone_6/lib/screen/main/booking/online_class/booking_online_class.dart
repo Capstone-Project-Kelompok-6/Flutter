@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
 
-import 'package:ffmpeg_kit_flutter/ffmpeg_kit_config.dart';
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
@@ -149,8 +147,10 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                                           // formatting duration
                                           format(Duration d) =>
                                               d.toString().substring(2, 7);
-                                          videoDuration =
-                                              format(duration).toString();
+                                          setState(() {
+                                            videoDuration =
+                                                format(duration).toString();
+                                          });
 
                                           print(
                                               "${classData.videoTitle}: $videoDuration");
@@ -167,7 +167,8 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                                                               classData.classId,
                                                           classTitle:
                                                               classData.workout,
-                                                          classImage: '',
+                                                          classImage: classData
+                                                              .thumbnail,
                                                           classVideoTitle:
                                                               classData
                                                                   .videoTitle,
@@ -181,7 +182,7 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                                                         )));
                                           },
                                           child: onlineClassCard(
-                                              'image',
+                                              classData.thumbnail,
                                               classData.videoTitle,
                                               videoDuration),
                                         );
@@ -222,13 +223,13 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
           Container(
             height: 160,
             width: double.infinity,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(15),
                 topRight: Radius.circular(15),
               ),
               image: DecorationImage(
-                image: AssetImage('assets/explore/img4.png'),
+                image: NetworkImage(image),
                 fit: BoxFit.cover,
               ),
             ),

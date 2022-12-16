@@ -6,7 +6,6 @@ import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/payment_method.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class BookingOfflineClassDetail extends StatefulWidget {

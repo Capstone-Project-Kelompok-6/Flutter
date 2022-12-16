@@ -11,8 +11,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-import '../video/video_screen.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.token}) : super(key: key);
 

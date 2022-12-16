@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/model/summary_online/summary_online_outer.dart';
 import 'package:flutter_capstone_6/model/summary_online/summary_online_rows.dart';
@@ -88,7 +86,7 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                         shrinkWrap: true,
                         itemCount: summaryOnlineRows!.length,
                         itemBuilder: (context, index) {
-                          print(summaryOnlineRows![0].workout);
+                          // print(summaryOnlineRows![0].workout);
 
                           // get video duration
                           FFprobeKit.getMediaInformation(
@@ -103,7 +101,9 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
 
                             // formatting duration
                             format(Duration d) => d.toString().substring(2, 7);
-                            videoDuration = format(duration).toString();
+                            setState(() {
+                              videoDuration = format(duration).toString();
+                            });
 
                             print(
                                 "${summaryOnlineRows![0].videoTitle}: $videoDuration");
@@ -119,7 +119,9 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                                             classTitle:
                                                 summaryOnlineRows![index]
                                                     .workout,
-                                            classImage: 'classImage',
+                                            classImage:
+                                                summaryOnlineRows![index]
+                                                    .thumbnail,
                                             classVideoTitle:
                                                 summaryOnlineRows![index]
                                                     .videoTitle,
@@ -130,10 +132,8 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                                             duration: duration,
                                           )));
                             },
-                            child: itemCard(
-                                'summaryOnlineRows![index].workoutImage',
-                                summaryOnlineRows![index].videoTitle,
-                                duration),
+                            child: itemCard(summaryOnlineRows![index].thumbnail,
+                                summaryOnlineRows![index].videoTitle, duration),
                           );
                         },
                       )
@@ -162,19 +162,10 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
       ),
       child: Row(
         children: [
-          // ClipRRect(
-          //   borderRadius: BorderRadius.circular(10),
-          //   child: Image.network(
-          //     image,
-          //     fit: BoxFit.cover,
-          //     width: 90,
-          //     height: 90,
-          //   ),
-          // ),
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              'assets/explore/img4.png',
+            child: Image.network(
+              image,
               fit: BoxFit.cover,
               width: 90,
               height: 90,

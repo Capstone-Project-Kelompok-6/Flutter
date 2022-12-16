@@ -58,9 +58,8 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
 
                             // formatting duration
                             format(Duration d) => d.toString().substring(2, 7);
-                            setState(() {
-                              videoDuration = format(duration).toString();
-                            });
+                            videoDuration = format(duration).toString();
+                            setState(() {});
 
                             print("${classData.videoTitle}: $videoDuration");
 

@@ -192,7 +192,7 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
                   ),
                   for (int i = 0; i < schedule.length; i++)
                     Text(
-                      (schedule[i] as String).split(',')[0] +
+                      (schedule[i] as String).split(' (')[0] +
                           ((schedule.length - 1 == i) ? '' : ', '),
                       style: const TextStyle(
                         fontSize: 12,

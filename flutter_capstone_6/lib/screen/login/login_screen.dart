@@ -366,10 +366,38 @@ class _LoginScreenState extends State<LoginScreen> {
         showDialog(
             context: context,
             builder: (BuildContext context) => AlertDialog(
-                  title: const Center(child: Text('INFO LOGIN')),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  title: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/info_red2.svg',
+                        fit: BoxFit.cover,
+                      ),
+                      const Text(
+                        ' Error',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: red,
+                        ),
+                      ),
+                    ],
+                  ),
+                  titlePadding: const EdgeInsets.only(top: 16, bottom: 5),
+                  contentPadding:
+                      const EdgeInsets.only(bottom: 16, left: 16, right: 16),
                   content: Text(
                     response.message,
                     textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: n80,
+                    ),
                   ),
                 ));
         debugPrint('Response ${response.message}');

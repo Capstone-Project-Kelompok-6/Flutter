@@ -15,6 +15,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   ForgotPasswordController _controller = ForgotPasswordController();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -93,37 +94,38 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
 
                 // Email Form Section
-                Container(
-                  margin: const EdgeInsets.only(top: 40, bottom: 24),
-                  padding: const EdgeInsets.only(left: 5, right: 5),
-                  height: 50,
-                  child: TextFormField(
-                    validator: (String? value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Required';
-                      }
-                      if (!value.contains("@")) {
-                        return 'Not a valid email';
-                      }
-                    },
-                    // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-                    controller: _controller.emailController,
-                    maxLines: 1,
-                    decoration: const InputDecoration(
-                      labelText: 'email address',
-                      labelStyle: TextStyle(
-                          fontSize: 14,
-                          color: n40,
-                          fontWeight: FontWeight.w400),
-                      floatingLabelBehavior: FloatingLabelBehavior.never,
-                      floatingLabelStyle: TextStyle(color: n100),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        borderSide: BorderSide(color: n100),
+                Form(
+                  key: formKey,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 40, bottom: 24),
+                    padding: const EdgeInsets.only(left: 5, right: 5),
+                    child: TextFormField(
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Required';
+                        }
+                        if (!value.contains("@")) {
+                          return 'Not a valid email';
+                        }
+                      },
+                      controller: _controller.emailController,
+                      maxLines: 1,
+                      decoration: const InputDecoration(
+                        labelText: 'email address',
+                        labelStyle: TextStyle(
+                            fontSize: 14,
+                            color: n40,
+                            fontWeight: FontWeight.w400),
+                        floatingLabelBehavior: FloatingLabelBehavior.never,
+                        floatingLabelStyle: TextStyle(color: n100),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          borderSide: BorderSide(color: n100),
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        contentPadding: EdgeInsets.all(10),
                       ),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8))),
-                      contentPadding: EdgeInsets.all(10),
                     ),
                   ),
                 ),
@@ -133,20 +135,22 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   margin: const EdgeInsets.only(left: 5, right: 5, bottom: 32),
                   child: ElevatedButton(
                     onPressed: () {
-                      Repository sendOtp = Repository();
-                      sendOtp.sendOtp(_controller.emailController.text);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ForgotPasswordVerificationScreen(
-                                    email: _controller.emailController.text,
-                                    password:
-                                        _controller.passwordController.text,
-                                    confirmPassword:
-                                        _controller.confirmPassController.text,
-                                    pin: _controller.pinController.text,
-                                  )));
+                      if (formKey.currentState!.validate()) {
+                        Repository sendOtp = Repository();
+                        sendOtp.sendOtp(_controller.emailController.text);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ForgotPasswordVerificationScreen(
+                                      email: _controller.emailController.text,
+                                      password:
+                                          _controller.passwordController.text,
+                                      confirmPassword: _controller
+                                          .confirmPassController.text,
+                                      pin: _controller.pinController.text,
+                                    )));
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                         primary: violet,

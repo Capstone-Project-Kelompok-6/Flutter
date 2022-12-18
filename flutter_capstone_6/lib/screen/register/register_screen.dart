@@ -512,8 +512,39 @@ class _RegisterScreenState extends State<RegisterScreen> {
             showDialog(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
-                      title: const Text('INFO REGISTER'),
-                      content: Text(response.message),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      title: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/icons/info_red2.svg',
+                            fit: BoxFit.cover,
+                          ),
+                          const Text(
+                            ' Error',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                              color: red,
+                            ),
+                          ),
+                        ],
+                      ),
+                      titlePadding: const EdgeInsets.only(top: 16, bottom: 5),
+                      contentPadding: const EdgeInsets.only(
+                          bottom: 16, left: 16, right: 16),
+                      content: Text(
+                        response.message,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: n80,
+                        ),
+                      ),
                     ));
           }
 
@@ -521,22 +552,78 @@ class _RegisterScreenState extends State<RegisterScreen> {
         } else {
           showDialog(
               context: context,
-              builder: (BuildContext context) => const AlertDialog(
-                    title: Center(child: Text("INFO")),
-                    content: Text(
-                      'Please accept our Privacy Policy and Term of Use to continue.',
+              builder: (BuildContext context) => AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    title: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/icons/info_blue.svg',
+                          fit: BoxFit.cover,
+                        ),
+                        const Text(
+                          ' Info',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            color: navy,
+                          ),
+                        ),
+                      ],
+                    ),
+                    titlePadding: const EdgeInsets.only(top: 16, bottom: 5),
+                    contentPadding:
+                        const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+                    content: const Text(
+                      'Please accept our Privacy Policy and Term of Use to continue',
                       textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: n80,
+                      ),
                     ),
                   ));
         }
       } else {
         showDialog(
             context: context,
-            builder: (BuildContext context) => const AlertDialog(
-                  title: Center(child: Text("INFO")),
-                  content: Text(
-                    'Your password and confirm password not match.',
+            builder: (BuildContext context) => AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  title: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/info_red2.svg',
+                        fit: BoxFit.cover,
+                      ),
+                      const Text(
+                        ' Error',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: red,
+                        ),
+                      ),
+                    ],
+                  ),
+                  titlePadding: const EdgeInsets.only(top: 16, bottom: 5),
+                  contentPadding:
+                      const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+                  content: const Text(
+                    'Your password and confirm password not match',
                     textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: n80,
+                    ),
                   ),
                 ));
       }

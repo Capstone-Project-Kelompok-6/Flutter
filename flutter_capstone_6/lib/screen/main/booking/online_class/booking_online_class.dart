@@ -25,6 +25,8 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
   Set<String> classOnlineRows2 = {};
   Map<String, List<ClassOnlineRows>> classOnlineRows3 = {};
   bool isLoading = true;
+  // TextEditingController searchbarController = TextEditingController();
+  // String searchText = '';
 
   @override
   void initState() {
@@ -97,8 +99,9 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            searchBarItem(),
-            const SizedBox(height: 24),
+            // searchBarItem(),
+            // Text(searchText),
+            // const SizedBox(height: 24),
             isLoading
                 ? const Center(
                     child: CircularProgressIndicator(),
@@ -135,58 +138,58 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                                             .values
                                             .toList()[index][index2];
 
-                                        return FutureBuilder<Duration>(
-                                            future: getDuration(classData),
-                                            builder: (context, snapshot) {
-                                              if (!snapshot.hasData) {
-                                                return const SizedBox();
-                                              }
+                                        return
+                                            // FutureBuilder<Duration>(
+                                            //     future: getDuration(classData),
+                                            //     builder: (context, snapshot) {
+                                            //   if (!snapshot.hasData) {
+                                            //     return const SizedBox();
+                                            //   }
 
-                                              // formatting duration
-                                              format(Duration d) =>
-                                                  d.toString().substring(2, 7);
-                                              String videoDuration = format(
-                                                      snapshot.data ??
-                                                          Duration.zero)
-                                                  .toString();
+                                            //   // formatting duration
+                                            //   format(Duration d) =>
+                                            //       d.toString().substring(2, 7);
+                                            //   String videoDuration = format(
+                                            //           snapshot.data ??
+                                            //               Duration.zero)
+                                            //       .toString();
 
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              BookingOnlineClassDetail(
-                                                                classId:
-                                                                    classData
-                                                                        .classId,
-                                                                classTitle:
-                                                                    classData
-                                                                        .workout,
-                                                                classImage:
-                                                                    classData
-                                                                        .thumbnail,
-                                                                classVideoTitle:
-                                                                    classData
-                                                                        .videoTitle,
-                                                                classDesc: classData
-                                                                    .description,
-                                                                price: classData
-                                                                    .price,
-                                                                video: classData
-                                                                    .video,
-                                                                duration: snapshot
-                                                                        .data ??
-                                                                    Duration
-                                                                        .zero,
-                                                              )));
-                                                },
-                                                child: onlineClassCard(
-                                                    classData.thumbnail,
-                                                    classData.videoTitle,
-                                                    videoDuration),
-                                              );
-                                            });
+                                            //   return
+
+                                            GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        BookingOnlineClassDetail(
+                                                          classId:
+                                                              classData.classId,
+                                                          classTitle:
+                                                              classData.workout,
+                                                          classImage: classData
+                                                              .thumbnail,
+                                                          classVideoTitle:
+                                                              classData
+                                                                  .videoTitle,
+                                                          classDesc: classData
+                                                              .description,
+                                                          price:
+                                                              classData.price,
+                                                          video:
+                                                              classData.video,
+                                                          duration:
+                                                              //  snapshot
+                                                              //         .data ??
+                                                              Duration.zero,
+                                                        )));
+                                          },
+                                          child: onlineClassCard(
+                                              'classData.thumbnail',
+                                              classData.videoTitle,
+                                              'videoDuration'),
+                                        );
+                                        // });
                                       },
                                     ),
                                   ),
@@ -224,13 +227,14 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
           Container(
             height: 160,
             width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15),
                 topRight: Radius.circular(15),
               ),
               image: DecorationImage(
-                image: NetworkImage(image),
+                // image: NetworkImage(image),
+                image: AssetImage('assets/explore/img1.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -332,7 +336,12 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
       height: 50,
       child: TextFormField(
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
+        // controller: searchbarController,
+        // onChanged: (value) {
+        //   setState(() {
+        //     searchText = value;
+        //   });
+        // },
         decoration: const InputDecoration(
           fillColor: white,
           labelText: 'Search',

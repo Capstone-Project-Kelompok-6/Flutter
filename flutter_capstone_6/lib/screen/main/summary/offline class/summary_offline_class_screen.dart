@@ -22,6 +22,8 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
   SummaryOfflineOuter? summaryOfflineOuter;
   List<SummaryOfflineRows>? summaryOfflineRows;
   bool isLoading = true;
+  TextEditingController searchbarController = TextEditingController();
+  String searchText = '';
 
   @override
   void initState() {
@@ -77,52 +79,86 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
                     child: CircularProgressIndicator(),
                   )
                 : summaryOfflineRows != null
-                    ? ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: summaryOfflineRows!.length,
-                        itemBuilder: (context, index) {
-                          // print(summaryOfflineRows![0].workout);
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          SummaryOfflineClassDetail(
-                                            classId: summaryOfflineRows![index]
-                                                .classId,
-                                            classTitle:
-                                                summaryOfflineRows![index]
-                                                    .workout,
-                                            classImage:
-                                                summaryOfflineRows![index]
-                                                    .workoutImage,
-                                            classInstructor:
-                                                summaryOfflineRows![index]
-                                                    .instructorName,
-                                            classDesc:
-                                                summaryOfflineRows![index]
-                                                    .description,
-                                            classSchedule:
-                                                summaryOfflineRows![index]
-                                                    .classDates,
-                                            price: summaryOfflineRows![index]
-                                                .price,
-                                          )));
-                            },
-                            child: itemCard(
-                                summaryOfflineRows![index].workoutImage,
-                                summaryOfflineRows![index].workout,
-                                summaryOfflineRows![index].instructorName,
-                                summaryOfflineRows![index].classDates),
-                          );
-                        },
+                    ? SingleChildScrollView(
+                        child: Column(children: [
+                          for (int i = 0; i < summaryOfflineRows!.length; i++)
+                            if (summaryOfflineRows![i]
+                                .workout
+                                .toLowerCase()
+                                .contains(searchText.toLowerCase()))
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              SummaryOfflineClassDetail(
+                                                classId: summaryOfflineRows![i]
+                                                    .classId,
+                                                classTitle:
+                                                    summaryOfflineRows![i]
+                                                        .workout,
+                                                classImage:
+                                                    summaryOfflineRows![i]
+                                                        .workoutImage,
+                                                classInstructor:
+                                                    summaryOfflineRows![i]
+                                                        .instructorName,
+                                                classDesc:
+                                                    summaryOfflineRows![i]
+                                                        .description,
+                                                classSchedule:
+                                                    summaryOfflineRows![i]
+                                                        .classDates,
+                                                price: summaryOfflineRows![i]
+                                                    .price,
+                                              )));
+                                },
+                                child: itemCard(
+                                    summaryOfflineRows![i].workoutImage,
+                                    summaryOfflineRows![i].workout,
+                                    summaryOfflineRows![i].instructorName,
+                                    summaryOfflineRows![i].classDates),
+                              )
+                        ]),
                       )
                     : emptyCard(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget noSearch() {
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: summaryOfflineRows!.length,
+      itemBuilder: (context, index) {
+        // print(summaryOfflineRows![0].workout);
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SummaryOfflineClassDetail(
+                          classId: summaryOfflineRows![index].classId,
+                          classTitle: summaryOfflineRows![index].workout,
+                          classImage: summaryOfflineRows![index].workoutImage,
+                          classInstructor:
+                              summaryOfflineRows![index].instructorName,
+                          classDesc: summaryOfflineRows![index].description,
+                          classSchedule: summaryOfflineRows![index].classDates,
+                          price: summaryOfflineRows![index].price,
+                        )));
+          },
+          child: itemCard(
+              summaryOfflineRows![index].workoutImage,
+              summaryOfflineRows![index].workout,
+              summaryOfflineRows![index].instructorName,
+              summaryOfflineRows![index].classDates),
+        );
+      },
     );
   }
 
@@ -179,30 +215,36 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
                 ),
               ),
               const SizedBox(height: 5),
-              Wrap(
-                alignment: WrapAlignment.start,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Schedule : ",
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: n60,
-                    ),
-                  ),
-                  for (int i = 0; i < schedule.length; i++)
-                    Text(
-                      (schedule[i] as String).split(' (')[0] +
-                          ((schedule.length - 1 == i) ? '' : ', '),
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: n60,
-                        // height: 1,
+                  Wrap(
+                    alignment: WrapAlignment.start,
+                    children: [
+                      const Text(
+                        "Schedule : ",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: n60,
+                        ),
                       ),
-                    ),
+                      for (int i = 0; i < schedule.length; i++)
+                        Text(
+                          (schedule[i] as String).split(' (')[0] +
+                              ((schedule.length - 1 == i) ? '' : ', '),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: n60,
+                            // height: 1,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                    ],
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ],
@@ -236,7 +278,12 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
       height: 50,
       child: TextFormField(
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
+        controller: searchbarController,
+        onChanged: (value) {
+          setState(() {
+            searchText = value;
+          });
+        },
         decoration: const InputDecoration(
           fillColor: white,
           labelText: 'Search',

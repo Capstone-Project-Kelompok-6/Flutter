@@ -20,6 +20,8 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
   ClassOfflineOuter? classOfflineOuter;
   List<ClassOfflineRows>? classOfflineRows;
   bool isLoading = true;
+  TextEditingController searchbarController = TextEditingController();
+  String searchText = '';
 
   @override
   void initState() {
@@ -64,50 +66,90 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
         child: Column(
           children: [
             searchBarItem(),
+            // Text(searchText),
             const SizedBox(height: 24),
             isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
+                ? const Center(child: CircularProgressIndicator())
                 : classOfflineRows != null
-                    ? ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: classOfflineRows!.length,
-                        itemBuilder: (context, index) {
-                          final classData = classOfflineRows![index];
-
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          BookingOfflineClassDetail(
-                                              classId: classData.classId,
-                                              classTitle: classData.workout,
-                                              classImage:
-                                                  classData.workoutImage,
-                                              classInstructor:
-                                                  classData.instructorName,
-                                              classDesc: classData.description,
-                                              classSchedule:
-                                                  classData.classDates,
-                                              price: classData.price)));
-                            },
-                            child: offlineClassCard(
-                                classData.workoutImage,
-                                classData.workout,
-                                classData.classDates,
-                                classData.instructorName),
-                          );
-                        },
+                    ? SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            for (int i = 0; i < classOfflineRows!.length; i++)
+                              if (classOfflineRows![i]
+                                  .workout
+                                  .toLowerCase()
+                                  .contains(searchText.toLowerCase()))
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                BookingOfflineClassDetail(
+                                                    classId:
+                                                        classOfflineRows![i]
+                                                            .classId,
+                                                    classTitle:
+                                                        classOfflineRows![i]
+                                                            .workout,
+                                                    classImage:
+                                                        classOfflineRows![i]
+                                                            .workoutImage,
+                                                    classInstructor:
+                                                        classOfflineRows![i]
+                                                            .instructorName,
+                                                    classDesc:
+                                                        classOfflineRows![i]
+                                                            .description,
+                                                    classSchedule:
+                                                        classOfflineRows![i]
+                                                            .classDates,
+                                                    price: classOfflineRows![i]
+                                                        .price)));
+                                  },
+                                  child: offlineClassCard(
+                                      classOfflineRows![i].workoutImage,
+                                      classOfflineRows![i].workout,
+                                      classOfflineRows![i].classDates,
+                                      classOfflineRows![i].instructorName),
+                                )
+                          ],
+                        ),
                       )
-                    : Container(),
+                    : Container()
           ],
         ),
       ),
+    );
+  }
+
+  Widget noSearch() {
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: classOfflineRows!.length,
+      itemBuilder: (context, index) {
+        final classData = classOfflineRows![index];
+
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => BookingOfflineClassDetail(
+                        classId: classData.classId,
+                        classTitle: classData.workout,
+                        classImage: classData.workoutImage,
+                        classInstructor: classData.instructorName,
+                        classDesc: classData.description,
+                        classSchedule: classData.classDates,
+                        price: classData.price)));
+          },
+          child: offlineClassCard(classData.workoutImage, classData.workout,
+              classData.classDates, classData.instructorName),
+        );
+      },
     );
   }
 
@@ -210,7 +252,12 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
       height: 50,
       child: TextFormField(
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
+        controller: searchbarController,
+        onChanged: (value) {
+          setState(() {
+            searchText = value;
+          });
+        },
         decoration: const InputDecoration(
           fillColor: white,
           labelText: 'Search',
@@ -230,18 +277,11 @@ class _BookingOfflineClassState extends State<BookingOfflineClass> {
               borderRadius: BorderRadius.all(Radius.circular(10)),
               borderSide: BorderSide(color: n60)),
           contentPadding: EdgeInsets.all(12),
-          // prefixIcon: Container(
-          //   margin: const EdgeInsets.only(
-          //       left: 20, right: 8, top: 14, bottom: 14),
-          //   child: SvgPicture.asset(
-          //     'assets/icons/search.svg',
-          //     fit: BoxFit.cover,
-          //   ),
-          // ),
           prefixIcon: Icon(
             Icons.search_rounded,
             color: n20,
           ),
+          focusColor: n100,
         ),
       ),
     );

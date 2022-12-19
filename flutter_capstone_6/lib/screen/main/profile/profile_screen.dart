@@ -17,6 +17,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? userFullname;
   String? userId;
   String? userEmail;
+  String? image;
+  String? imageName;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             userFullname = userData.data.fullName;
             userId = userData.data.userId;
             userEmail = userData.data.email;
+            image = userData.data.image;
+            imageName = userData.data.imageName;
           }
 
           return SingleChildScrollView(
@@ -72,7 +76,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           decoration: const BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
-                  image: AssetImage('assets/profile_picture.png'))),
+                  image: NetworkImage(
+                      'https://storage.googleapis.com/alterra-capstone.appspot.com/users/profile.png?Expires=1703019072&GoogleAccessId=firebase-adminsdk-kae8m%40alterra-capstone.iam.gserviceaccount.com&Signature=Fg27Zl9u0jAZ5zT4JXAQGVMpm9n%2B9j3RSa7yaxt6vCS0tXRIKwQX1G6JU8hQeZB6X6xNDeB0Mw%2BTOqWEkQLrdk75unarwwQVDSozErYS9DcKlrLAQXWpBxcyCArm5akiqYk%2BA8UsDW9IId1BLz5lO6JsRY1nXe3KERyIFCQHd7G4pooXopWBP6I%2FpFqEkUv9e7lYaFy294bENvInMOd249Svb0zpB%2BeL0gY4D6LQU%2B2Xs0sAFEIOSf3nwKm73t11SdDXegC59djetbJIO99rcw5GQoS028pfZXji0zMXaqs6%2FJtkycdUzPXHLTdCT1BUDXBotwj990QmrZIbNnV65Q%3D%3D'))),
         ),
         Positioned(
           bottom: -9,

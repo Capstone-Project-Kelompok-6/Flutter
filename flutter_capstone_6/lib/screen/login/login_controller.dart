@@ -56,6 +56,8 @@ class LoginController {
           phoneNumber: '',
           accessToken: '',
           refreshToken: '',
+          image: '',
+          imageName: '',
         ),
       );
     }

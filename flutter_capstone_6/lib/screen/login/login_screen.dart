@@ -335,13 +335,14 @@ class _LoginScreenState extends State<LoginScreen> {
         final data = Provider.of<LoginViewModel>(context, listen: false);
         final userDetail = UserData(
             data: UserToken(
-          userId: userData.data.userId,
-          fullName: userData.data.fullName,
-          email: userData.data.email,
-          phoneNumber: userData.data.phoneNumber,
-          accessToken: userData.data.accessToken,
-          refreshToken: userData.data.refreshToken,
-        ));
+                userId: userData.data.userId,
+                fullName: userData.data.fullName,
+                email: userData.data.email,
+                phoneNumber: userData.data.phoneNumber,
+                accessToken: userData.data.accessToken,
+                refreshToken: userData.data.refreshToken,
+                image: userData.data.image,
+                imageName: userData.data.imageName));
         data.addUser(userDetail);
         print('User fullname: ${userData.data.fullName}');
         print('User access token: ${userData.data.accessToken}');

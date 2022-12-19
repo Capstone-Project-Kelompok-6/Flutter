@@ -50,82 +50,76 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 18),
                     child: SingleChildScrollView(
-                      child: SizedBox(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              for (int j = 0;
-                                  j <
-                                      widget.classOnlineRows3.values
-                                          .toList()[i]
-                                          .length;
-                                  j++)
-                                if (widget.classOnlineRows3.values
-                                    .toList()[i][j]
-                                    .videoTitle
-                                    .toLowerCase()
-                                    .contains(searchText.toLowerCase()))
+                      child: Column(
+                        children: [
+                          for (int j = 0;
+                              j <
+                                  widget.classOnlineRows3.values
+                                      .toList()[i]
+                                      .length;
+                              j++)
+                            if (widget.classOnlineRows3.values
+                                .toList()[i][j]
+                                .videoTitle
+                                .toLowerCase()
+                                .contains(searchText.toLowerCase()))
 
-                                  // FutureBuilder<Duration>(
-                                  //     future: getDuration(widget
-                                  //         .classOnlineRows3.values
-                                  //         .toList()[i][j]),
-                                  //     builder: (context, snapshot) {
-                                  //       if (!snapshot.hasData) {
-                                  //         return const SizedBox();
-                                  //       }
+                              // FutureBuilder<Duration>(
+                              //     future: getDuration(widget
+                              //         .classOnlineRows3.values
+                              //         .toList()[i][j]),
+                              //     builder: (context, snapshot) {
+                              //       if (!snapshot.hasData) {
+                              //         return const SizedBox();
+                              //       }
 
-                                  //       final classData = widget
-                                  //           .classOnlineRows3.values
-                                  //           .toList()[i][j];
+                              //       final classData = widget
+                              //           .classOnlineRows3.values
+                              //           .toList()[i][j];
 
-                                  //       // formatting duration
-                                  //       format(Duration d) =>
-                                  //           d.toString().substring(2, 7);
-                                  //       String videoDuration =
-                                  //           format(snapshot.data ?? Duration.zero)
-                                  //               .toString();
+                              //       // formatting duration
+                              //       format(Duration d) =>
+                              //           d.toString().substring(2, 7);
+                              //       String videoDuration =
+                              //           format(snapshot.data ?? Duration.zero)
+                              //               .toString();
 
-                                  //       return
+                              //       return
 
-                                  GestureDetector(
-                                    onTap: () {
-                                      final classData = widget
-                                          .classOnlineRows3.values
-                                          .toList()[i][j];
+                              GestureDetector(
+                                onTap: () {
+                                  final classData =
+                                      widget.classOnlineRows3.values.toList()[i]
+                                          [j];
 
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  BookingOnlineClassDetail(
-                                                    classId: classData.classId,
-                                                    classTitle:
-                                                        classData.workout,
-                                                    classImage:
-                                                        classData.thumbnail,
-                                                    classVideoTitle:
-                                                        classData.videoTitle,
-                                                    classDesc:
-                                                        classData.description,
-                                                    price: classData.price,
-                                                    video: classData.video,
-                                                    duration:
-                                                        // snapshot.data ??
-                                                        Duration.zero,
-                                                  )));
-                                    },
-                                    child: onlineClassCard(
-                                        'classData.thumbnail',
-                                        widget.classOnlineRows3.values
-                                            .toList()[i][j]
-                                            .videoTitle,
-                                        'videoDuration'),
-                                  )
-                              // })
-                            ],
-                          ),
-                        ),
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              BookingOnlineClassDetail(
+                                                classId: classData.classId,
+                                                classTitle: classData.workout,
+                                                classImage: classData.thumbnail,
+                                                classVideoTitle:
+                                                    classData.videoTitle,
+                                                classDesc:
+                                                    classData.description,
+                                                price: classData.price,
+                                                video: classData.video,
+                                                duration:
+                                                    // snapshot.data ??
+                                                    Duration.zero,
+                                              )));
+                                },
+                                child: onlineClassCard(
+                                    'classData.thumbnail',
+                                    widget.classOnlineRows3.values
+                                        .toList()[i][j]
+                                        .videoTitle,
+                                    'videoDuration'),
+                              )
+                          // })
+                        ],
                       ),
                     ),
                   ),

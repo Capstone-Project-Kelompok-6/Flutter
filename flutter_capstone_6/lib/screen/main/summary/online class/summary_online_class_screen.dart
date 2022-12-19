@@ -22,6 +22,8 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
   SummaryOnlineOuter? summaryOnlineOuter;
   List<SummaryOnlineRows>? summaryOnlineRows;
   bool isLoading = true;
+  TextEditingController searchbarController = TextEditingController();
+  String searchText = '';
 
   @override
   void initState() {
@@ -95,22 +97,26 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                 ? const Center(child: CircularProgressIndicator())
                 : (summaryOnlineRows == null || summaryOnlineRows!.isEmpty)
                     ? emptyCard()
-                    : ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: summaryOnlineRows!.length,
-                        itemBuilder: (context, index) {
-                          final classData = summaryOnlineRows![index];
+                    : SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            for (int i = 0; i < summaryOnlineRows!.length; i++)
+                              if (summaryOnlineRows![i]
+                                  .videoTitle
+                                  .toLowerCase()
+                                  .contains(searchText.toLowerCase()))
+                                // FutureBuilder<Duration>(
+                                //     future: getDuration(summaryOnlineRows![i]),
+                                //     builder: (context, snapshot) {
+                                //       if (!snapshot.hasData) {
+                                //         return const SizedBox();
+                                //       }
 
-                          return FutureBuilder<Duration>(
-                              future: getDuration(classData),
-                              builder: (context, snapshot) {
-                                if (!snapshot.hasData) {
-                                  return const SizedBox();
-                                }
+                                //       return
 
-                                return GestureDetector(
+                                GestureDetector(
                                   onTap: () {
+                                    final classData = summaryOnlineRows![i];
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -124,18 +130,21 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                                                   classDesc:
                                                       classData.description,
                                                   video: classData.video,
-                                                  duration: snapshot.data ??
+                                                  duration:
+                                                      // snapshot.data ??
                                                       Duration.zero,
                                                 )));
                                   },
                                   child: itemCard(
-                                      classData.thumbnail,
-                                      classData.videoTitle,
-                                      snapshot.data ?? Duration.zero),
-                                );
-                              });
-                        },
-                      )
+                                      'classData.thumbnail',
+                                      summaryOnlineRows![i].videoTitle,
+                                      // snapshot.data ??
+                                      Duration.zero),
+                                )
+                            // })
+                          ],
+                        ),
+                      ),
           ],
         ),
       ),
@@ -162,12 +171,18 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              image,
+            child: Image.asset(
+              'assets/explore/img1.png',
               fit: BoxFit.cover,
               width: 90,
               height: 90,
             ),
+            // Image.network(
+            //   image,
+            //   fit: BoxFit.cover,
+            //   width: 90,
+            //   height: 90,
+            // ),
           ),
           const SizedBox(width: 12),
           Column(
@@ -240,7 +255,12 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
       height: 50,
       child: TextFormField(
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
+        controller: searchbarController,
+        onChanged: (value) {
+          setState(() {
+            searchText = value;
+          });
+        },
         decoration: const InputDecoration(
           fillColor: white,
           labelText: 'Search',
@@ -260,14 +280,6 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
               borderRadius: BorderRadius.all(Radius.circular(10)),
               borderSide: BorderSide(color: n60)),
           contentPadding: EdgeInsets.all(12),
-          // prefixIcon: Container(
-          //   margin: const EdgeInsets.only(
-          //       left: 20, right: 8, top: 14, bottom: 14),
-          //   child: SvgPicture.asset(
-          //     'assets/icons/search.svg',
-          //     fit: BoxFit.cover,
-          //   ),
-          // ),
           prefixIcon: Icon(
             Icons.search_rounded,
             color: n20,

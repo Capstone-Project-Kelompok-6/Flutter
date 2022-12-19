@@ -23,10 +23,6 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
   List<SummaryOnlineRows>? summaryOnlineRows;
   bool isLoading = true;
 
-  // video info
-  String videoDuration = '';
-  Duration duration = Duration.zero;
-
   @override
   void initState() {
     super.initState();
@@ -73,6 +69,19 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
     }
   }
 
+  Future<Duration> getDuration(SummaryOnlineRows classData) async {
+    Duration duration = Duration.zero;
+    // get video duration
+    var session = await FFprobeKit.getMediaInformation(classData.video);
+    final durationInfo = session.getMediaInformation()!.getDuration();
+
+    // change to duration
+    var seconds = double.parse(durationInfo!).round();
+    duration = Duration(seconds: seconds);
+
+    return duration;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -91,53 +100,40 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                         shrinkWrap: true,
                         itemCount: summaryOnlineRows!.length,
                         itemBuilder: (context, index) {
-                          // print(summaryOnlineRows![0].workout);
+                          final classData = summaryOnlineRows![index];
 
-                          // get video duration
-                          FFprobeKit.getMediaInformation(
-                                  summaryOnlineRows![0].video)
-                              .then((session) {
-                            final durationInfo =
-                                session.getMediaInformation()!.getDuration();
+                          return FutureBuilder<Duration>(
+                              future: getDuration(classData),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return const SizedBox();
+                                }
 
-                            // change to duration
-                            var seconds = double.parse(durationInfo!).round();
-                            duration = Duration(seconds: seconds);
-
-                            // formatting duration
-                            format(Duration d) => d.toString().substring(2, 7);
-                            videoDuration = format(duration).toString();
-
-                            print(
-                                "${summaryOnlineRows![0].videoTitle}: $videoDuration");
-                          });
-
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          SummaryOnlineClassDetail(
-                                            classTitle:
-                                                summaryOnlineRows![index]
-                                                    .workout,
-                                            classImage:
-                                                summaryOnlineRows![index]
-                                                    .thumbnail,
-                                            classVideoTitle:
-                                                summaryOnlineRows![index]
-                                                    .videoTitle,
-                                            classDesc: summaryOnlineRows![index]
-                                                .description,
-                                            video:
-                                                summaryOnlineRows![index].video,
-                                            duration: duration,
-                                          )));
-                            },
-                            child: itemCard(summaryOnlineRows![index].thumbnail,
-                                summaryOnlineRows![index].videoTitle, duration),
-                          );
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                SummaryOnlineClassDetail(
+                                                  classTitle: classData.workout,
+                                                  classImage:
+                                                      classData.thumbnail,
+                                                  classVideoTitle:
+                                                      classData.videoTitle,
+                                                  classDesc:
+                                                      classData.description,
+                                                  video: classData.video,
+                                                  duration: snapshot.data ??
+                                                      Duration.zero,
+                                                )));
+                                  },
+                                  child: itemCard(
+                                      classData.thumbnail,
+                                      classData.videoTitle,
+                                      snapshot.data ?? Duration.zero),
+                                );
+                              });
                         },
                       )
           ],
@@ -202,7 +198,7 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                     ),
                   ),
                   Text(
-                    "${duration.inMinutes}m ${duration.inSeconds}s",
+                    "${duration.inMinutes.remainder(60)}m ${duration.inSeconds.remainder(60)}s",
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,

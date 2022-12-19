@@ -109,7 +109,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            '${widget.duration.inMinutes}m ${widget.duration.inSeconds}s',
+                            '${widget.duration.inMinutes.remainder(60)}m ${widget.duration.inSeconds.remainder(60)}s',
                             style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:flutter/material.dart';
@@ -24,10 +25,6 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
   Set<String> classOnlineRows2 = {};
   Map<String, List<ClassOnlineRows>> classOnlineRows3 = {};
   bool isLoading = true;
-
-  // video info
-  String videoDuration = '';
-  Duration duration = Duration.zero;
 
   @override
   void initState() {
@@ -71,12 +68,25 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
             }
           }
 
-          // inspect(classOnlineRows3);
+          inspect(classOnlineRows3);
         });
       }
     } catch (e) {
       print(e);
     }
+  }
+
+  Future<Duration> getDuration(ClassOnlineRows classData) async {
+    Duration duration = Duration.zero;
+    // get video duration
+    var session = await FFprobeKit.getMediaInformation(classData.video);
+    final durationInfo = session.getMediaInformation()!.getDuration();
+
+    // change to duration
+    var seconds = double.parse(durationInfo!).round();
+    duration = Duration(seconds: seconds);
+
+    return duration;
   }
 
   @override
@@ -125,61 +135,58 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                                             .values
                                             .toList()[index][index2];
 
-                                        // get video duration
-                                        FFprobeKit.getMediaInformation(
-                                                classData.video)
-                                            .then((session) {
-                                          final durationInfo = session
-                                              .getMediaInformation()!
-                                              .getDuration();
+                                        return FutureBuilder<Duration>(
+                                            future: getDuration(classData),
+                                            builder: (context, snapshot) {
+                                              if (!snapshot.hasData) {
+                                                return const SizedBox();
+                                              }
 
-                                          // change to duration
-                                          var seconds =
-                                              double.parse(durationInfo!)
-                                                  .round();
-                                          duration = Duration(seconds: seconds);
+                                              // formatting duration
+                                              format(Duration d) =>
+                                                  d.toString().substring(2, 7);
+                                              String videoDuration = format(
+                                                      snapshot.data ??
+                                                          Duration.zero)
+                                                  .toString();
 
-                                          // formatting duration
-                                          format(Duration d) =>
-                                              d.toString().substring(2, 7);
-                                          videoDuration =
-                                              format(duration).toString();
-                                          setState(() {});
-
-                                          print(
-                                              "${classData.videoTitle}: $videoDuration");
-                                        });
-
-                                        return GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        BookingOnlineClassDetail(
-                                                          classId:
-                                                              classData.classId,
-                                                          classTitle:
-                                                              classData.workout,
-                                                          classImage: classData
-                                                              .thumbnail,
-                                                          classVideoTitle:
-                                                              classData
-                                                                  .videoTitle,
-                                                          classDesc: classData
-                                                              .description,
-                                                          price:
-                                                              classData.price,
-                                                          video:
-                                                              classData.video,
-                                                          duration: duration,
-                                                        )));
-                                          },
-                                          child: onlineClassCard(
-                                              classData.thumbnail,
-                                              classData.videoTitle,
-                                              videoDuration),
-                                        );
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              BookingOnlineClassDetail(
+                                                                classId:
+                                                                    classData
+                                                                        .classId,
+                                                                classTitle:
+                                                                    classData
+                                                                        .workout,
+                                                                classImage:
+                                                                    classData
+                                                                        .thumbnail,
+                                                                classVideoTitle:
+                                                                    classData
+                                                                        .videoTitle,
+                                                                classDesc: classData
+                                                                    .description,
+                                                                price: classData
+                                                                    .price,
+                                                                video: classData
+                                                                    .video,
+                                                                duration: snapshot
+                                                                        .data ??
+                                                                    Duration
+                                                                        .zero,
+                                                              )));
+                                                },
+                                                child: onlineClassCard(
+                                                    classData.thumbnail,
+                                                    classData.videoTitle,
+                                                    videoDuration),
+                                              );
+                                            });
                                       },
                                     ),
                                   ),
@@ -345,14 +352,6 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
               borderRadius: BorderRadius.all(Radius.circular(10)),
               borderSide: BorderSide(color: n60)),
           contentPadding: EdgeInsets.all(12),
-          // prefixIcon: Container(
-          //   margin: const EdgeInsets.only(
-          //       left: 20, right: 8, top: 14, bottom: 14),
-          //   child: SvgPicture.asset(
-          //     'assets/icons/search.svg',
-          //     fit: BoxFit.cover,
-          //   ),
-          // ),
           prefixIcon: Icon(
             Icons.search_rounded,
             color: n20,

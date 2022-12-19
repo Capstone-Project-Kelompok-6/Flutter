@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/booking_offline_done.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
+import 'package:intl/intl.dart';
 
 class SummaryOfflineClassDetail extends StatefulWidget {
   const SummaryOfflineClassDetail({
@@ -13,6 +14,8 @@ class SummaryOfflineClassDetail extends StatefulWidget {
     required this.classDesc,
     required this.classSchedule,
     required this.price,
+    required this.createdAt,
+    required this.endClassDate,
   }) : super(key: key);
   final String classId;
   final String classTitle;
@@ -21,6 +24,8 @@ class SummaryOfflineClassDetail extends StatefulWidget {
   final String classDesc;
   final List classSchedule;
   final int price;
+  final int createdAt;
+  final int endClassDate;
 
   @override
   State<SummaryOfflineClassDetail> createState() =>
@@ -142,8 +147,8 @@ class _SummaryOfflineClassDetailState extends State<SummaryOfflineClassDetail> {
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
+              children: [
+                const Text(
                   "Validity Period up to",
                   style: TextStyle(
                     fontSize: 12,
@@ -152,7 +157,9 @@ class _SummaryOfflineClassDetailState extends State<SummaryOfflineClassDetail> {
                   ),
                 ),
                 Text(
-                  "13 Januari 2023",
+                  DateFormat("dd MMMM yyyy").format(
+                      DateTime.fromMicrosecondsSinceEpoch(
+                          widget.endClassDate * 1000)),
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -167,8 +174,14 @@ class _SummaryOfflineClassDetailState extends State<SummaryOfflineClassDetail> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => BookingOfflineDone(
-                              classTitle: widget.classTitle,
-                              classInstructor: widget.classInstructor)));
+                                classTitle: widget.classTitle,
+                                classInstructor: widget.classInstructor,
+                                createdAt: DateTime.fromMicrosecondsSinceEpoch(
+                                    widget.createdAt * 1000),
+                                endClassDate:
+                                    DateTime.fromMicrosecondsSinceEpoch(
+                                        widget.endClassDate * 1000),
+                              )));
                 },
                 style: ElevatedButton.styleFrom(
                   primary: violet,

@@ -6,7 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import '../../../../component/colors.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({super.key});
+  const EditProfileScreen({Key? key}) : super(key: key);
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();

@@ -50,7 +50,7 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
       isLoading = false;
       print('JSON Response: ${response.body}');
       // print(response.statusCode);
-      // print(userId);
+      print(userId);
 
       if (response.statusCode == 200) {
         Map<String, dynamic> summaryBody = jsonDecode(response.body);
@@ -78,7 +78,7 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
-                : summaryOfflineRows != null
+                : (summaryOfflineRows != null)
                     ? SingleChildScrollView(
                         child: Column(children: [
                           for (int i = 0; i < summaryOfflineRows!.length; i++)
@@ -112,6 +112,12 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
                                                         .classDates,
                                                 price: summaryOfflineRows![i]
                                                     .price,
+                                                createdAt:
+                                                    summaryOfflineRows![i]
+                                                        .createdAt,
+                                                endClassDate:
+                                                    summaryOfflineRows![i]
+                                                        .endClassDate,
                                               )));
                                 },
                                 child: itemCard(
@@ -150,6 +156,8 @@ class _SummaryOfflineClassScreenState extends State<SummaryOfflineClassScreen> {
                           classDesc: summaryOfflineRows![index].description,
                           classSchedule: summaryOfflineRows![index].classDates,
                           price: summaryOfflineRows![index].price,
+                          createdAt: summaryOfflineRows![index].createdAt,
+                          endClassDate: summaryOfflineRows![index].endClassDate,
                         )));
           },
           child: itemCard(

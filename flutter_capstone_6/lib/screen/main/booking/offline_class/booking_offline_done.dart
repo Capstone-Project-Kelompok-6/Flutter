@@ -11,23 +11,27 @@ class BookingOfflineDone extends StatefulWidget {
     Key? key,
     required this.classTitle,
     required this.classInstructor,
+    required this.createdAt,
+    required this.endClassDate,
   }) : super(key: key);
   final String classTitle;
   final String classInstructor;
+  final DateTime createdAt;
+  final DateTime endClassDate;
 
   @override
   State<BookingOfflineDone> createState() => _BookingOfflineDoneState();
 }
 
 class _BookingOfflineDoneState extends State<BookingOfflineDone> {
-  final DateTime today = DateTime.now();
-  DateTime nextMonth = DateTime.now();
+  // final DateTime today = DateTime.now();
+  // DateTime nextMonth = DateTime.now();
 
-  @override
-  void initState() {
-    super.initState();
-    nextMonth = DateTime(today.year, today.month + 1, today.day);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   nextMonth = DateTime(today.year, today.month + 1, today.day);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +137,7 @@ class _BookingOfflineDoneState extends State<BookingOfflineDone> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      DateFormat("EEEE, dd MMMM yyyy").format(today),
+                      DateFormat("EEEE, dd MMMM yyyy").format(widget.createdAt),
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -142,7 +146,8 @@ class _BookingOfflineDoneState extends State<BookingOfflineDone> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      DateFormat("EEEE, dd MMMM yyyy").format(nextMonth),
+                      DateFormat("EEEE, dd MMMM yyyy")
+                          .format(widget.endClassDate),
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,

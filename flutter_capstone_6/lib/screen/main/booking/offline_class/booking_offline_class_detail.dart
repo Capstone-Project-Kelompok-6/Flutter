@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/component/currency.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/payment_method.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
@@ -204,16 +205,8 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
                 ),
                 Row(
                   children: [
-                    const Text(
-                      "Rp.",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: violet,
-                      ),
-                    ),
                     Text(
-                      widget.price.toString(),
+                      CurrencyFormat.convertToIdr(widget.price, 0),
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,

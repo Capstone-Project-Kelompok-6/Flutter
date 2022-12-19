@@ -35,7 +35,7 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
         context.read<LoginViewModel>().getDatas.first.data.accessToken;
 
     getBookOnlineClass(userToken, userId);
-    print(userId);
+    // print(userId);
   }
 
   Future getBookOnlineClass(String token, String userId) async {
@@ -61,6 +61,12 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
           summaryOnlineOuter = SummaryOnlineOuter.fromJson(summaryBody);
           summaryOnlineRows = summaryOnlineOuter!.data!.rows;
         });
+
+        if (summaryOnlineRows!.isEmpty) {
+          print("tes");
+        } else {
+          print("yo");
+        }
       }
     } catch (e) {
       print(e);
@@ -77,11 +83,10 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
             searchBarItem(),
             const SizedBox(height: 24),
             isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : summaryOnlineRows != null
-                    ? ListView.builder(
+                ? const Center(child: CircularProgressIndicator())
+                : (summaryOnlineRows == null || summaryOnlineRows!.isEmpty)
+                    ? emptyCard()
+                    : ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         itemCount: summaryOnlineRows!.length,
@@ -102,7 +107,6 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                             // formatting duration
                             format(Duration d) => d.toString().substring(2, 7);
                             videoDuration = format(duration).toString();
-                            setState(() {});
 
                             print(
                                 "${summaryOnlineRows![0].videoTitle}: $videoDuration");
@@ -136,7 +140,6 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                           );
                         },
                       )
-                    : emptyCard(),
           ],
         ),
       ),

@@ -72,11 +72,39 @@ class _BookingOnlineClassDetailState extends State<BookingOnlineClassDetail> {
         Navigator.pop(context);
         showDialog(
             context: context,
-            builder: (BuildContext context) => const AlertDialog(
-                  title: Center(child: Text("INFO BOOKING")),
-                  content: Text(
-                    'You already book this class.',
+            builder: (BuildContext context) => AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  title: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/info_blue.svg',
+                        fit: BoxFit.cover,
+                      ),
+                      const Text(
+                        ' Info',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: navy,
+                        ),
+                      ),
+                    ],
+                  ),
+                  titlePadding: const EdgeInsets.only(top: 16, bottom: 5),
+                  contentPadding:
+                      const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+                  content: const Text(
+                    'You already book this class',
                     textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: n80,
+                    ),
                   ),
                 ));
       }

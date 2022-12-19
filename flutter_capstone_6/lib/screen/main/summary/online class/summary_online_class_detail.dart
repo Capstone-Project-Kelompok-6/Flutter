@@ -103,7 +103,7 @@ class _SummaryOnlineClassDetailState extends State<SummaryOnlineClassDetail> {
                         SvgPicture.asset('assets/booking_class/duration.svg'),
                         const SizedBox(width: 8),
                         Text(
-                          '${widget.duration.inMinutes}m ${widget.duration.inSeconds}s',
+                          '${widget.duration.inMinutes.remainder(60)}m ${widget.duration.inSeconds.remainder(60)}s',
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,

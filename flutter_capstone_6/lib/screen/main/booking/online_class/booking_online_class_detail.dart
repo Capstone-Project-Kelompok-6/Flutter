@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/component/currency.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/main/booking/online_class/payment_method.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class BookingOnlineClassDetail extends StatefulWidget {
@@ -70,11 +72,39 @@ class _BookingOnlineClassDetailState extends State<BookingOnlineClassDetail> {
         Navigator.pop(context);
         showDialog(
             context: context,
-            builder: (BuildContext context) => const AlertDialog(
-                  title: Center(child: Text("INFO BOOKING")),
-                  content: Text(
-                    'You already book this class.',
+            builder: (BuildContext context) => AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  title: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/info_blue.svg',
+                        fit: BoxFit.cover,
+                      ),
+                      const Text(
+                        ' Info',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: navy,
+                        ),
+                      ),
+                    ],
+                  ),
+                  titlePadding: const EdgeInsets.only(top: 16, bottom: 5),
+                  contentPadding:
+                      const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+                  content: const Text(
+                    'You already book this class',
                     textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: n80,
+                    ),
                   ),
                 ));
       }
@@ -159,7 +189,7 @@ class _BookingOnlineClassDetailState extends State<BookingOnlineClassDetail> {
                         SvgPicture.asset('assets/booking_class/duration.svg'),
                         const SizedBox(width: 8),
                         Text(
-                          '${widget.duration.inMinutes}m ${widget.duration.inSeconds}s',
+                          '${widget.duration.inMinutes.remainder(60)}m ${widget.duration.inSeconds.remainder(60)}s',
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
@@ -224,25 +254,13 @@ class _BookingOnlineClassDetailState extends State<BookingOnlineClassDetail> {
                     color: n100,
                   ),
                 ),
-                Row(
-                  children: [
-                    const Text(
-                      "Rp.",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: violet,
-                      ),
-                    ),
-                    Text(
-                      widget.price.toString(),
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: violet,
-                      ),
-                    ),
-                  ],
+                Text(
+                  CurrencyFormat.convertToIdr(widget.price, 0),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: violet,
+                  ),
                 ),
               ],
             ),

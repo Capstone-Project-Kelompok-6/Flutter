@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/component/currency.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/payment_success.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 import 'package:flutter/services.dart';
@@ -32,7 +33,7 @@ class _PaymentDetailState extends State<PaymentDetail> {
   @override
   void initState() {
     checkPayment();
-    nextMonth = DateTime(today.year, today.month + 1, today.day);
+    nextMonth = DateTime(today.year, today.month + 1, today.day - 1);
   }
 
   void checkPayment() {
@@ -186,25 +187,13 @@ class _PaymentDetailState extends State<PaymentDetail> {
                             ),
                           ),
                           const SizedBox(height: 12),
-                          Row(
-                            children: [
-                              const Text(
-                                "Rp. ",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: n100,
-                                ),
-                              ),
-                              Text(
-                                widget.price.toString(),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: n100,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            CurrencyFormat.convertToIdr(widget.price, 0),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: n100,
+                            ),
                           ),
                         ],
                       ),

@@ -96,6 +96,11 @@ class _PaymentSuccessState extends State<PaymentSuccess> {
                               builder: (context) => BookingOfflineDone(
                                     classTitle: widget.classTitle,
                                     classInstructor: widget.classInstructor,
+                                    createdAt: DateTime.now(),
+                                    endClassDate: DateTime(
+                                        DateTime.now().year,
+                                        DateTime.now().month + 1,
+                                        DateTime.now().day - 1),
                                   )));
                     },
                     style: ElevatedButton.styleFrom(

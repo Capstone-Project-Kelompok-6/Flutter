@@ -29,19 +29,16 @@ class ForgotPasswordVerificationScreen extends StatefulWidget {
 
 class _ForgotPasswordVerificationScreenState
     extends State<ForgotPasswordVerificationScreen> {
-  // pin code
   var onTapRecognizer;
-
   late ForgotPasswordController _controller = ForgotPasswordController();
-
   String pin = "";
-
   bool isComplete = false;
   bool isHide = true;
   bool isAccountBack = true;
   bool isLoading = false;
   bool isInit = true;
   bool onProgress = false;
+  final formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -58,19 +55,6 @@ class _ForgotPasswordVerificationScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteBg,
-      // appBar: PreferredSize(
-      //   preferredSize: const Size.fromHeight(40.0),
-      //   child: Container(
-      //     decoration: const BoxDecoration(
-      //       color: whiteBg,
-      //     ),
-      //     child: isComplete
-      //         ? isAccountBack
-      //             ? Container()
-      //             : const AppBarContentRP()
-      //         : Container(),
-      //   ),
-      // ),
       appBar: AppBar(
         title: isComplete
             ? isAccountBack
@@ -199,73 +183,130 @@ class _ForgotPasswordVerificationScreenState
   }
 
   Widget resetPassword() {
-    return Column(
-      children: [
-        // Title Section
-        SizedBox(
-          width: double.infinity,
-          child: SvgPicture.asset('assets/forgot_password/forgot_password.svg'),
-        ),
-        const SizedBox(height: 8),
-        const Text(
-          "Reset Password",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: n100,
+    return Form(
+      key: formKey,
+      child: Column(
+        children: [
+          // Title Section
+          SizedBox(
+            width: double.infinity,
+            child:
+                SvgPicture.asset('assets/forgot_password/forgot_password.svg'),
           ),
-        ),
+          const SizedBox(height: 8),
+          const Text(
+            "Reset Password",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: n100,
+            ),
+          ),
 
-        // Reset Pass Form Section
-        const SizedBox(height: 22),
-        newPasswordFormItem(),
-        const SizedBox(height: 8),
-        confirmPasswordFormItem(),
-        const SizedBox(height: 25),
+          // Reset Pass Form Section
+          const SizedBox(height: 22),
+          newPasswordFormItem(),
+          const SizedBox(height: 8),
+          confirmPasswordFormItem(),
+          const SizedBox(height: 25),
 
-        // Button Send Section
-        Container(
-          margin: const EdgeInsets.only(left: 5, right: 5, bottom: 32),
-          child: ElevatedButton(
-            onPressed: () {
-              print(_controller.emailController.text);
-              print(_controller.pinController.text);
-              print(_controller.confirmPassController.text);
-              print(_controller.passwordController.text);
-              _controller.changePassword(
-                  _controller.emailController.text,
-                  _controller.passwordController.text,
-                  _controller.confirmPassController.text,
-                  _controller.pinController.text);
-              setState(() {
-                isAccountBack = false;
-              });
-            },
-            style: ElevatedButton.styleFrom(
-                primary: violet,
-                minimumSize: const Size(double.infinity, 48),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20))),
-            child: const Text(
-              "Send",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: white,
+          // Button Send Section
+          Container(
+            margin: const EdgeInsets.only(left: 5, right: 5, bottom: 32),
+            child: ElevatedButton(
+              onPressed: () {
+                if (formKey.currentState!.validate()) {
+                  if (_controller.confirmPassController.text ==
+                      _controller.passwordController.text) {
+                    print(_controller.emailController.text);
+                    print(_controller.pinController.text);
+                    print(_controller.confirmPassController.text);
+                    print(_controller.passwordController.text);
+                    _controller.changePassword(
+                        _controller.emailController.text,
+                        _controller.passwordController.text,
+                        _controller.confirmPassController.text,
+                        _controller.pinController.text);
+                    setState(() {
+                      isAccountBack = false;
+                    });
+                  } else {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              title: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/info_red2.svg',
+                                    fit: BoxFit.cover,
+                                  ),
+                                  const Text(
+                                    ' Error',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                      color: red,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              titlePadding:
+                                  const EdgeInsets.only(top: 16, bottom: 5),
+                              contentPadding: const EdgeInsets.only(
+                                  bottom: 16, left: 16, right: 16),
+                              content: const Text(
+                                'Your password and confirm password not match',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: n80,
+                                ),
+                              ),
+                            ));
+                  }
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                  primary: violet,
+                  minimumSize: const Size(double.infinity, 48),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20))),
+              child: const Text(
+                "Send",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: white,
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget newPasswordFormItem() {
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
-      height: 50,
       child: TextFormField(
-        validator: (String? value) => value == '' ? "Required" : null,
+        validator: (String? value) {
+          if (value == null || value.isEmpty) {
+            return 'Required';
+          }
+          if (value.contains(" ")) {
+            return "Password contain space";
+          }
+          if (value.length < 8) {
+            return "min password length 8";
+          }
+        },
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
         controller: _controller.passwordController,
         maxLines: 1,
@@ -304,9 +345,15 @@ class _ForgotPasswordVerificationScreenState
   Widget confirmPasswordFormItem() {
     return Container(
       padding: const EdgeInsets.only(left: 5, right: 5),
-      height: 50,
       child: TextFormField(
-        validator: (String? value) => value == '' ? "Required" : null,
+        validator: (String? value) {
+          if (value == null || value.isEmpty) {
+            return 'Required';
+          }
+          if (value.contains(" ")) {
+            return "Password contain space";
+          }
+        },
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
         controller: _controller.confirmPassController,
         maxLines: 1,

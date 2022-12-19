@@ -22,10 +22,8 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
   SummaryOnlineOuter? summaryOnlineOuter;
   List<SummaryOnlineRows>? summaryOnlineRows;
   bool isLoading = true;
-
-  // video info
-  String videoDuration = '';
-  Duration duration = Duration.zero;
+  TextEditingController searchbarController = TextEditingController();
+  String searchText = '';
 
   @override
   void initState() {
@@ -35,7 +33,7 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
         context.read<LoginViewModel>().getDatas.first.data.accessToken;
 
     getBookOnlineClass(userToken, userId);
-    print(userId);
+    // print(userId);
   }
 
   Future getBookOnlineClass(String token, String userId) async {
@@ -61,10 +59,29 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
           summaryOnlineOuter = SummaryOnlineOuter.fromJson(summaryBody);
           summaryOnlineRows = summaryOnlineOuter!.data!.rows;
         });
+
+        if (summaryOnlineRows!.isEmpty) {
+          print("tes");
+        } else {
+          print("yo");
+        }
       }
     } catch (e) {
       print(e);
     }
+  }
+
+  Future<Duration> getDuration(SummaryOnlineRows classData) async {
+    Duration duration = Duration.zero;
+    // get video duration
+    var session = await FFprobeKit.getMediaInformation(classData.video);
+    final durationInfo = session.getMediaInformation()!.getDuration();
+
+    // change to duration
+    var seconds = double.parse(durationInfo!).round();
+    duration = Duration(seconds: seconds);
+
+    return duration;
   }
 
   @override
@@ -77,66 +94,57 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
             searchBarItem(),
             const SizedBox(height: 24),
             isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : summaryOnlineRows != null
-                    ? ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: summaryOnlineRows!.length,
-                        itemBuilder: (context, index) {
-                          // print(summaryOnlineRows![0].workout);
+                ? const Center(child: CircularProgressIndicator())
+                : (summaryOnlineRows == null || summaryOnlineRows!.isEmpty)
+                    ? emptyCard()
+                    : SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            for (int i = 0; i < summaryOnlineRows!.length; i++)
+                              if (summaryOnlineRows![i]
+                                  .videoTitle
+                                  .toLowerCase()
+                                  .contains(searchText.toLowerCase()))
+                                // FutureBuilder<Duration>(
+                                //     future: getDuration(summaryOnlineRows![i]),
+                                //     builder: (context, snapshot) {
+                                //       if (!snapshot.hasData) {
+                                //         return const SizedBox();
+                                //       }
 
-                          // get video duration
-                          FFprobeKit.getMediaInformation(
-                                  summaryOnlineRows![0].video)
-                              .then((session) {
-                            final durationInfo =
-                                session.getMediaInformation()!.getDuration();
+                                //       return
 
-                            // change to duration
-                            var seconds = double.parse(durationInfo!).round();
-                            duration = Duration(seconds: seconds);
-
-                            // formatting duration
-                            format(Duration d) => d.toString().substring(2, 7);
-                            videoDuration = format(duration).toString();
-                            setState(() {});
-
-                            print(
-                                "${summaryOnlineRows![0].videoTitle}: $videoDuration");
-                          });
-
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          SummaryOnlineClassDetail(
-                                            classTitle:
-                                                summaryOnlineRows![index]
-                                                    .workout,
-                                            classImage:
-                                                summaryOnlineRows![index]
-                                                    .thumbnail,
-                                            classVideoTitle:
-                                                summaryOnlineRows![index]
-                                                    .videoTitle,
-                                            classDesc: summaryOnlineRows![index]
-                                                .description,
-                                            video:
-                                                summaryOnlineRows![index].video,
-                                            duration: duration,
-                                          )));
-                            },
-                            child: itemCard(summaryOnlineRows![index].thumbnail,
-                                summaryOnlineRows![index].videoTitle, duration),
-                          );
-                        },
-                      )
-                    : emptyCard(),
+                                GestureDetector(
+                                  onTap: () {
+                                    final classData = summaryOnlineRows![i];
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                SummaryOnlineClassDetail(
+                                                  classTitle: classData.workout,
+                                                  classImage:
+                                                      classData.thumbnail,
+                                                  classVideoTitle:
+                                                      classData.videoTitle,
+                                                  classDesc:
+                                                      classData.description,
+                                                  video: classData.video,
+                                                  duration:
+                                                      // snapshot.data ??
+                                                      Duration.zero,
+                                                )));
+                                  },
+                                  child: itemCard(
+                                      'classData.thumbnail',
+                                      summaryOnlineRows![i].videoTitle,
+                                      // snapshot.data ??
+                                      Duration.zero),
+                                )
+                            // })
+                          ],
+                        ),
+                      ),
           ],
         ),
       ),
@@ -163,12 +171,18 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              image,
+            child: Image.asset(
+              'assets/explore/img1.png',
               fit: BoxFit.cover,
               width: 90,
               height: 90,
             ),
+            // Image.network(
+            //   image,
+            //   fit: BoxFit.cover,
+            //   width: 90,
+            //   height: 90,
+            // ),
           ),
           const SizedBox(width: 12),
           Column(
@@ -199,7 +213,7 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                     ),
                   ),
                   Text(
-                    "${duration.inMinutes}m ${duration.inSeconds}s",
+                    "${duration.inMinutes.remainder(60)}m ${duration.inSeconds.remainder(60)}s",
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
@@ -241,7 +255,12 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
       height: 50,
       child: TextFormField(
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
+        controller: searchbarController,
+        onChanged: (value) {
+          setState(() {
+            searchText = value;
+          });
+        },
         decoration: const InputDecoration(
           fillColor: white,
           labelText: 'Search',
@@ -261,14 +280,6 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
               borderRadius: BorderRadius.all(Radius.circular(10)),
               borderSide: BorderSide(color: n60)),
           contentPadding: EdgeInsets.all(12),
-          // prefixIcon: Container(
-          //   margin: const EdgeInsets.only(
-          //       left: 20, right: 8, top: 14, bottom: 14),
-          //   child: SvgPicture.asset(
-          //     'assets/icons/search.svg',
-          //     fit: BoxFit.cover,
-          //   ),
-          // ),
           prefixIcon: Icon(
             Icons.search_rounded,
             color: n20,

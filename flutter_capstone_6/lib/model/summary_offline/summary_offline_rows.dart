@@ -16,7 +16,8 @@ class SummaryOfflineRows {
     required this.classDates,
     required this.price,
     required this.description,
-    this.createdAt,
+    required this.createdAt,
+    required this.endClassDate,
   });
 
   @JsonKey(name: 'book_id')
@@ -53,7 +54,10 @@ class SummaryOfflineRows {
   String description;
 
   @JsonKey(name: 'created_at')
-  int? createdAt;
+  int createdAt;
+
+  @JsonKey(name: 'end_class_date')
+  int endClassDate;
 
   factory SummaryOfflineRows.fromJson(Map<String, dynamic> json) =>
       _$SummaryOfflineRowsFromJson(json);

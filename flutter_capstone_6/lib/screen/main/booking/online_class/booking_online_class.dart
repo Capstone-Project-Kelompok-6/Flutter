@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:flutter/material.dart';
@@ -24,10 +25,8 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
   Set<String> classOnlineRows2 = {};
   Map<String, List<ClassOnlineRows>> classOnlineRows3 = {};
   bool isLoading = true;
-
-  // video info
-  String videoDuration = '';
-  Duration duration = Duration.zero;
+  // TextEditingController searchbarController = TextEditingController();
+  // String searchText = '';
 
   @override
   void initState() {
@@ -71,12 +70,25 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
             }
           }
 
-          // inspect(classOnlineRows3);
+          inspect(classOnlineRows3);
         });
       }
     } catch (e) {
       print(e);
     }
+  }
+
+  Future<Duration> getDuration(ClassOnlineRows classData) async {
+    Duration duration = Duration.zero;
+    // get video duration
+    var session = await FFprobeKit.getMediaInformation(classData.video);
+    final durationInfo = session.getMediaInformation()!.getDuration();
+
+    // change to duration
+    var seconds = double.parse(durationInfo!).round();
+    duration = Duration(seconds: seconds);
+
+    return duration;
   }
 
   @override
@@ -87,8 +99,9 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            searchBarItem(),
-            const SizedBox(height: 24),
+            // searchBarItem(),
+            // Text(searchText),
+            // const SizedBox(height: 24),
             isLoading
                 ? const Center(
                     child: CircularProgressIndicator(),
@@ -125,32 +138,25 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                                             .values
                                             .toList()[index][index2];
 
-                                        // get video duration
-                                        FFprobeKit.getMediaInformation(
-                                                classData.video)
-                                            .then((session) {
-                                          final durationInfo = session
-                                              .getMediaInformation()!
-                                              .getDuration();
+                                        return
+                                            // FutureBuilder<Duration>(
+                                            //     future: getDuration(classData),
+                                            //     builder: (context, snapshot) {
+                                            //   if (!snapshot.hasData) {
+                                            //     return const SizedBox();
+                                            //   }
 
-                                          // change to duration
-                                          var seconds =
-                                              double.parse(durationInfo!)
-                                                  .round();
-                                          duration = Duration(seconds: seconds);
+                                            //   // formatting duration
+                                            //   format(Duration d) =>
+                                            //       d.toString().substring(2, 7);
+                                            //   String videoDuration = format(
+                                            //           snapshot.data ??
+                                            //               Duration.zero)
+                                            //       .toString();
 
-                                          // formatting duration
-                                          format(Duration d) =>
-                                              d.toString().substring(2, 7);
-                                          videoDuration =
-                                              format(duration).toString();
-                                          setState(() {});
+                                            //   return
 
-                                          print(
-                                              "${classData.videoTitle}: $videoDuration");
-                                        });
-
-                                        return GestureDetector(
+                                            GestureDetector(
                                           onTap: () {
                                             Navigator.push(
                                                 context,
@@ -172,14 +178,18 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                                                               classData.price,
                                                           video:
                                                               classData.video,
-                                                          duration: duration,
+                                                          duration:
+                                                              //  snapshot
+                                                              //         .data ??
+                                                              Duration.zero,
                                                         )));
                                           },
                                           child: onlineClassCard(
-                                              classData.thumbnail,
+                                              'classData.thumbnail',
                                               classData.videoTitle,
-                                              videoDuration),
+                                              'videoDuration'),
                                         );
+                                        // });
                                       },
                                     ),
                                   ),
@@ -217,13 +227,14 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
           Container(
             height: 160,
             width: double.infinity,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(15),
                 topRight: Radius.circular(15),
               ),
               image: DecorationImage(
-                image: NetworkImage(image),
+                // image: NetworkImage(image),
+                image: AssetImage('assets/explore/img1.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -325,7 +336,12 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
       height: 50,
       child: TextFormField(
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
+        // controller: searchbarController,
+        // onChanged: (value) {
+        //   setState(() {
+        //     searchText = value;
+        //   });
+        // },
         decoration: const InputDecoration(
           fillColor: white,
           labelText: 'Search',
@@ -345,14 +361,6 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
               borderRadius: BorderRadius.all(Radius.circular(10)),
               borderSide: BorderSide(color: n60)),
           contentPadding: EdgeInsets.all(12),
-          // prefixIcon: Container(
-          //   margin: const EdgeInsets.only(
-          //       left: 20, right: 8, top: 14, bottom: 14),
-          //   child: SvgPicture.asset(
-          //     'assets/icons/search.svg',
-          //     fit: BoxFit.cover,
-          //   ),
-          // ),
           prefixIcon: Icon(
             Icons.search_rounded,
             color: n20,

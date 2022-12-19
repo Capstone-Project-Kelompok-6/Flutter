@@ -2,6 +2,7 @@ import 'package:ffmpeg_kit_flutter/ffprobe_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/model/class_online/class_online_rows.dart';
+import 'package:flutter_capstone_6/screen/main/booking/online_class/booking_online_class_detail.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 
 class BookingOnlineSeeAll extends StatefulWidget {
@@ -16,7 +17,21 @@ class BookingOnlineSeeAll extends StatefulWidget {
 }
 
 class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
-  String videoDuration = '';
+  TextEditingController searchbarController = TextEditingController();
+  String searchText = '';
+
+  Future<Duration> getDuration(ClassOnlineRows classData) async {
+    Duration duration = Duration.zero;
+    // get video duration
+    var session = await FFprobeKit.getMediaInformation(classData.video);
+    final durationInfo = session.getMediaInformation()!.getDuration();
+
+    // change to duration
+    var seconds = double.parse(durationInfo!).round();
+    duration = Duration(seconds: seconds);
+
+    return duration;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,47 +49,80 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
                 if (widget.title == widget.classOnlineRows3.keys.toList()[i])
                   Padding(
                     padding: const EdgeInsets.only(bottom: 18),
-                    child: SizedBox(
-                      height: 245,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        physics: const BouncingScrollPhysics(),
-                        itemCount:
-                            widget.classOnlineRows3.values.toList()[i].length,
-                        itemBuilder: (context, index2) {
-                          final classData = widget.classOnlineRows3.values
-                              .toList()[i][index2];
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          for (int j = 0;
+                              j <
+                                  widget.classOnlineRows3.values
+                                      .toList()[i]
+                                      .length;
+                              j++)
+                            if (widget.classOnlineRows3.values
+                                .toList()[i][j]
+                                .videoTitle
+                                .toLowerCase()
+                                .contains(searchText.toLowerCase()))
 
-                          // get video duration
-                          FFprobeKit.getMediaInformation(classData.video)
-                              .then((session) {
-                            final durationInfo =
-                                session.getMediaInformation()!.getDuration();
+                              // FutureBuilder<Duration>(
+                              //     future: getDuration(widget
+                              //         .classOnlineRows3.values
+                              //         .toList()[i][j]),
+                              //     builder: (context, snapshot) {
+                              //       if (!snapshot.hasData) {
+                              //         return const SizedBox();
+                              //       }
 
-                            // change to duration
-                            var seconds = double.parse(durationInfo!).round();
-                            Duration duration = Duration(seconds: seconds);
+                              //       final classData = widget
+                              //           .classOnlineRows3.values
+                              //           .toList()[i][j];
 
-                            // formatting duration
-                            format(Duration d) => d.toString().substring(2, 7);
-                            videoDuration = format(duration).toString();
-                            setState(() {});
+                              //       // formatting duration
+                              //       format(Duration d) =>
+                              //           d.toString().substring(2, 7);
+                              //       String videoDuration =
+                              //           format(snapshot.data ?? Duration.zero)
+                              //               .toString();
 
-                            print("${classData.videoTitle}: $videoDuration");
+                              //       return
 
-                            // print("this see all");
-                          });
+                              GestureDetector(
+                                onTap: () {
+                                  final classData =
+                                      widget.classOnlineRows3.values.toList()[i]
+                                          [j];
 
-                          return onlineClassCard(
-                              classData.thumbnail,
-                              classData.videoTitle,
-                              classData.description,
-                              videoDuration);
-                        },
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              BookingOnlineClassDetail(
+                                                classId: classData.classId,
+                                                classTitle: classData.workout,
+                                                classImage: classData.thumbnail,
+                                                classVideoTitle:
+                                                    classData.videoTitle,
+                                                classDesc:
+                                                    classData.description,
+                                                price: classData.price,
+                                                video: classData.video,
+                                                duration:
+                                                    // snapshot.data ??
+                                                    Duration.zero,
+                                              )));
+                                },
+                                child: onlineClassCard(
+                                    'classData.thumbnail',
+                                    widget.classOnlineRows3.values
+                                        .toList()[i][j]
+                                        .videoTitle,
+                                    'videoDuration'),
+                              )
+                          // })
+                        ],
                       ),
                     ),
-                  )
+                  ),
             ],
           ),
         ),
@@ -82,8 +130,7 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
     );
   }
 
-  Widget onlineClassCard(
-      String image, String title, String description, String duration) {
+  Widget onlineClassCard(String image, String title, String duration) {
     return Container(
       width: 361,
       margin: const EdgeInsets.only(bottom: 12, right: 8),
@@ -105,13 +152,14 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
           Container(
             height: 160,
             width: double.infinity,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(15),
                 topRight: Radius.circular(15),
               ),
               image: DecorationImage(
-                image: AssetImage('assets/explore/img4.png'),
+                // image: NetworkImage(image),
+                image: AssetImage('assets/explore/img1.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -148,33 +196,21 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
             ),
           ),
           Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 23),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: n100,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                    child: Text(
-                      description,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: n60,
-                      ),
-                    ),
-                  ),
-                ],
-              ))
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 23),
+            child: Container(
+              width: double.infinity,
+              height: 35,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: n100,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -185,7 +221,12 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
       height: 50,
       child: TextFormField(
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
+        controller: searchbarController,
+        onChanged: (value) {
+          setState(() {
+            searchText = value;
+          });
+        },
         decoration: const InputDecoration(
           fillColor: white,
           labelText: 'Search',
@@ -205,14 +246,6 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
               borderRadius: BorderRadius.all(Radius.circular(10)),
               borderSide: BorderSide(color: n60)),
           contentPadding: EdgeInsets.all(12),
-          // prefixIcon: Container(
-          //   margin: const EdgeInsets.only(
-          //       left: 20, right: 8, top: 14, bottom: 14),
-          //   child: SvgPicture.asset(
-          //     'assets/icons/search.svg',
-          //     fit: BoxFit.cover,
-          //   ),
-          // ),
           prefixIcon: Icon(
             Icons.search_rounded,
             color: n20,

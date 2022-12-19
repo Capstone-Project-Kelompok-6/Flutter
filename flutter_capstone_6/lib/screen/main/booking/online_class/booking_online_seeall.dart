@@ -17,6 +17,9 @@ class BookingOnlineSeeAll extends StatefulWidget {
 }
 
 class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
+  TextEditingController searchbarController = TextEditingController();
+  String searchText = '';
+
   Future<Duration> getDuration(ClassOnlineRows classData) async {
     Duration duration = Duration.zero;
     // get video duration
@@ -48,32 +51,49 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
                     padding: const EdgeInsets.only(bottom: 18),
                     child: SingleChildScrollView(
                       child: SizedBox(
-                        child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          physics: const BouncingScrollPhysics(),
-                          itemCount:
-                              widget.classOnlineRows3.values.toList()[i].length,
-                          itemBuilder: (context, index2) {
-                            final classData = widget.classOnlineRows3.values
-                                .toList()[i][index2];
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              for (int j = 0;
+                                  j <
+                                      widget.classOnlineRows3.values
+                                          .toList()[i]
+                                          .length;
+                                  j++)
+                                if (widget.classOnlineRows3.values
+                                    .toList()[i][j]
+                                    .videoTitle
+                                    .toLowerCase()
+                                    .contains(searchText.toLowerCase()))
 
-                            return FutureBuilder<Duration>(
-                                future: getDuration(classData),
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    return const SizedBox();
-                                  }
+                                  // FutureBuilder<Duration>(
+                                  //     future: getDuration(widget
+                                  //         .classOnlineRows3.values
+                                  //         .toList()[i][j]),
+                                  //     builder: (context, snapshot) {
+                                  //       if (!snapshot.hasData) {
+                                  //         return const SizedBox();
+                                  //       }
 
-                                  // formatting duration
-                                  format(Duration d) =>
-                                      d.toString().substring(2, 7);
-                                  String videoDuration =
-                                      format(snapshot.data ?? Duration.zero)
-                                          .toString();
+                                  //       final classData = widget
+                                  //           .classOnlineRows3.values
+                                  //           .toList()[i][j];
 
-                                  return GestureDetector(
+                                  //       // formatting duration
+                                  //       format(Duration d) =>
+                                  //           d.toString().substring(2, 7);
+                                  //       String videoDuration =
+                                  //           format(snapshot.data ?? Duration.zero)
+                                  //               .toString();
+
+                                  //       return
+
+                                  GestureDetector(
                                     onTap: () {
+                                      final classData = widget
+                                          .classOnlineRows3.values
+                                          .toList()[i][j];
+
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -90,19 +110,25 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
                                                         classData.description,
                                                     price: classData.price,
                                                     video: classData.video,
-                                                    duration: snapshot.data ??
+                                                    duration:
+                                                        // snapshot.data ??
                                                         Duration.zero,
                                                   )));
                                     },
-                                    child: onlineClassCard(classData.thumbnail,
-                                        classData.videoTitle, videoDuration),
-                                  );
-                                });
-                          },
+                                    child: onlineClassCard(
+                                        'classData.thumbnail',
+                                        widget.classOnlineRows3.values
+                                            .toList()[i][j]
+                                            .videoTitle,
+                                        'videoDuration'),
+                                  )
+                              // })
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  )
+                  ),
             ],
           ),
         ),
@@ -138,7 +164,8 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
                 topRight: Radius.circular(15),
               ),
               image: DecorationImage(
-                image: NetworkImage(image),
+                // image: NetworkImage(image),
+                image: AssetImage('assets/explore/img1.png'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -200,7 +227,12 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
       height: 50,
       child: TextFormField(
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
+        controller: searchbarController,
+        onChanged: (value) {
+          setState(() {
+            searchText = value;
+          });
+        },
         decoration: const InputDecoration(
           fillColor: white,
           labelText: 'Search',

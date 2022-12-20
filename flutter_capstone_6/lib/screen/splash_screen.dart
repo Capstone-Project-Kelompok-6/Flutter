@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/onboarding_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -13,10 +14,18 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  late SharedPreferences storageData;
+
+  void initial() async {
+    storageData = await SharedPreferences.getInstance();
+    storageData.setBool('notifEmpty', true);
+  }
+
   @override
   void initState() {
     super.initState();
     splashScreenStart();
+    initial();
   }
 
   splashScreenStart() async {

@@ -3,12 +3,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/component/currency.dart';
+import 'package:flutter_capstone_6/model/notification.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/main/booking/offline_class/payment_method.dart';
+import 'package:flutter_capstone_6/screen/main/home/notification_view_model.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BookingOfflineClassDetail extends StatefulWidget {
   const BookingOfflineClassDetail({
@@ -35,6 +38,18 @@ class BookingOfflineClassDetail extends StatefulWidget {
 }
 
 class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
+  late SharedPreferences storageData;
+
+  @override
+  void initState() {
+    super.initState();
+    initial();
+  }
+
+  void initial() async {
+    storageData = await SharedPreferences.getInstance();
+  }
+
   Future bookOfflineClass(String token, String userId) async {
     try {
       http.Response response = await http.post(
@@ -54,6 +69,17 @@ class _BookingOfflineClassDetailState extends State<BookingOfflineClassDetail> {
       // print(userId);
 
       if (response.statusCode == 200) {
+        // State Management
+        final data = Provider.of<NotificationViewModel>(context, listen: false);
+        final notifDetail = NotificationClass(
+          classType: 'Offline Class',
+          className: widget.classTitle,
+          dateTime: DateTime.now(),
+        );
+        data.addNotif(notifDetail);
+
+        storageData.setBool('notifEmpty', false);
+
         Navigator.push(
             context,
             MaterialPageRoute(

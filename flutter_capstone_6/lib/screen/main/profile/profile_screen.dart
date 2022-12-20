@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/login/login_screen.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
+import 'package:flutter_capstone_6/screen/main/home/notification_view_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'edit_profile/edit_profile_screen.dart';
@@ -17,6 +18,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? userFullname;
   String? userId;
   String? userEmail;
+  String firstName = '';
+  String lastName = '';
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +43,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
             userFullname = userData.data.fullName;
             userId = userData.data.userId;
             userEmail = userData.data.email;
+
+            print('ini fullname: "$userFullname"');
+
+            if (userFullname!.split(" ").length > 1) {
+              lastName =
+                  userFullname!.substring(userFullname!.lastIndexOf(" ") + 1);
+              firstName =
+                  userFullname!.substring(0, userFullname!.lastIndexOf(" "));
+
+              print('ini first: "$firstName"');
+              print('ini last: "$lastName"');
+            } else {
+              firstName = userFullname!;
+            }
           }
 
           return SingleChildScrollView(
@@ -236,6 +253,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 style: ElevatedButton.styleFrom(primary: whiteBg, elevation: 0),
                 onPressed: () {
                   data.deleteUser(0);
+                  context.read<NotificationViewModel>().getDatas.clear();
 
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: ((context) => LoginScreen())));

@@ -185,7 +185,7 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                                                         )));
                                           },
                                           child: onlineClassCard(
-                                              'classData.thumbnail',
+                                              classData.thumbnail,
                                               classData.videoTitle,
                                               'videoDuration'),
                                         );
@@ -227,14 +227,14 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
           Container(
             height: 160,
             width: double.infinity,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(15),
                 topRight: Radius.circular(15),
               ),
               image: DecorationImage(
-                // image: NetworkImage(image),
-                image: AssetImage('assets/explore/img1.png'),
+                image: NetworkImage(image),
+                // image: AssetImage('assets/explore/img1.png'),
                 fit: BoxFit.cover,
               ),
             ),

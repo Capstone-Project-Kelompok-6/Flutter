@@ -22,16 +22,16 @@ class _BottomNavigationBarControllerState
     extends State<BottomNavigationBarController> {
   late final List<Widget> pages = [
     HomeScreen(
-      key: PageStorageKey('Page1'),
+      key: const PageStorageKey('Page1'),
       token: widget.token,
     ),
-    ExploreScreen(
+    const ExploreScreen(
       key: PageStorageKey('Page2'),
     ),
-    SummaryScreen(
+    const SummaryScreen(
       key: PageStorageKey('Page3'),
     ),
-    ProfileScreen(
+    const ProfileScreen(
       key: PageStorageKey('Page4'),
     ),
   ];

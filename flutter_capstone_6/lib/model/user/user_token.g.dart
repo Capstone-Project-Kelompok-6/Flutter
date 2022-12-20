@@ -8,14 +8,15 @@ part of 'user_token.dart';
 
 UserToken _$UserTokenFromJson(Map<String, dynamic> json) {
   return UserToken(
-      userId: json['user_id'] as String,
-      fullName: json['full_name'] as String,
-      email: json['email'] as String,
-      phoneNumber: json['phone_number'] as String,
-      accessToken: json['access_token'] as String,
-      refreshToken: json['refresh_token'] as String,
-      image: json['image'] as String,
-      imageName: json['image_name'] as String);
+    userId: json['user_id'] as String,
+    fullName: json['full_name'] as String,
+    email: json['email'] as String,
+    phoneNumber: json['phone_number'] as String,
+    accessToken: json['access_token'] as String,
+    refreshToken: json['refresh_token'] as String,
+    image: json['image'] as String,
+    imageName: json['image_name'] as String,
+  );
 }
 
 Map<String, dynamic> _$UserTokenToJson(UserToken instance) => <String, dynamic>{
@@ -26,5 +27,5 @@ Map<String, dynamic> _$UserTokenToJson(UserToken instance) => <String, dynamic>{
       'access_token': instance.accessToken,
       'refresh_token': instance.refreshToken,
       'image': instance.image,
-      'image_name': instance.imageName
+      'image_name': instance.imageName,
     };

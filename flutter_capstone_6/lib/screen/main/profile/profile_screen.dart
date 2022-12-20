@@ -73,11 +73,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Container(
           height: 180,
           width: 180,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
               shape: BoxShape.circle,
-              image: DecorationImage(
-                  image: NetworkImage(
-                      'https://storage.googleapis.com/alterra-capstone.appspot.com/users/profile.png?Expires=1703019072&GoogleAccessId=firebase-adminsdk-kae8m%40alterra-capstone.iam.gserviceaccount.com&Signature=Fg27Zl9u0jAZ5zT4JXAQGVMpm9n%2B9j3RSa7yaxt6vCS0tXRIKwQX1G6JU8hQeZB6X6xNDeB0Mw%2BTOqWEkQLrdk75unarwwQVDSozErYS9DcKlrLAQXWpBxcyCArm5akiqYk%2BA8UsDW9IId1BLz5lO6JsRY1nXe3KERyIFCQHd7G4pooXopWBP6I%2FpFqEkUv9e7lYaFy294bENvInMOd249Svb0zpB%2BeL0gY4D6LQU%2B2Xs0sAFEIOSf3nwKm73t11SdDXegC59djetbJIO99rcw5GQoS028pfZXji0zMXaqs6%2FJtkycdUzPXHLTdCT1BUDXBotwj990QmrZIbNnV65Q%3D%3D'))),
+              image: DecorationImage(image: NetworkImage('$image'))),
         ),
         Positioned(
           bottom: -9,

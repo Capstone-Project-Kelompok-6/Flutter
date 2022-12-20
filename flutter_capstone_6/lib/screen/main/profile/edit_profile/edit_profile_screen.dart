@@ -23,6 +23,11 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   ApiEndpoint api = ApiEndpoint();
+  var fullNameController = TextEditingController();
+  var phoneNumberController = TextEditingController();
+  var firstNameController = TextEditingController();
+  var lastNameController = TextEditingController();
+  var imageController = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -42,6 +47,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Future<http.Response> changeProfile(String fullName, String phoneNumber,
       String image, String imageName, String token) async {
+    print(fullName);
     try {
       var headers = {
         'Content-Type': 'multipart/form-data',
@@ -67,6 +73,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String? phoneNumber;
   String? image;
   String? imageName;
+  String? lastName;
+  String? firstName;
+  String? token;
 
   @override
   Widget build(BuildContext context) {
@@ -74,54 +83,131 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       appBar: AppBar(
         title: const Text('Edit Profile'),
       ),
-      body: Consumer<LoginViewModel>(
-          builder: (context, LoginViewModel data, child) {
-        if (data.getDatas.isNotEmpty) {
-          var userData = data.getDatas[0];
-          userEmail = userData.data.email;
-          fullName = userData.data.fullName;
-          phoneNumber = userData.data.phoneNumber;
-        }
-        return Center(
-          child: Column(
-            children: [
-              profilePicture(),
-              SizedBox(
-                height: 10,
-              ),
-              fullnameFormItem(),
-              const SizedBox(height: 10),
-              emailItem(),
-              const SizedBox(height: 10),
-              phoneNumberFormItem(),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 25, right: 25, top: 32, bottom: 4),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      primary: violet,
-                      minimumSize: const Size(double.infinity, 48),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30))),
-                  child: const Text(
-                    "Save Changes",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: white,
+      body: SingleChildScrollView(
+        child: Consumer<LoginViewModel>(
+            builder: (context, LoginViewModel data, child) {
+          if (data.getDatas.isNotEmpty) {
+            var userData = data.getDatas[0];
+            userEmail = userData.data.email;
+            fullName = userData.data.fullName;
+            phoneNumber = userData.data.phoneNumber;
+            image = userData.data.image;
+            imageName = userData.data.imageName;
+            token = userData.data.accessToken;
+
+            if (fullName!.split(" ").length > 1) {
+              lastName = fullName!.substring(fullName!.lastIndexOf(" ") + 1);
+              firstName = fullName!.substring(0, fullName!.lastIndexOf(" "));
+
+              print('ini first: "$firstName"');
+              print('ini last: "$lastName"');
+            } else {
+              firstName = fullName!;
+            }
+          }
+          return Center(
+            child: Column(
+              children: [
+                profilePicture(),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                    margin: EdgeInsets.only(right: 275),
+                    padding: EdgeInsets.only(right: 25, left: 25),
+                    child: Text(
+                      'first name',
+                      style: TextStyle(),
+                    )),
+                firstNameFormItem(),
+                const SizedBox(height: 10),
+                Container(
+                    margin: EdgeInsets.only(right: 275),
+                    padding: EdgeInsets.only(right: 25, left: 25),
+                    child: Text(
+                      'last name',
+                      style: TextStyle(),
+                    )),
+                lastNameFormItem(),
+                const SizedBox(height: 10),
+                Container(
+                    margin: EdgeInsets.only(right: 310),
+                    padding: EdgeInsets.only(right: 25, left: 25),
+                    child: Text(
+                      'email',
+                      style: TextStyle(),
+                    )),
+                emailItem(),
+                const SizedBox(height: 10),
+                Container(
+                    margin: EdgeInsets.only(right: 250),
+                    padding: EdgeInsets.only(right: 25, left: 25),
+                    child: Text(
+                      'phone number',
+                      style: TextStyle(),
+                    )),
+                phoneNumberFormItem(),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 25, right: 25, top: 32, bottom: 4),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      print(token);
+                      print(fullName);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        primary: violet,
+                        minimumSize: const Size(double.infinity, 48),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30))),
+                    child: const Text(
+                      "Save Changes",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: white,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        );
-      }),
+              ],
+            ),
+          );
+        }),
+      ),
     );
   }
 
-  Widget fullnameFormItem() {
+  Widget firstNameFormItem() {
+    return Container(
+      padding: const EdgeInsets.only(left: 25, right: 25),
+      // height: 50,
+      child: TextFormField(
+        controller: firstNameController,
+        validator: (String? value) => value == '' ? "Required" : null,
+        inputFormatters: [
+          FilteringTextInputFormatter.allow(RegExp("[A-Za-z]")),
+        ],
+        decoration: InputDecoration(
+          labelText: firstName,
+          hintText: firstName,
+          labelStyle:
+              TextStyle(fontSize: 14, color: n40, fontWeight: FontWeight.w400),
+          floatingLabelBehavior: FloatingLabelBehavior.never,
+          floatingLabelStyle: TextStyle(color: n100),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderSide: BorderSide(color: n100),
+          ),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          contentPadding: EdgeInsets.all(10),
+        ),
+      ),
+    );
+  }
+
+  Widget lastNameFormItem() {
     return Container(
       padding: const EdgeInsets.only(left: 25, right: 25),
       // height: 50,
@@ -133,8 +219,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           FilteringTextInputFormatter.allow(RegExp("[A-Za-z]")),
         ],
         decoration: InputDecoration(
-          labelText: fullName,
-          hintText: fullName,
+          labelText: lastName,
+          hintText: lastName,
           labelStyle:
               TextStyle(fontSize: 14, color: n40, fontWeight: FontWeight.w400),
           floatingLabelBehavior: FloatingLabelBehavior.never,
@@ -184,10 +270,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         Container(
           height: 180,
           width: 180,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
               shape: BoxShape.circle,
-              image: DecorationImage(
-                  image: AssetImage('assets/profile_picture.png'))),
+              image: DecorationImage(image: NetworkImage('$image'))),
         ),
         Positioned(
           bottom: -9,

@@ -1,12 +1,61 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/model/article/article_outer.dart';
+import 'package:flutter_capstone_6/model/article/article_rows.dart';
+import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/main/explore/article_detail_screen.dart';
 import 'package:flutter_capstone_6/screen/main/explore/article_list_screen.dart';
 import 'package:flutter_capstone_6/screen/main/explore/video_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
-class ExploreScreen extends StatelessWidget {
+class ExploreScreen extends StatefulWidget {
   const ExploreScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ExploreScreen> createState() => _ExploreScreenState();
+}
+
+class _ExploreScreenState extends State<ExploreScreen> {
+  ArticleOuter? articleOuter;
+  List<ArticleRows>? articleRows;
+
+  @override
+  void initState() {
+    super.initState();
+    final userToken =
+        context.read<LoginViewModel>().getDatas.first.data.accessToken;
+    getOfflineClass(userToken);
+  }
+
+  Future getOfflineClass(String token) async {
+    var headers = {
+      'Authorization': 'Bearer $token',
+      'Content-type': 'application/json'
+    };
+
+    try {
+      http.Response response = await http.get(
+          Uri.parse('https://www.go-rest-api.live/api/v1/articles'),
+          headers: headers);
+
+      print('JSON Response: ${response.body}');
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> classBody = jsonDecode(response.body);
+
+        setState(() {
+          articleOuter = ArticleOuter.fromJson(classBody);
+          articleRows = articleOuter!.data!.rows;
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +156,9 @@ class ExploreScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ArticleListScreen()));
+                              builder: (context) => ArticleListScreen(
+                                    articleRows: articleRows,
+                                  )));
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 25),
@@ -133,29 +184,22 @@ class ExploreScreen extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const ArticleDetailScreen()));
-                      },
-                      child: popularArticlesCard(
-                          'img4.png',
-                          'Benefits of green tea for metabolism',
-                          '1.52k views'),
-                    ),
-                    popularArticlesCard(
-                        'img5.png',
-                        '20-minutes Outdoor Can Make You Less Stress',
-                        '3k views'),
-                    popularArticlesCard(
-                        'img6.png', 'Stress and premature aging', '2.4k views'),
-                    popularArticlesCard(
-                        'img7.png', 'Natrium behind the pack', '1.1k views'),
-                    popularArticlesCard('img8.png',
-                        'Not always bad, there is also good fat', '1.2k views'),
+                    if (articleRows != null)
+                      for (int i = 0; i < articleRows!.length; i++)
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ArticleDetailScreen(
+                                          articleRows: articleRows,
+                                          index: i,
+                                        )));
+                          },
+                          child: popularArticlesCard(
+                              articleRows![i].articleImage,
+                              articleRows![i].title),
+                        ),
                   ],
                 ),
               ),
@@ -170,20 +214,17 @@ class ExploreScreen extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              Container(
+              SizedBox(
+                height: 700,
                 width: double.infinity,
-                margin: const EdgeInsets.only(right: 25),
-                child: Wrap(
-                  alignment: WrapAlignment.start,
+                child: GridView.count(
+                  crossAxisCount: 2,
                   children: [
                     topViewCard('img9.png', 'Body Workout', '03:12'),
-                    const SizedBox(width: 26),
                     topViewCard('img10.png', 'Planking', '05:52'),
                     topViewCard('img11.png', 'Zumba', '04:22'),
-                    const SizedBox(width: 26),
                     topViewCard('img12.png', 'Yoga', '04:35'),
                     topViewCard('img13.png', 'Streching', '04:59'),
-                    const SizedBox(width: 26),
                     topViewCard('img14.png', 'Cardio', '03:48'),
                   ],
                 ),
@@ -262,7 +303,7 @@ class ExploreScreen extends StatelessWidget {
     );
   }
 
-  Widget popularArticlesCard(String image, String title, String views) {
+  Widget popularArticlesCard(String image, String title) {
     return Container(
       margin: const EdgeInsets.only(top: 16, right: 16),
       width: 245,
@@ -278,54 +319,59 @@ class ExploreScreen extends StatelessWidget {
         color: white,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(15),
               topRight: Radius.circular(15),
             ),
-            child: Image.asset(
-              'assets/explore/$image',
+            child: Image.network(
+              image,
               height: 134,
+              width: double.infinity,
               fit: BoxFit.cover,
             ),
           ),
           Container(
-              margin: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 42,
-                    child: Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: n100,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset('assets/icons/password_unfocus.svg',
-                          height: 18, width: 18),
-                      const SizedBox(width: 5),
-                      Text(
-                        views,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: n60,
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ))
+            margin: const EdgeInsets.all(16),
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: n100,
+              ),
+            ),
+
+            // Column(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     SizedBox(
+            //       height: 42,
+            //       child:
+            //     ),
+            // const SizedBox(height: 24),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   mainAxisAlignment: MainAxisAlignment.start,
+            //   children: [
+            //     SvgPicture.asset('assets/icons/password_unfocus.svg',
+            //         height: 18, width: 18),
+            //     const SizedBox(width: 5),
+            //     Text(
+            //       views,
+            //       style: const TextStyle(
+            //         fontSize: 12,
+            //         fontWeight: FontWeight.w500,
+            //         color: n60,
+            //       ),
+            //     )
+            //   ],
+            // )
+            // ],
+            // )
+          )
         ],
       ),
     );

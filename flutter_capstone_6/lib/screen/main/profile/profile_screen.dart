@@ -44,16 +44,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             userId = userData.data.userId;
             userEmail = userData.data.email;
 
-            print('ini fullname: "$userFullname"');
-
             if (userFullname!.split(" ").length > 1) {
               lastName =
                   userFullname!.substring(userFullname!.lastIndexOf(" ") + 1);
               firstName =
                   userFullname!.substring(0, userFullname!.lastIndexOf(" "));
-
-              print('ini first: "$firstName"');
-              print('ini last: "$lastName"');
             } else {
               firstName = userFullname!;
             }

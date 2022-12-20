@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/model/article/article_rows.dart';
+import 'package:flutter_capstone_6/screen/main/explore/article_detail_screen.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ArticleListScreen extends StatefulWidget {
-  const ArticleListScreen({Key? key}) : super(key: key);
+  const ArticleListScreen({Key? key, required this.articleRows})
+      : super(key: key);
+  final List<ArticleRows>? articleRows;
 
   @override
   State<ArticleListScreen> createState() => _ArticleListScreenState();
 }
 
 class _ArticleListScreenState extends State<ArticleListScreen> {
+  TextEditingController searchbarController = TextEditingController();
+  String searchText = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,18 +37,24 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
               searchBarItem(),
 
               const SizedBox(height: 16),
-              articleCard(
-                  "img12.png",
-                  "Study shows 1 billion young people are at risk for hearing loss",
-                  "1.52K"),
-              articleCard(
-                  "img13.png",
-                  "Just 2 minutes of walking after eating can help blood sugar, study says",
-                  "16K"),
-              articleCard(
-                  "img14.png",
-                  "When you eat may dictate how hungry you are, study says",
-                  "1.2K"),
+              for (int i = 0; i < widget.articleRows!.length; i++)
+                if (widget.articleRows![i].title
+                    .toLowerCase()
+                    .contains(searchText.toLowerCase()))
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ArticleDetailScreen(
+                                    articleRows: widget.articleRows,
+                                    index: i,
+                                  )));
+                    },
+                    child: articleCard(widget.articleRows![i].articleImage,
+                        widget.articleRows![i].title),
+                  ),
+
               const SizedBox(height: 16),
             ],
           ),
@@ -55,7 +68,12 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
       height: 50,
       child: TextFormField(
         // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
+        controller: searchbarController,
+        onChanged: (value) {
+          setState(() {
+            searchText = value;
+          });
+        },
         decoration: const InputDecoration(
           fillColor: white,
           labelText: 'Search',
@@ -75,14 +93,6 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
               borderRadius: BorderRadius.all(Radius.circular(10)),
               borderSide: BorderSide(color: n60)),
           contentPadding: EdgeInsets.all(12),
-          // prefixIcon: Container(
-          //   margin: const EdgeInsets.only(
-          //       left: 20, right: 8, top: 14, bottom: 14),
-          //   child: SvgPicture.asset(
-          //     'assets/icons/search.svg',
-          //     fit: BoxFit.cover,
-          //   ),
-          // ),
           prefixIcon: Icon(
             Icons.search_rounded,
             color: n20,
@@ -92,7 +102,7 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
     );
   }
 
-  Widget articleCard(String image, String title, String view) {
+  Widget articleCard(String image, String title) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
@@ -111,8 +121,8 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              'assets/explore/$image',
+            child: Image.network(
+              image,
               fit: BoxFit.cover,
               width: 90,
               height: 90,
@@ -143,24 +153,24 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
                   color: n60,
                 ),
               ),
-              Row(
-                children: [
-                  SvgPicture.asset(
-                    'assets/icons/password_unfocus.svg',
-                    width: 18,
-                    height: 18,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    view,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: n40,
-                    ),
-                  )
-                ],
-              )
+              // Row(
+              //   children: [
+              //     SvgPicture.asset(
+              //       'assets/icons/password_unfocus.svg',
+              //       width: 18,
+              //       height: 18,
+              //     ),
+              //     const SizedBox(width: 8),
+              //     Text(
+              //       view,
+              //       style: const TextStyle(
+              //         fontSize: 12,
+              //         fontWeight: FontWeight.w600,
+              //         color: n40,
+              //       ),
+              //     )
+              //   ],
+              // )
             ],
           ),
         ],

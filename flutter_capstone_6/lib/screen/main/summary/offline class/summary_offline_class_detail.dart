@@ -160,7 +160,7 @@ class _SummaryOfflineClassDetailState extends State<SummaryOfflineClassDetail> {
                   DateFormat("dd MMMM yyyy").format(
                       DateTime.fromMicrosecondsSinceEpoch(
                           widget.endClassDate * 1000)),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: violet,

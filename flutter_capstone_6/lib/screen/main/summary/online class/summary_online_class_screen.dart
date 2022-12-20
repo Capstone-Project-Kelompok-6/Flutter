@@ -59,12 +59,6 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
           summaryOnlineOuter = SummaryOnlineOuter.fromJson(summaryBody);
           summaryOnlineRows = summaryOnlineOuter!.data!.rows;
         });
-
-        if (summaryOnlineRows!.isEmpty) {
-          print("tes");
-        } else {
-          print("yo");
-        }
       }
     } catch (e) {
       print(e);

@@ -238,8 +238,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(primary: whiteBg, elevation: 0),
                 onPressed: () {
-                  data.deleteUser(0);
-
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: ((context) => LoginScreen())));
                 },

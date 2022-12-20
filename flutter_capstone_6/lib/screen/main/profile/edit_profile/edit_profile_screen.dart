@@ -1,11 +1,7 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -13,8 +9,6 @@ import 'package:http/http.dart' as http;
 
 import '../../../../component/api.dart';
 import '../../../../component/colors.dart';
-import '../../../../component/repository.dart';
-import '../../../../model/user/user_model.dart';
 import '../../../login/login_view_model.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -26,12 +20,23 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   ApiEndpoint api = ApiEndpoint();
-  var fullNameController = TextEditingController();
+  File? _image;
+  PickedFile? _pickedFile;
+  final _picker = ImagePicker();
+
+  Future<void> _pickImage() async {
+    _pickedFile = await _picker.getImage(source: ImageSource.gallery);
+    if (_pickedFile != null) {
+      setState(() {
+        _image = File(_pickedFile!.path);
+      });
+    }
+  }
+
+  PickedFile? _imageFile;
   var phoneNumberController = TextEditingController();
   var firstNameController = TextEditingController();
   var lastNameController = TextEditingController();
-  var imageController = TextEditingController();
-  var imageNameController = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -47,31 +52,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         context.read<LoginViewModel>().getDatas.first.data.imageName;
   }
 
-  Future<http.Response> changeProfile(String firstName, String lastName,
-      String phoneNumber, String image, String imageName, String token) async {
-    print(fullName);
-    try {
-      var headers = {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': 'Bearer ' + token
-      };
-      var request = await http.patch(Uri.parse(api.BASE_URL + 'users'),
-          body: jsonEncode({
-            "first_name": firstName,
-            "last_name": lastName,
-            'phone_number': phoneNumber,
-            'image': image,
-            'image_name': imageName
-          }),
-          headers: headers);
-      print(request.body);
-      return request;
-    } catch (e) {
-      print(e);
-      rethrow;
-    }
-  }
-
   String? userEmail;
   String? fullName;
   String? phoneNumber;
@@ -80,6 +60,38 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String? firstName;
   String? token;
   String? image;
+
+  Future<http.StreamedResponse> updateProfile(
+      PickedFile? data,
+      String firstName,
+      String lastName,
+      String phoneNumber,
+      String token) async {
+    var headers = {'Authorization': 'Bearer $token'};
+    var request =
+        http.MultipartRequest('PATCH', Uri.parse(api.BASE_URL + 'users'));
+    request.fields.addAll({
+      'first_name': firstName,
+      'phone_number': phoneNumber,
+      'image_name': '46ee5c043ff94f149e1651cae48faf8a.jpeg',
+      'last_name': lastName
+    });
+    if (data != null) {
+      File _file = File(data.path);
+      request.files.add(http.MultipartFile(
+        'img',
+        _file.readAsBytes().asStream(),
+        _file.lengthSync(),
+      ));
+    }
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    print(response.statusCode);
+
+    return response;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,13 +168,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       left: 25, right: 25, top: 32, bottom: 4),
                   child: ElevatedButton(
                     onPressed: () {
-                      changeProfile(
+                      updateProfile(
+                          _pickedFile,
                           firstNameController.text,
                           lastNameController.text,
                           phoneNumberController.text,
-                          imageController.text,
-                          imageNameController.text,
                           token!);
+                      print(token);
+                      print(firstNameController.text);
+                      print(lastNameController.text);
+                      print(phoneNumberController.text);
                     },
                     style: ElevatedButton.styleFrom(
                         primary: violet,
@@ -221,9 +236,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       padding: const EdgeInsets.only(left: 25, right: 25),
       // height: 50,
       child: TextFormField(
-        // controller: _controller.firstNameController,
+        controller: lastNameController,
         validator: (String? value) => value == '' ? "Required" : null,
-
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp("[A-Za-z]")),
         ],
@@ -275,54 +289,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget profilePicture() {
     return Container(
       height: 200,
-      child: Stack(children: <Widget>[
-        Container(
-          height: 180,
-          width: 180,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(image: NetworkImage('$image'))),
-        ),
-        Positioned(
-          bottom: -9,
-          right: 57,
-          child: IconButton(
-            iconSize: 50,
-            onPressed: () {},
-            icon: SvgPicture.asset('assets/profile_change.svg'),
-
-            // child: Container(
-            //   height: 50,
-            //   width: 180,
-            //   decoration: BoxDecoration(
-            //       color: Colors.blue,
-            //       shape: BoxShape.circle,
-            //       image: DecorationImage(
-            //           image: AssetImage('assets/profile_change.svg'))),
-            // ),
-          ),
-        )
-        //   Container(
-        //     width: 180,
-        //     height: 180,
-        //     decoration: const BoxDecoration(
-        //         shape: BoxShape.circle,
-        //         image: DecorationImage(
-        //             image: AssetImage('assets/profile_picture.png'))),
-        //   ),
-        //   Positioned(
-        //     bottom: -30,
-        //     right: 60,
-        //     child: SizedBox(
-        //       height: 100,
-        //       width: 56,
-        //       child: IconButton(
-        //           onPressed: () {},
-        //           icon: SvgPicture.asset('assets/profile_change.svg')),
-        //     ),
-        //   ),
-        // ]);
-      ]),
+      child: _pickedFile != null
+          ? Image.file(File(_pickedFile!.path))
+          : Stack(children: <Widget>[
+              Container(
+                height: 180,
+                width: 180,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(image: NetworkImage('$image'))),
+              ),
+              Positioned(
+                bottom: -9,
+                right: 57,
+                child: IconButton(
+                  iconSize: 50,
+                  onPressed: () {
+                    _pickImage();
+                  },
+                  icon: SvgPicture.asset('assets/profile_change.svg'),
+                ),
+              )
+            ]),
     );
   }
 
@@ -332,7 +320,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       // height: 50,
       child: TextFormField(
         keyboardType: TextInputType.number,
-        // controller: _controller.phoneNumberController,
+        controller: phoneNumberController,
         validator: (String? value) => value == '' ? "Required" : null,
         inputFormatters: [
           FilteringTextInputFormatter.allow(RegExp("[0-9]")),

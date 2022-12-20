@@ -238,8 +238,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(primary: whiteBg, elevation: 0),
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: ((context) => LoginScreen())));
+                  logout(data);
                 },
                 child: ListTile(
                   textColor: Colors.black,
@@ -252,5 +251,108 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ))),
       ),
     ]);
+  }
+
+  logout(LoginViewModel data) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            title: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Are ",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: violet,
+                  ),
+                ),
+                Text(
+                  'You ',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: violet,
+                  ),
+                ),
+                const Text(
+                  "Sure?",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: violet,
+                  ),
+                ),
+              ],
+            ),
+            titlePadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            contentPadding: const EdgeInsets.only(
+              left: 16,
+              right: 16,
+              bottom: 12,
+            ),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // cancel button
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: white,
+                    minimumSize: const Size(140, 48),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(color: violet),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                  ),
+                  child: const Text(
+                    "Cancel",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: violet,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+
+                // booking button
+                ElevatedButton(
+                  onPressed: () {
+                    data.deleteUser(0);
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: ((context) => LoginScreen())));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: violet,
+                    minimumSize: const Size(140, 48),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18)),
+                  ),
+                  child: const Text(
+                    "Ok",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

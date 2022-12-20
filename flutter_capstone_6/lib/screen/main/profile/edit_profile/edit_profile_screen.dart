@@ -1,7 +1,11 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_capstone_6/screen/main/profile/profile_screen.dart';
+import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +13,8 @@ import 'package:http/http.dart' as http;
 
 import '../../../../component/api.dart';
 import '../../../../component/colors.dart';
+import '../../../../model/user/user_data.dart';
+import '../../../../model/user/user_token.dart';
 import '../../../login/login_view_model.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -62,7 +68,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String? image;
 
   Future<http.StreamedResponse> updateProfile(
-      PickedFile? data,
+      PickedFile? datas,
       String firstName,
       String lastName,
       String phoneNumber,
@@ -73,11 +79,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     request.fields.addAll({
       'first_name': firstName,
       'phone_number': phoneNumber,
-      'image_name': '46ee5c043ff94f149e1651cae48faf8a.jpeg',
+      'image_name': imageName.toString(),
       'last_name': lastName
     });
-    if (data != null) {
-      File _file = File(data.path);
+    if (datas != null) {
+      File _file = File(datas.path);
       request.files.add(http.MultipartFile(
         'img',
         _file.readAsBytes().asStream(),
@@ -88,8 +94,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     http.StreamedResponse response = await request.send();
 
-    print(response.statusCode);
-
+    print(image);
+    final data = Provider.of<LoginViewModel>(context, listen: false);
+    String userId = data.getDatas.first.data.userId;
+    String email = data.getDatas.first.data.email;
+    String accessToken = data.getDatas.first.data.accessToken;
+    String refreshToken = data.getDatas.first.data.refreshToken;
+    data.getDatas.removeAt(0);
+    final userDetail = UserData(
+        data: UserToken(
+            userId: userId,
+            fullName: firstName + ' ' + lastName,
+            email: email,
+            phoneNumber: phoneNumber,
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+            image: image!,
+            imageName: imageName!));
+    data.addUser(userDetail);
+    // Navigator.of(context).pushReplacement(MaterialPageRoute(
+    //     builder: ((context) => BottomNavigationBarController(
+    //           token: accessToken,
+    //         ))));
     return response;
   }
 
@@ -97,7 +123,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Profile'),
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        backgroundColor: whiteBg,
+        elevation: 0,
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/icons/arrow_back.svg',
+              ),
+            ],
+          ),
+        ),
+        title: const Text(
+          'Edit Profile',
+          style: TextStyle(
+              fontWeight: FontWeight.w500, fontSize: 20, color: Colors.black),
+        ),
       ),
       body: SingleChildScrollView(
         child: Consumer<LoginViewModel>(
@@ -174,10 +221,45 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           lastNameController.text,
                           phoneNumberController.text,
                           token!);
-                      print(token);
-                      print(firstNameController.text);
-                      print(lastNameController.text);
-                      print(phoneNumberController.text);
+
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                title: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(
+                                      'assets/icons/info_blue.svg',
+                                      fit: BoxFit.cover,
+                                    ),
+                                    const Text(
+                                      ' Success',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500,
+                                        color: navy,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                titlePadding:
+                                    const EdgeInsets.only(top: 16, bottom: 5),
+                                contentPadding: const EdgeInsets.only(
+                                    bottom: 16, left: 16, right: 16),
+                                content: Text(
+                                  'Update profile berhasil',
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: n80,
+                                  ),
+                                ),
+                              ));
                     },
                     style: ElevatedButton.styleFrom(
                         primary: violet,

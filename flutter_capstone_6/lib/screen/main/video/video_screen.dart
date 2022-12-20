@@ -52,9 +52,17 @@ class _VideoScreenState extends State<VideoScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    chewieController!.dispose();
+    videoController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whiteBg,
+      backgroundColor: Colors.grey[5],
       appBar: appBar(context, 'Watch Video'),
       body: Center(
           child: chewieController != null &&

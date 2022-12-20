@@ -11,6 +11,8 @@ class UserToken {
     required this.phoneNumber,
     required this.accessToken,
     required this.refreshToken,
+    required this.image,
+    required this.imageName,
   });
 
   @JsonKey(name: 'user_id')
@@ -30,6 +32,11 @@ class UserToken {
 
   @JsonKey(name: 'refresh_token')
   String refreshToken;
+
+  @JsonKey(name: 'image')
+  String image;
+  @JsonKey(name: 'image_name')
+  String imageName;
 
   factory UserToken.fromJson(Map<String, dynamic> json) =>
       _$UserTokenFromJson(json);

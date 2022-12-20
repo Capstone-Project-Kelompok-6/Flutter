@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_capstone_6/screen/login/login_screen.dart';
 import 'package:flutter_capstone_6/screen/register/register_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -117,7 +118,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     right: 25, left: 25, top: 44, bottom: 24),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const RegisterScreen()));

@@ -10,6 +10,7 @@ import 'package:flutter_capstone_6/screen/register/register_screen.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/user/user_model.dart';
 import '../forgot_password/forgot_password_screen.dart';
@@ -25,6 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   bool isHide = true;
   LoginController _controller = LoginController();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +120,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.only(
                     left: 25, right: 25, top: 32, bottom: 4),
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.setBool('IsLoggedIn', true);
                     _login(_controller.emailController.text,
                         _controller.passwordController.text);
                   },
@@ -127,35 +135,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       minimumSize: const Size(double.infinity, 48),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30))),
-                  child: const Text(
-                    "Login",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: white,
-                    ),
-                  ),
+                  child: isLoading
+                      ? CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : Text(
+                          "Login",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: white,
+                          ),
+                        ),
                 ),
               ),
-
-              // Divider
-              // Container(
-              //   margin: const EdgeInsets.all(20),
-              //   width: double.infinity,
-              //   child: SvgPicture.asset(
-              //     'assets/icons/divider.svg',
-              //     fit: BoxFit.cover,
-              //   ),
-              // ),
-
-              // Login with Another
-              // const SizedBox(height: 4),
-              // anotherLoginItem('assets/icons/google_logo.png', 'Google'),
-              // const SizedBox(height: 24),
-              // anotherLoginItem('assets/icons/facebook_logo.png', 'Facebook'),
-              // const SizedBox(height: 24),
-              // anotherLoginItem('assets/icons/apple_logo.png', 'Apple'),
-
               // Goto register
               const SizedBox(height: 32),
               Padding(
@@ -274,94 +267,33 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget anotherLoginItem(String image, String title) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 25),
-      height: 54,
-      child: ListTile(
-        tileColor: white,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-            side: const BorderSide(
-              style: BorderStyle.solid,
-              color: n5,
-            )),
-        leading: Image.asset(image, width: 30, height: 30),
-        title: Text(
-          "Login with $title",
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: n80,
-            fontWeight: FontWeight.w400,
-            fontSize: 14,
-          ),
-        ),
-        onTap: () {
-          if (title == 'Google') {
-            print('this login by $title');
-          } else if (title == 'Facebook') {
-            print('this login by $title');
-          } else if (title == 'Apple') {
-            print('this login by $title');
-          }
-        },
-      ),
-    );
-  }
-
   void _login(String email, String password) async {
     if (formKey.currentState!.validate()) {
       UserModel response = await _controller.login();
       UserData userData = await _controller.getUser();
-      // if (userData.data.email == '') {
-      //   Repository sendOtp = Repository();
-      //   sendOtp.sendOtp(email);
-      //   Navigator.of(context).push(MaterialPageRoute(
-      //       builder: ((context) => RegisterVerificationScreen(
-      //             email: email,
-      //             password: password,
-      //           ))));
-      //   return;
-      // }
 
       if (response.data != null) {
-        // Navigator.of(context).pushReplacement(MaterialPageRoute(
-        //     builder: (context) => RegisterVerificationScreen(
-        //           email: '',
-        //           password: '',
-        //         )));
-
         // State Management
         final data = Provider.of<LoginViewModel>(context, listen: false);
         final userDetail = UserData(
             data: UserToken(
-          userId: userData.data.userId,
-          fullName: userData.data.fullName,
-          email: userData.data.email,
-          phoneNumber: userData.data.phoneNumber,
-          accessToken: userData.data.accessToken,
-          refreshToken: userData.data.refreshToken,
-        ));
+                userId: userData.data.userId,
+                fullName: userData.data.fullName,
+                email: userData.data.email,
+                phoneNumber: userData.data.phoneNumber,
+                accessToken: userData.data.accessToken,
+                refreshToken: userData.data.refreshToken,
+                image: userData.data.image,
+                imageName: userData.data.imageName));
         data.addUser(userDetail);
         print('User fullname: ${userData.data.fullName}');
         print('User access token: ${userData.data.accessToken}');
-
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => BottomNavigationBarController(
                       token: userData.data.accessToken,
                     )));
-
-        // showDialog(
-        //     context: context,
-        //     builder: (BuildContext context) => AlertDialog(
-        //           title: const Center(child: Text('INFO LOGIN')),
-        //           content: Text(
-        //             response.message,
-        //             textAlign: TextAlign.center,
-        //           ),
-        //         ));
       } else {
         showDialog(
             context: context,

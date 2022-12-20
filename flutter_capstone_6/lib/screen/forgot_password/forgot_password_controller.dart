@@ -21,9 +21,9 @@ class ForgotPasswordController {
         passwordController.text,
         pinController.text);
 
-    Map<String, dynamic> registerBody = jsonDecode(result.body);
+    Map<String, dynamic> responseBody = jsonDecode(result.body);
     UserModel registerResponse =
-        UserModel.fromJson(registerBody, UserModel.fromJson);
+        UserModel.fromJson(responseBody, UserModel.fromJson);
 
     print('Response: ${registerResponse.message}');
     return registerResponse;

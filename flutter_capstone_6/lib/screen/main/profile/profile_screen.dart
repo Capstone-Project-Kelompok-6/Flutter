@@ -20,6 +20,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? userEmail;
   String firstName = '';
   String lastName = '';
+  String? image;
+  String? imageName;
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +54,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             } else {
               firstName = userFullname!;
             }
+            image = userData.data.image;
+            imageName = userData.data.imageName;
           }
 
           return SingleChildScrollView(
@@ -75,16 +79,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget profilePicture() {
-    return Container(
+    return SizedBox(
       height: 200,
       child: Stack(children: <Widget>[
         Container(
           height: 180,
           width: 180,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
               shape: BoxShape.circle,
-              image: DecorationImage(
-                  image: AssetImage('assets/profile_picture.png'))),
+              image: DecorationImage(image: NetworkImage('$image'))),
         ),
         Positioned(
           bottom: -9,
@@ -92,8 +95,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: IconButton(
             iconSize: 50,
             onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => EditProfileScreen()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const EditProfileScreen()));
             },
             icon: SvgPicture.asset('assets/profile_change.svg'),
 
@@ -137,14 +140,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       children: [
         Text(
           userFullname!,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         const SizedBox(
           height: 5,
         ),
         Text(
           userEmail!,
-          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300),
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w300),
         ),
       ],
     );
@@ -247,11 +250,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(primary: whiteBg, elevation: 0),
                 onPressed: () {
-                  data.deleteUser(0);
-                  context.read<NotificationViewModel>().getDatas.clear();
-
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: ((context) => LoginScreen())));
+                  logout(data);
                 },
                 child: ListTile(
                   textColor: Colors.black,
@@ -264,5 +263,87 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ))),
       ),
     ]);
+  }
+
+  logout(LoginViewModel data) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            title: const Text(
+              "Are you sure?",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: violet,
+              ),
+            ),
+            titlePadding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            contentPadding: const EdgeInsets.only(
+              left: 16,
+              right: 16,
+              bottom: 12,
+            ),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // cancel button
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: white,
+                    minimumSize: const Size(140, 48),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      side: const BorderSide(color: violet),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                  ),
+                  child: const Text(
+                    "Cancel",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: violet,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+
+                // booking button
+                ElevatedButton(
+                  onPressed: () {
+                    data.deleteUser(0);
+                    context.read<NotificationViewModel>().getDatas.clear();
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: ((context) => const LoginScreen())));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: violet,
+                    minimumSize: const Size(140, 48),
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18)),
+                  ),
+                  child: const Text(
+                    "Ok",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

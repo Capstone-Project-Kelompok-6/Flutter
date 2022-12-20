@@ -112,7 +112,9 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
                                               )));
                                 },
                                 child: onlineClassCard(
-                                    'classData.thumbnail',
+                                    widget.classOnlineRows3.values
+                                        .toList()[i][j]
+                                        .thumbnail,
                                     widget.classOnlineRows3.values
                                         .toList()[i][j]
                                         .videoTitle,
@@ -158,8 +160,8 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
                 topRight: Radius.circular(15),
               ),
               image: DecorationImage(
-                // image: NetworkImage(image),
-                image: AssetImage('assets/explore/img1.png'),
+                image: NetworkImage(image),
+                // image: AssetImage('assets/explore/img1.png'),
                 fit: BoxFit.cover,
               ),
             ),

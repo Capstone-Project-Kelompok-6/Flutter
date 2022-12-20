@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/screen/login/login_screen.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
+import 'package:flutter_capstone_6/screen/main/home/notification_view_model.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'edit_profile/edit_profile_screen.dart';
@@ -17,6 +18,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String? userFullname;
   String? userId;
   String? userEmail;
+  String firstName = '';
+  String lastName = '';
   String? image;
   String? imageName;
 

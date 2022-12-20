@@ -136,7 +136,7 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                                                 )));
                                   },
                                   child: itemCard(
-                                      'classData.thumbnail',
+                                      summaryOnlineRows![i].thumbnail,
                                       summaryOnlineRows![i].videoTitle,
                                       // snapshot.data ??
                                       Duration.zero),
@@ -171,18 +171,18 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              'assets/explore/img1.png',
+            child: Image.network(
+              image,
               fit: BoxFit.cover,
               width: 90,
               height: 90,
+              // Image.asset(
+              //   'assets/explore/img1.png',
+              //   fit: BoxFit.cover,
+              //   width: 90,
+              //   height: 90,
+              // ),
             ),
-            // Image.network(
-            //   image,
-            //   fit: BoxFit.cover,
-            //   width: 90,
-            //   height: 90,
-            // ),
           ),
           const SizedBox(width: 12),
           Column(

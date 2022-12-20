@@ -3,13 +3,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/component/currency.dart';
+import 'package:flutter_capstone_6/model/notification.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/main/booking/online_class/payment_method.dart';
+import 'package:flutter_capstone_6/screen/main/home/notification_view_model.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BookingOnlineClassDetail extends StatefulWidget {
   const BookingOnlineClassDetail({
@@ -38,6 +41,18 @@ class BookingOnlineClassDetail extends StatefulWidget {
 }
 
 class _BookingOnlineClassDetailState extends State<BookingOnlineClassDetail> {
+  late SharedPreferences storageData;
+
+  @override
+  void initState() {
+    super.initState();
+    initial();
+  }
+
+  void initial() async {
+    storageData = await SharedPreferences.getInstance();
+  }
+
   Future bookOnlineClass(String token, String userId) async {
     try {
       http.Response response = await http.post(
@@ -57,6 +72,17 @@ class _BookingOnlineClassDetailState extends State<BookingOnlineClassDetail> {
       // print(userId);
 
       if (response.statusCode == 200) {
+        // State Management
+        final data = Provider.of<NotificationViewModel>(context, listen: false);
+        final notifDetail = NotificationClass(
+          classType: 'Online Class',
+          className: widget.classVideoTitle,
+          dateTime: DateTime.now(),
+        );
+        data.addNotif(notifDetail);
+
+        storageData.setBool('notifEmpty', false);
+
         Navigator.push(
             context,
             MaterialPageRoute(

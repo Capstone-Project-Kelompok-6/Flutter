@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
@@ -28,6 +31,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   var firstNameController = TextEditingController();
   var lastNameController = TextEditingController();
   var imageController = TextEditingController();
+  var imageNameController = TextEditingController();
   @override
   void initState() {
     // TODO: implement initState
@@ -41,26 +45,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final image = context.read<LoginViewModel>().getDatas.first.data.image;
     final imageName =
         context.read<LoginViewModel>().getDatas.first.data.imageName;
-
-    changeProfile(fullName, phoneNumber, image, imageName, userToken);
   }
 
-  Future<http.Response> changeProfile(String fullName, String phoneNumber,
-      String image, String imageName, String token) async {
+  Future<http.Response> changeProfile(String firstName, String lastName,
+      String phoneNumber, String image, String imageName, String token) async {
     print(fullName);
     try {
       var headers = {
         'Content-Type': 'multipart/form-data',
         'Authorization': 'Bearer ' + token
       };
-      var request = await http.patch(Uri.parse(api.BASE_URL + '/users'),
+      var request = await http.patch(Uri.parse(api.BASE_URL + 'users'),
           body: jsonEncode({
-            "full_name": fullName,
+            "first_name": firstName,
+            "last_name": lastName,
             'phone_number': phoneNumber,
             'image': image,
             'image_name': imageName
           }),
           headers: headers);
+      print(request.body);
       return request;
     } catch (e) {
       print(e);
@@ -71,11 +75,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String? userEmail;
   String? fullName;
   String? phoneNumber;
-  String? image;
   String? imageName;
   String? lastName;
   String? firstName;
   String? token;
+  String? image;
 
   @override
   Widget build(BuildContext context) {
@@ -91,9 +95,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             userEmail = userData.data.email;
             fullName = userData.data.fullName;
             phoneNumber = userData.data.phoneNumber;
-            image = userData.data.image;
             imageName = userData.data.imageName;
             token = userData.data.accessToken;
+            image = userData.data.image;
 
             if (fullName!.split(" ").length > 1) {
               lastName = fullName!.substring(fullName!.lastIndexOf(" ") + 1);
@@ -152,8 +156,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       left: 25, right: 25, top: 32, bottom: 4),
                   child: ElevatedButton(
                     onPressed: () {
-                      print(token);
-                      print(fullName);
+                      changeProfile(
+                          firstNameController.text,
+                          lastNameController.text,
+                          phoneNumberController.text,
+                          imageController.text,
+                          imageNameController.text,
+                          token!);
                     },
                     style: ElevatedButton.styleFrom(
                         primary: violet,
@@ -279,10 +288,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           right: 57,
           child: IconButton(
             iconSize: 50,
-            onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => EditProfileScreen()));
-            },
+            onPressed: () {},
             icon: SvgPicture.asset('assets/profile_change.svg'),
 
             // child: Container(

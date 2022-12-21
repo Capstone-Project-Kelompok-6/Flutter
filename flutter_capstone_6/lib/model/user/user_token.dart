@@ -35,6 +35,7 @@ class UserToken {
 
   @JsonKey(name: 'image')
   String image;
+
   @JsonKey(name: 'image_name')
   String imageName;
 

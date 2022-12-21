@@ -19,6 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initial() async {
     storageData = await SharedPreferences.getInstance();
     storageData.setBool('notifEmpty', true);
+    storageData.setBool('isEdit', false);
   }
 
   @override

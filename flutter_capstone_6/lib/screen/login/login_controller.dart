@@ -6,6 +6,7 @@ import 'package:flutter_capstone_6/model/user/user_data.dart';
 import 'package:flutter_capstone_6/model/user/user_token.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../model/user/user_model.dart';
 
@@ -25,8 +26,6 @@ class LoginController {
           UserModel.fromJson(loginBody, UserToken.fromJson);
 
       debugPrint('Response: ${loginResponse.message}');
-      // final prefs = await SharedPreferences.getInstance();
-      // prefs.setString('token', loginBody['data']['access_token']);
 
       return loginResponse;
     } else {

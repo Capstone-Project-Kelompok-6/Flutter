@@ -26,6 +26,7 @@ dependencies:
   ffmpeg_kit_flutter: ^5.1.0
   image_picker: ^0.8.6
   mime: ^1.0.3
+  url_launcher: ^6.1.7
 
 dev_dependencies:
   flutter_test:

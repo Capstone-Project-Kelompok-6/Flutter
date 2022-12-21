@@ -5,6 +5,7 @@ import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/model/class_offline/class_offline_outer.dart';
 import 'package:flutter_capstone_6/model/class_offline/class_offline_rows.dart';
 import 'package:flutter_capstone_6/screen/main/booking/booking_class_screen.dart';
+import 'package:flutter_capstone_6/screen/main/explore/explore_screen.dart';
 import 'package:flutter_capstone_6/widget/appbar_home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
@@ -312,8 +313,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: MaterialButton(
                   onPressed: () {
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //     builder: (context) => const VideoScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ExploreScreen()));
                   },
                   padding: EdgeInsets.zero,
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

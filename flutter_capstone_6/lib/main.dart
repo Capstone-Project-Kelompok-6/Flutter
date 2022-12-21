@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/main/home/notification_view_model.dart';
+import 'package:flutter_capstone_6/screen/main/profile/edit_profile/image_view_model.dart';
 import 'package:flutter_capstone_6/screen/splash_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider<NotificationViewModel>(
             create: (context) => NotificationViewModel(),
+          ),
+          ChangeNotifierProvider<ImageProfileViewModel>(
+            create: (context) => ImageProfileViewModel(),
           ),
         ],
         child: MaterialApp(

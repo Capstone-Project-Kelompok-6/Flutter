@@ -4,11 +4,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_capstone_6/model/image_profile.dart';
+import 'package:flutter_capstone_6/screen/main/profile/edit_profile/image_view_model.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../component/api.dart';
 import '../../../../component/colors.dart';
@@ -26,9 +29,16 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final formKey = GlobalKey<FormState>();
   ApiEndpoint api = ApiEndpoint();
+
   File? _image;
   PickedFile? _pickedFile;
   final _picker = ImagePicker();
+
+  late SharedPreferences storageData;
+
+  void initial() async {
+    storageData = await SharedPreferences.getInstance();
+  }
 
   Future<void> _pickImage() async {
     _pickedFile = await _picker.getImage(source: ImageSource.gallery);
@@ -39,13 +49,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
-  PickedFile? _imageFile;
   var phoneNumberController = TextEditingController();
   var firstNameController = TextEditingController();
   var lastNameController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
+    initial();
     final userToken =
         context.read<LoginViewModel>().getDatas.first.data.accessToken;
     final fullName =
@@ -88,9 +99,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     request.fields.addAll({
       'first_name': firstName,
       'phone_number': phoneNumber,
-      'image_name': imageName.toString(),
       'last_name': lastName
     });
+    request.files
+        .add(await http.MultipartFile.fromPath('image', _pickedFile!.path));
+
     if (datas != null) {
       File _file = File(datas.path);
       request.files.add(http.MultipartFile(
@@ -103,7 +116,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     http.StreamedResponse response = await request.send();
 
-    print(image);
     final data = Provider.of<LoginViewModel>(context, listen: false);
     String userId = data.getDatas.first.data.userId;
     String email = data.getDatas.first.data.email;
@@ -113,7 +125,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final userDetail = UserData(
         data: UserToken(
             userId: userId,
-            fullName: firstName + ' ' + lastName,
+            fullName: '$firstName $lastName',
             email: email,
             phoneNumber: phoneNumber,
             accessToken: accessToken,
@@ -121,10 +133,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             image: image!,
             imageName: imageName!));
     data.addUser(userDetail);
-    // Navigator.of(context).pushReplacement(MaterialPageRoute(
-    //     builder: ((context) => BottomNavigationBarController(
-    //           token: accessToken,
-    //         ))));
+
+    final data2 = Provider.of<ImageProfileViewModel>(context, listen: false);
+    if (data2.getDatas.isNotEmpty) {
+      data2.getDatas.clear();
+    }
+    data2.addImage(ImageProfile(image: File(_pickedFile!.path)));
+
+    storageData.setBool('isEdit', true);
+
     return response;
   }
 
@@ -170,9 +187,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             if (fullName!.split(" ").length > 1) {
               lastName = fullName!.substring(fullName!.lastIndexOf(" ") + 1);
               firstName = fullName!.substring(0, fullName!.lastIndexOf(" "));
-
-              print('ini first: "$firstName"');
-              print('ini last: "$lastName"');
             } else {
               firstName = fullName!;
             }
@@ -183,42 +197,58 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               child: Column(
                 children: [
                   profilePicture(),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Container(
-                      margin: EdgeInsets.only(right: 275),
-                      padding: EdgeInsets.only(right: 25, left: 25),
-                      child: Text(
+                      margin: const EdgeInsets.only(right: 275),
+                      padding: const EdgeInsets.only(right: 25, left: 25),
+                      child: const Text(
                         'first name',
-                        style: TextStyle(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: n100,
+                        ),
                       )),
                   firstNameFormItem(),
                   const SizedBox(height: 10),
                   Container(
-                      margin: EdgeInsets.only(right: 275),
-                      padding: EdgeInsets.only(right: 25, left: 25),
-                      child: Text(
+                      margin: const EdgeInsets.only(right: 275),
+                      padding: const EdgeInsets.only(right: 25, left: 25),
+                      child: const Text(
                         'last name',
-                        style: TextStyle(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: n100,
+                        ),
                       )),
                   lastNameFormItem(),
                   const SizedBox(height: 10),
                   Container(
-                      margin: EdgeInsets.only(right: 310),
-                      padding: EdgeInsets.only(right: 25, left: 25),
-                      child: Text(
+                      margin: const EdgeInsets.only(right: 310),
+                      padding: const EdgeInsets.only(right: 25, left: 25),
+                      child: const Text(
                         'email',
-                        style: TextStyle(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: n100,
+                        ),
                       )),
                   emailItem(),
                   const SizedBox(height: 10),
                   Container(
-                      margin: EdgeInsets.only(right: 250),
-                      padding: EdgeInsets.only(right: 25, left: 25),
-                      child: Text(
+                      margin: const EdgeInsets.only(right: 250),
+                      padding: const EdgeInsets.only(right: 25, left: 25),
+                      child: const Text(
                         'phone number',
-                        style: TextStyle(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: n100,
+                        ),
                       )),
                   phoneNumberFormItem(),
                   Padding(
@@ -251,7 +281,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                           fit: BoxFit.cover,
                                         ),
                                         const Text(
-                                          ' Success',
+                                          ' Info',
                                           style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.w500,
@@ -420,14 +450,36 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Container(
       height: 200,
       child: _pickedFile != null
-          ? Image.file(File(_pickedFile!.path))
+          ? Stack(children: <Widget>[
+              Container(
+                height: 180,
+                width: 180,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: FileImage(File(_pickedFile!.path)),
+                        fit: BoxFit.cover)),
+              ),
+              Positioned(
+                bottom: -9,
+                right: 57,
+                child: IconButton(
+                  iconSize: 50,
+                  onPressed: () {
+                    _pickImage();
+                  },
+                  icon: SvgPicture.asset('assets/profile_change.svg'),
+                ),
+              )
+            ])
           : Stack(children: <Widget>[
               Container(
                 height: 180,
                 width: 180,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(image: NetworkImage('$image'))),
+                    image: DecorationImage(
+                        image: NetworkImage(image!), fit: BoxFit.cover)),
               ),
               Positioned(
                 bottom: -9,

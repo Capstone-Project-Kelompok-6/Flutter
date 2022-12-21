@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_capstone_6/screen/main/profile/profile_screen.dart';
 import 'package:flutter_capstone_6/widget/bottom_navigation.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,6 +24,7 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
+  final formKey = GlobalKey<FormState>();
   ApiEndpoint api = ApiEndpoint();
   File? _image;
   PickedFile? _pickedFile;
@@ -45,7 +45,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   var lastNameController = TextEditingController();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     final userToken =
         context.read<LoginViewModel>().getDatas.first.data.accessToken;
@@ -56,6 +55,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final image = context.read<LoginViewModel>().getDatas.first.data.image;
     final imageName =
         context.read<LoginViewModel>().getDatas.first.data.imageName;
+
+    if (fullName.split(" ").length > 1) {
+      lastNameController.text =
+          fullName.substring(fullName.lastIndexOf(" ") + 1);
+      firstNameController.text =
+          fullName.substring(0, fullName.lastIndexOf(" "));
+    } else {
+      firstNameController.text = fullName;
+    }
+    phoneNumberController.text = phoneNumber;
   }
 
   String? userEmail;
@@ -168,115 +177,154 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               firstName = fullName!;
             }
           }
-          return Center(
-            child: Column(
-              children: [
-                profilePicture(),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                    margin: EdgeInsets.only(right: 275),
-                    padding: EdgeInsets.only(right: 25, left: 25),
-                    child: Text(
-                      'first name',
-                      style: TextStyle(),
-                    )),
-                firstNameFormItem(),
-                const SizedBox(height: 10),
-                Container(
-                    margin: EdgeInsets.only(right: 275),
-                    padding: EdgeInsets.only(right: 25, left: 25),
-                    child: Text(
-                      'last name',
-                      style: TextStyle(),
-                    )),
-                lastNameFormItem(),
-                const SizedBox(height: 10),
-                Container(
-                    margin: EdgeInsets.only(right: 310),
-                    padding: EdgeInsets.only(right: 25, left: 25),
-                    child: Text(
-                      'email',
-                      style: TextStyle(),
-                    )),
-                emailItem(),
-                const SizedBox(height: 10),
-                Container(
-                    margin: EdgeInsets.only(right: 250),
-                    padding: EdgeInsets.only(right: 25, left: 25),
-                    child: Text(
-                      'phone number',
-                      style: TextStyle(),
-                    )),
-                phoneNumberFormItem(),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 25, right: 25, top: 32, bottom: 4),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      updateProfile(
-                          _pickedFile,
-                          firstNameController.text,
-                          lastNameController.text,
-                          phoneNumberController.text,
-                          token!);
+          return Form(
+            key: formKey,
+            child: Center(
+              child: Column(
+                children: [
+                  profilePicture(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(right: 275),
+                      padding: EdgeInsets.only(right: 25, left: 25),
+                      child: Text(
+                        'first name',
+                        style: TextStyle(),
+                      )),
+                  firstNameFormItem(),
+                  const SizedBox(height: 10),
+                  Container(
+                      margin: EdgeInsets.only(right: 275),
+                      padding: EdgeInsets.only(right: 25, left: 25),
+                      child: Text(
+                        'last name',
+                        style: TextStyle(),
+                      )),
+                  lastNameFormItem(),
+                  const SizedBox(height: 10),
+                  Container(
+                      margin: EdgeInsets.only(right: 310),
+                      padding: EdgeInsets.only(right: 25, left: 25),
+                      child: Text(
+                        'email',
+                        style: TextStyle(),
+                      )),
+                  emailItem(),
+                  const SizedBox(height: 10),
+                  Container(
+                      margin: EdgeInsets.only(right: 250),
+                      padding: EdgeInsets.only(right: 25, left: 25),
+                      child: Text(
+                        'phone number',
+                        style: TextStyle(),
+                      )),
+                  phoneNumberFormItem(),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 25, right: 25, top: 32, bottom: 4),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          updateProfile(
+                              _pickedFile,
+                              firstNameController.text,
+                              lastNameController.text,
+                              phoneNumberController.text,
+                              token!);
 
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) => AlertDialog(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                title: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      'assets/icons/info_blue.svg',
-                                      fit: BoxFit.cover,
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
                                     ),
-                                    const Text(
-                                      ' Success',
+                                    title: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                          'assets/icons/info_blue.svg',
+                                          fit: BoxFit.cover,
+                                        ),
+                                        const Text(
+                                          ' Success',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                            color: navy,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    titlePadding: const EdgeInsets.only(
+                                        top: 16, bottom: 5),
+                                    contentPadding: const EdgeInsets.only(
+                                        left: 16, right: 16, bottom: 15),
+                                    content: const Text(
+                                      'Your profile has been updated',
+                                      textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w500,
-                                        color: navy,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                        color: n80,
                                       ),
                                     ),
-                                  ],
-                                ),
-                                titlePadding:
-                                    const EdgeInsets.only(top: 16, bottom: 5),
-                                contentPadding: const EdgeInsets.only(
-                                    bottom: 16, left: 16, right: 16),
-                                content: Text(
-                                  'Update profile berhasil',
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400,
-                                    color: n80,
-                                  ),
-                                ),
-                              ));
-                    },
-                    style: ElevatedButton.styleFrom(
-                        primary: violet,
-                        minimumSize: const Size(double.infinity, 48),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30))),
-                    child: const Text(
-                      "Save Changes",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: white,
+                                    actions: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 30, right: 30, bottom: 10),
+                                        child: ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pushReplacement(
+                                                  MaterialPageRoute(
+                                                      builder: ((context) =>
+                                                          BottomNavigationBarController(
+                                                            token: token!,
+                                                          ))));
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              primary: navy,
+                                              minimumSize: const Size(
+                                                  double.infinity, 48),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          18)),
+                                            ),
+                                            child: const Text(
+                                              "Close",
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                                color: white,
+                                              ),
+                                            )),
+                                      ),
+                                    ],
+                                  ));
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                          primary: violet,
+                          minimumSize: const Size(double.infinity, 48),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30))),
+                      child: const Text(
+                        "Save Changes",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: white,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         }),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/model/article/article_rows.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ArticleDetailScreen extends StatefulWidget {
   const ArticleDetailScreen({
@@ -102,13 +101,35 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                   const SizedBox(height: 16),
                   if (widget.articleRows!.length > 3)
                     for (int i = 0; i < 3; i++)
-                      articleCard(widget.articleRows![i].articleImage,
-                          widget.articleRows![i].title),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ArticleDetailScreen(
+                                        articleRows: widget.articleRows,
+                                        index: i,
+                                      )));
+                        },
+                        child: articleCard(widget.articleRows![i].articleImage,
+                            widget.articleRows![i].title),
+                      ),
 
                   if (widget.articleRows!.length < 4)
                     for (int j = 0; j < widget.articleRows!.length; j++)
-                      articleCard(widget.articleRows![j].articleImage,
-                          widget.articleRows![j].title),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ArticleDetailScreen(
+                                        articleRows: widget.articleRows,
+                                        index: j,
+                                      )));
+                        },
+                        child: articleCard(widget.articleRows![j].articleImage,
+                            widget.articleRows![j].title),
+                      ),
 
                   const SizedBox(height: 16),
                 ],

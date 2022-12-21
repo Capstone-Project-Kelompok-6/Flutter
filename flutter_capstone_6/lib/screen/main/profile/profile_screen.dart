@@ -211,7 +211,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const url = "https://wa.me/6285296922134";
               final uri = Uri.parse(url);
               if (await canLaunchUrl(uri)) {
-                await launchUrl(uri);
+                await launchUrl(
+                  uri,
+                  mode: LaunchMode.externalApplication,
+                );
               } else {
                 throw "Could not launch $url";
               }

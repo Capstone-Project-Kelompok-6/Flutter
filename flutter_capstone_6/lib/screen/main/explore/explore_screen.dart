@@ -174,7 +174,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                         contentRows: contentRows, index: i)));
                           },
                           child: videoCard(
-                              'img${i + 1}.png', contentRows![i].title),
+                              contentRows![i].thumbnail, contentRows![i].title),
                         ),
                   ],
                 ),
@@ -427,7 +427,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         image: DecorationImage(
-          image: AssetImage('assets/explore/$image'),
+          // image: AssetImage('assets/explore/$image'),
+          image: NetworkImage(image),
           fit: BoxFit.cover,
         ),
       ),

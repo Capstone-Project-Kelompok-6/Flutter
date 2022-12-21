@@ -97,45 +97,48 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         ],
                       ),
                       const SizedBox(width: 62),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.videoTitle,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: n100,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.videoTitle,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: n100,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            '${widget.duration.inMinutes.remainder(60)}m ${widget.duration.inSeconds.remainder(60)}s',
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: n100,
+                            const SizedBox(height: 12),
+                            Text(
+                              '${widget.duration.inMinutes.remainder(60)}m ${widget.duration.inSeconds.remainder(60)}s',
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: n100,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 12),
-                          const Text(
-                            "0",
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: n100,
+                            const SizedBox(height: 12),
+                            const Text(
+                              "0",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: n100,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            CurrencyFormat.convertToIdr(widget.price, 0),
-                            style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: n100,
+                            const SizedBox(height: 12),
+                            Text(
+                              CurrencyFormat.convertToIdr(widget.price, 0),
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: n100,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ],
                   ),

@@ -9,6 +9,8 @@ class ContentRows {
     required this.title,
     required this.videoName,
     required this.video,
+    required this.thumbnail,
+    required this.thumbnailName,
     this.createdAt,
     this.updatedAt,
   });
@@ -18,6 +20,12 @@ class ContentRows {
 
   @JsonKey(name: 'title')
   String title;
+
+  @JsonKey(name: 'thumbnail')
+  String thumbnail;
+
+  @JsonKey(name: 'thumbnail_name')
+  String thumbnailName;
 
   @JsonKey(name: 'video_name')
   String videoName;

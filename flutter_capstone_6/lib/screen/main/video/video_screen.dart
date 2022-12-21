@@ -1,6 +1,5 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 import 'package:video_player/video_player.dart';
 

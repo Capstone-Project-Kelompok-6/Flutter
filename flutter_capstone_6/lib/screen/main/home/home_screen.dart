@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/model/class_offline/class_offline_outer.dart';
@@ -9,7 +7,6 @@ import 'package:flutter_capstone_6/screen/main/explore/explore_screen.dart';
 import 'package:flutter_capstone_6/widget/appbar_home.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.token}) : super(key: key);
@@ -63,9 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    // featureCard(yellow, 'Membership',
-                    //     'Practice Anytime Anywhere at any Gym', 'Upgrade'),
-                    // const SizedBox(width: 15),
                     featureCard(
                         violet,
                         'Populer Articles',
@@ -131,16 +125,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                  // decoration: BoxDecoration(
-                  //     color: white,
-                  //     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  //     boxShadow: [
-                  //       BoxShadow(
-                  //         color: n40.withOpacity(0.5),
-                  //         spreadRadius: 0,
-                  //         blurRadius: 5,
-                  //       )
-                  //     ]),
                 ),
               ),
 

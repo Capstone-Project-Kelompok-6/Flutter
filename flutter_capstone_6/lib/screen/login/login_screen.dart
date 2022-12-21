@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/model/user/user_data.dart';
@@ -25,7 +23,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   bool isHide = true;
-  LoginController _controller = LoginController();
+  final LoginController _controller = LoginController();
   bool isLoading = false;
 
   @override

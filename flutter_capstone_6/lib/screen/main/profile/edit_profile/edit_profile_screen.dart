@@ -253,7 +253,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   phoneNumberFormItem(),
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 25, right: 25, top: 32, bottom: 4),
+                        left: 25, right: 25, top: 32, bottom: 10),
                     child: ElevatedButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {

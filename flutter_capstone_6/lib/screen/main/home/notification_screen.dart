@@ -119,7 +119,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   ),
                 ),
                 Text(
-                  DateFormat("hh:mm").format(date),
+                  DateFormat.Hm().format(date),
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,

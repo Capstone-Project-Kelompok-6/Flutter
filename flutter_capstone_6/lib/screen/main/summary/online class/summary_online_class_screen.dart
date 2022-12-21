@@ -99,43 +99,43 @@ class _SummaryOnlineClassScreenState extends State<SummaryOnlineClassScreen> {
                                   .videoTitle
                                   .toLowerCase()
                                   .contains(searchText.toLowerCase()))
-                                // FutureBuilder<Duration>(
-                                //     future: getDuration(summaryOnlineRows![i]),
-                                //     builder: (context, snapshot) {
-                                //       if (!snapshot.hasData) {
-                                //         return const SizedBox();
-                                //       }
+                                FutureBuilder<Duration>(
+                                    future: getDuration(summaryOnlineRows![i]),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return const SizedBox();
+                                      }
 
-                                //       return
-
-                                GestureDetector(
-                                  onTap: () {
-                                    final classData = summaryOnlineRows![i];
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                SummaryOnlineClassDetail(
-                                                  classTitle: classData.workout,
-                                                  classImage:
-                                                      classData.thumbnail,
-                                                  classVideoTitle:
-                                                      classData.videoTitle,
-                                                  classDesc:
-                                                      classData.description,
-                                                  video: classData.video,
-                                                  duration:
-                                                      // snapshot.data ??
-                                                      Duration.zero,
-                                                )));
-                                  },
-                                  child: itemCard(
-                                      summaryOnlineRows![i].thumbnail,
-                                      summaryOnlineRows![i].videoTitle,
-                                      // snapshot.data ??
-                                      Duration.zero),
-                                )
-                            // })
+                                      return GestureDetector(
+                                        onTap: () {
+                                          final classData =
+                                              summaryOnlineRows![i];
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SummaryOnlineClassDetail(
+                                                        classTitle:
+                                                            classData.workout,
+                                                        classImage:
+                                                            classData.thumbnail,
+                                                        classVideoTitle:
+                                                            classData
+                                                                .videoTitle,
+                                                        classDesc: classData
+                                                            .description,
+                                                        video: classData.video,
+                                                        duration:
+                                                            snapshot.data ??
+                                                                Duration.zero,
+                                                      )));
+                                        },
+                                        child: itemCard(
+                                            summaryOnlineRows![i].thumbnail,
+                                            summaryOnlineRows![i].videoTitle,
+                                            snapshot.data ?? Duration.zero),
+                                      );
+                                    })
                           ],
                         ),
                       ),

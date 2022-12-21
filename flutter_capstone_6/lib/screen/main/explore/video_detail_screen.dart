@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/model/content/content_rows.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class VideoDetailScreen extends StatefulWidget {
-  const VideoDetailScreen({Key? key}) : super(key: key);
+  const VideoDetailScreen(
+      {Key? key, required this.contentRows, required this.index})
+      : super(key: key);
+  final List<ContentRows>? contentRows;
+  final int index;
 
   @override
   State<VideoDetailScreen> createState() => _VideoDetailScreenState();

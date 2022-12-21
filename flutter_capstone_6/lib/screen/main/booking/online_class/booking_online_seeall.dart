@@ -63,64 +63,63 @@ class _BookingOnlineSeeAllState extends State<BookingOnlineSeeAll> {
                                 .videoTitle
                                 .toLowerCase()
                                 .contains(searchText.toLowerCase()))
-
-                              // FutureBuilder<Duration>(
-                              //     future: getDuration(widget
-                              //         .classOnlineRows3.values
-                              //         .toList()[i][j]),
-                              //     builder: (context, snapshot) {
-                              //       if (!snapshot.hasData) {
-                              //         return const SizedBox();
-                              //       }
-
-                              //       final classData = widget
-                              //           .classOnlineRows3.values
-                              //           .toList()[i][j];
-
-                              //       // formatting duration
-                              //       format(Duration d) =>
-                              //           d.toString().substring(2, 7);
-                              //       String videoDuration =
-                              //           format(snapshot.data ?? Duration.zero)
-                              //               .toString();
-
-                              //       return
-
-                              GestureDetector(
-                                onTap: () {
-                                  final classData =
+                              FutureBuilder<Duration>(
+                                  future: getDuration(
                                       widget.classOnlineRows3.values.toList()[i]
-                                          [j];
+                                          [j]),
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return const SizedBox();
+                                    }
 
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              BookingOnlineClassDetail(
-                                                classId: classData.classId,
-                                                classTitle: classData.workout,
-                                                classImage: classData.thumbnail,
-                                                classVideoTitle:
-                                                    classData.videoTitle,
-                                                classDesc:
-                                                    classData.description,
-                                                price: classData.price,
-                                                video: classData.video,
-                                                duration:
-                                                    // snapshot.data ??
-                                                    Duration.zero,
-                                              )));
-                                },
-                                child: onlineClassCard(
-                                    widget.classOnlineRows3.values
-                                        .toList()[i][j]
-                                        .thumbnail,
-                                    widget.classOnlineRows3.values
-                                        .toList()[i][j]
-                                        .videoTitle,
-                                    'videoDuration'),
-                              )
-                          // })
+                                    final classData = widget
+                                        .classOnlineRows3.values
+                                        .toList()[i][j];
+
+                                    // formatting duration
+                                    format(Duration d) =>
+                                        d.toString().substring(2, 7);
+                                    String videoDuration =
+                                        format(snapshot.data ?? Duration.zero)
+                                            .toString();
+
+                                    return GestureDetector(
+                                      onTap: () {
+                                        final classData = widget
+                                            .classOnlineRows3.values
+                                            .toList()[i][j];
+
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BookingOnlineClassDetail(
+                                                      classId:
+                                                          classData.classId,
+                                                      classTitle:
+                                                          classData.workout,
+                                                      classImage:
+                                                          classData.thumbnail,
+                                                      classVideoTitle:
+                                                          classData.videoTitle,
+                                                      classDesc:
+                                                          classData.description,
+                                                      price: classData.price,
+                                                      video: classData.video,
+                                                      duration: snapshot.data ??
+                                                          Duration.zero,
+                                                    )));
+                                      },
+                                      child: onlineClassCard(
+                                          widget.classOnlineRows3.values
+                                              .toList()[i][j]
+                                              .thumbnail,
+                                          widget.classOnlineRows3.values
+                                              .toList()[i][j]
+                                              .videoTitle,
+                                          videoDuration),
+                                    );
+                                  })
                         ],
                       ),
                     ),

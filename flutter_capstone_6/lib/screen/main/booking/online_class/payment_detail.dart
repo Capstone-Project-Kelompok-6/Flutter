@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
+import 'package:flutter_capstone_6/component/currency.dart';
 import 'package:flutter_capstone_6/screen/main/booking/online_class/payment_success.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -166,25 +167,13 @@ class _PaymentDetailState extends State<PaymentDetail> {
                             ),
                           ),
                           const SizedBox(height: 12),
-                          Row(
-                            children: [
-                              const Text(
-                                "Rp. ",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: n100,
-                                ),
-                              ),
-                              Text(
-                                widget.price.toString(),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: n100,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            CurrencyFormat.convertToIdr(widget.price, 0),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: n100,
+                            ),
                           ),
                         ],
                       ),

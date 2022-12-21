@@ -73,11 +73,11 @@ class _VideoListScreenState extends State<VideoListScreen> {
                   children: [
                     GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const VideoDetailScreen()));
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) =>
+                          //             const VideoDetailScreen()));
                         },
                         child: videoCard('img1.png', 'Gym from home', '04:52')),
                     videoCard('img2.png', 'Yoga meditation', '04:12'),

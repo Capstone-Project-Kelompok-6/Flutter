@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/model/article/article_outer.dart';
 import 'package:flutter_capstone_6/model/article/article_rows.dart';
+import 'package:flutter_capstone_6/model/content/content_outer.dart';
+import 'package:flutter_capstone_6/model/content/content_rows.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/main/explore/article_detail_screen.dart';
 import 'package:flutter_capstone_6/screen/main/explore/article_list_screen.dart';
+import 'package:flutter_capstone_6/screen/main/explore/video_detail_screen.dart';
 import 'package:flutter_capstone_6/screen/main/explore/video_list_screen.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
@@ -23,15 +26,18 @@ class _ExploreScreenState extends State<ExploreScreen> {
   ArticleOuter? articleOuter;
   List<ArticleRows>? articleRows;
 
+  ContentOuter? contentOuter;
+  List<ContentRows>? contentRows;
+
   @override
   void initState() {
     super.initState();
     final userToken =
         context.read<LoginViewModel>().getDatas.first.data.accessToken;
-    getOfflineClass(userToken);
+    getArticles(userToken);
   }
 
-  Future getOfflineClass(String token) async {
+  Future getArticles(String token) async {
     var headers = {
       'Authorization': 'Bearer $token',
       'Content-type': 'application/json'
@@ -50,6 +56,32 @@ class _ExploreScreenState extends State<ExploreScreen> {
         setState(() {
           articleOuter = ArticleOuter.fromJson(classBody);
           articleRows = articleOuter!.data!.rows;
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future getContents(String token) async {
+    var headers = {
+      'Authorization': 'Bearer $token',
+      'Content-type': 'application/json'
+    };
+
+    try {
+      http.Response response = await http.get(
+          Uri.parse('https://www.go-rest-api.live/api/v1/contents'),
+          headers: headers);
+
+      print('JSON Response: ${response.body}');
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> classBody = jsonDecode(response.body);
+
+        setState(() {
+          contentOuter = ContentOuter.fromJson(classBody);
+          contentRows = contentOuter!.data!.rows;
         });
       }
     } catch (e) {
@@ -131,9 +163,19 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    videoCard('img1.png', 'Gym from home', '04:52'),
-                    videoCard('img2.png', 'Yoga meditation', '04:12'),
-                    videoCard('img3.png', 'Zumba', '04:56'),
+                    if (contentRows != null)
+                      for (int i = 0; i < contentRows!.length; i++)
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => VideoDetailScreen(
+                                        contentRows: contentRows, index: i)));
+                          },
+                          child: videoCard(
+                              'img${i + 1}.png', contentRows![i].title),
+                        ),
                   ],
                 ),
               ),
@@ -377,7 +419,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     );
   }
 
-  Widget videoCard(String image, String title, String duration) {
+  Widget videoCard(String image, String title) {
     return Container(
       margin: const EdgeInsets.only(top: 16, right: 16),
       width: 216,
@@ -421,7 +463,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       color: n100,
                     ),
                     child: Text(
-                      duration,
+                      'duration',
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,

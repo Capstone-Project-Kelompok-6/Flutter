@@ -138,58 +138,58 @@ class _BookingOnlineClassState extends State<BookingOnlineClass> {
                                             .values
                                             .toList()[index][index2];
 
-                                        return
-                                            // FutureBuilder<Duration>(
-                                            //     future: getDuration(classData),
-                                            //     builder: (context, snapshot) {
-                                            //   if (!snapshot.hasData) {
-                                            //     return const SizedBox();
-                                            //   }
+                                        return FutureBuilder<Duration>(
+                                            future: getDuration(classData),
+                                            builder: (context, snapshot) {
+                                              if (!snapshot.hasData) {
+                                                return const SizedBox();
+                                              }
 
-                                            //   // formatting duration
-                                            //   format(Duration d) =>
-                                            //       d.toString().substring(2, 7);
-                                            //   String videoDuration = format(
-                                            //           snapshot.data ??
-                                            //               Duration.zero)
-                                            //       .toString();
+                                              // formatting duration
+                                              format(Duration d) =>
+                                                  d.toString().substring(2, 7);
+                                              String videoDuration = format(
+                                                      snapshot.data ??
+                                                          Duration.zero)
+                                                  .toString();
 
-                                            //   return
-
-                                            GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        BookingOnlineClassDetail(
-                                                          classId:
-                                                              classData.classId,
-                                                          classTitle:
-                                                              classData.workout,
-                                                          classImage: classData
-                                                              .thumbnail,
-                                                          classVideoTitle:
-                                                              classData
-                                                                  .videoTitle,
-                                                          classDesc: classData
-                                                              .description,
-                                                          price:
-                                                              classData.price,
-                                                          video:
-                                                              classData.video,
-                                                          duration:
-                                                              //  snapshot
-                                                              //         .data ??
-                                                              Duration.zero,
-                                                        )));
-                                          },
-                                          child: onlineClassCard(
-                                              classData.thumbnail,
-                                              classData.videoTitle,
-                                              'videoDuration'),
-                                        );
-                                        // });
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              BookingOnlineClassDetail(
+                                                                classId:
+                                                                    classData
+                                                                        .classId,
+                                                                classTitle:
+                                                                    classData
+                                                                        .workout,
+                                                                classImage:
+                                                                    classData
+                                                                        .thumbnail,
+                                                                classVideoTitle:
+                                                                    classData
+                                                                        .videoTitle,
+                                                                classDesc: classData
+                                                                    .description,
+                                                                price: classData
+                                                                    .price,
+                                                                video: classData
+                                                                    .video,
+                                                                duration: snapshot
+                                                                        .data ??
+                                                                    Duration
+                                                                        .zero,
+                                                              )));
+                                                },
+                                                child: onlineClassCard(
+                                                    classData.thumbnail,
+                                                    classData.videoTitle,
+                                                    videoDuration),
+                                              );
+                                            });
                                       },
                                     ),
                                   ),

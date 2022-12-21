@@ -61,7 +61,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: const Text(
           'Profile',
           style: TextStyle(
-              fontWeight: FontWeight.w500, fontSize: 20, color: Colors.black),
+            fontWeight: FontWeight.w500,
+            fontSize: 20,
+            color: n100,
+          ),
         ),
       ),
       body: Consumer<LoginViewModel>(
@@ -205,17 +208,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: ElevatedButton(
             style: ElevatedButton.styleFrom(primary: whiteBg, elevation: 0),
             onPressed: () async {
-              var whatsapp = "6285296922134";
-              var whatsappAndroid =
-                  Uri.parse("whatsapp://send?phone=$whatsapp");
-              if (await canLaunchUrl(whatsappAndroid)) {
-                await launchUrl(whatsappAndroid);
+              const url = "https://wa.me/6285296922134";
+              final uri = Uri.parse(url);
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(uri);
               } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("WhatsApp is not installed on the device"),
-                  ),
-                );
+                throw "Could not launch $url";
               }
             },
             child: ListTile(
@@ -319,24 +317,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
           return AlertDialog(
             backgroundColor: white,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(35),
             ),
-            title: const Center(
-              child: Text(
-                "Are you sure?",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: violet,
+            title: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                Text(
+                  "Are you sure?",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: n100,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
+                SizedBox(height: 8),
+                SizedBox(
+                  width: 220,
+                  child: Text(
+                    "You cannot enjoy our features if you log out",
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: n60,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                )
+              ],
             ),
             titlePadding:
                 const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
             contentPadding: const EdgeInsets.only(
               left: 16,
               right: 16,
-              bottom: 12,
+              bottom: 24,
             ),
             content: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

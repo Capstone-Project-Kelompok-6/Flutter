@@ -3,7 +3,6 @@ import 'package:flutter_capstone_6/component/colors.dart';
 import 'package:flutter_capstone_6/model/article/article_rows.dart';
 import 'package:flutter_capstone_6/screen/main/explore/article_detail_screen.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ArticleListScreen extends StatefulWidget {
   const ArticleListScreen({Key? key, required this.articleRows})

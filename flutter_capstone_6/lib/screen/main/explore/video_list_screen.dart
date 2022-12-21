@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
-import 'package:flutter_capstone_6/screen/main/explore/video_detail_screen.dart';
 import 'package:flutter_capstone_6/widget/appbar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -72,13 +71,7 @@ class _VideoListScreenState extends State<VideoListScreen> {
                 child: Row(
                   children: [
                     GestureDetector(
-                        onTap: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //         builder: (context) =>
-                          //             const VideoDetailScreen()));
-                        },
+                        onTap: () {},
                         child: videoCard('img1.png', 'Gym from home', '04:52')),
                     videoCard('img2.png', 'Yoga meditation', '04:12'),
                     videoCard('img3.png', 'Zumba', '04:56'),
@@ -252,8 +245,6 @@ class _VideoListScreenState extends State<VideoListScreen> {
       padding: const EdgeInsets.only(right: 25),
       height: 50,
       child: TextFormField(
-        // inputFormatters: [LengthLimitingTextInputFormatter(20)],
-        // controller: _titleController,
         decoration: InputDecoration(
             fillColor: white,
             labelText: 'Search',

@@ -2,9 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_capstone_6/component/colors.dart';
-import 'package:flutter_capstone_6/model/user/user_data.dart';
-import 'package:flutter_capstone_6/model/user/user_token.dart';
-import 'package:flutter_capstone_6/screen/login/login_controller.dart';
 import 'package:flutter_capstone_6/screen/login/login_screen.dart';
 import 'package:flutter_capstone_6/screen/login/login_view_model.dart';
 import 'package:flutter_capstone_6/screen/main/home/notification_view_model.dart';
@@ -182,27 +179,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget buttonSection(BuildContext context, LoginViewModel data) {
     return Column(children: [
-      // ElevatedButton(
-      //     style: ElevatedButton.styleFrom(primary: whiteBg, elevation: 0),
-      //     onPressed: () {
-      //       print('My membership');
-      //     },
-      //     child: ListTile(
-      //       textColor: Colors.black,
-      //       leading: SvgPicture.asset('assets/trophy.svg'),
-      //       title: const Text(
-      //         'My Membership',
-      //         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-      //       ),
-      //     )),
-      // Container(
-      //   margin: const EdgeInsets.only(left: 20, right: 20),
-      //   width: double.infinity,
-      //   child: SvgPicture.asset(
-      //     'assets/button_divider.svg',
-      //     fit: BoxFit.cover,
-      //   ),
-      // ),
       Padding(
         padding: const EdgeInsets.only(top: 10),
         child: ElevatedButton(

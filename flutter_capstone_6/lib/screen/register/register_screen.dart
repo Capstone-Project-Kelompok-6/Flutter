@@ -170,24 +170,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
 
-              // Divider
-              // Container(
-              //   margin: const EdgeInsets.all(20),
-              //   width: double.infinity,
-              //   child: SvgPicture.asset(
-              //     'assets/icons/divider.svg',
-              //     fit: BoxFit.cover,
-              //   ),
-              // ),
-
-              // Login with Another
-              // const SizedBox(height: 4),
-              // anotherRegisterItem('assets/icons/google_logo.png', 'Google'),
-              // const SizedBox(height: 24),
-              // anotherRegisterItem('assets/icons/facebook_logo.png', 'Facebook'),
-              // const SizedBox(height: 24),
-              // anotherRegisterItem('assets/icons/apple_logo.png', 'Apple'),
-
               // Goto login
               const SizedBox(height: 32),
               Container(

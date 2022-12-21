@@ -83,14 +83,18 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      classType == 'Offline Class'
-                          ? "Booked $classType - $classTitle"
-                          : "Buy $classType - $classTitle",
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: n100,
+                    SizedBox(
+                      width: 250,
+                      child: Text(
+                        classType == 'Offline Class'
+                            ? "Booked $classType - $classTitle"
+                            : "Buy $classType - $classTitle",
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: n100,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Text(

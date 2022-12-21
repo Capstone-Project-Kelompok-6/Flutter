@@ -35,6 +35,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
     final userToken =
         context.read<LoginViewModel>().getDatas.first.data.accessToken;
     getArticles(userToken);
+    getContents(userToken);
   }
 
   Future getArticles(String token) async {
@@ -456,22 +457,22 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       color: white,
                     ),
                   ),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: n100,
-                    ),
-                    child: Text(
-                      'duration',
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: white,
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   padding:
+                  //       const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(10),
+                  //     color: n100,
+                  //   ),
+                  //   child: Text(
+                  //     'duration',
+                  //     style: const TextStyle(
+                  //       fontSize: 14,
+                  //       fontWeight: FontWeight.w400,
+                  //       color: white,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ))
         ],
